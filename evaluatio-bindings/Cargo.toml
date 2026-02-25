@@ -1,0 +1,26 @@
+# [package]
+# name = "evaluatio_bindings"
+# version = "0.1.0"
+# edition = "2021"
+
+# # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+# [lib]
+# name = "evaluatio_bindings"
+# crate-type = ["cdylib"]
+
+# [dependencies]
+# pyo3 = "0.23.3"
+# evaluatio-core = { path = "../evaluatio-core", features = ["python"] }
+
+[package]
+name = "evaluatio-bindings"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "_bindings"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.23.3", features = ["extension-module", "abi3", "abi3-py38"] }
+evaluatio-core = { path = "../evaluatio-core", features = ["python"] }

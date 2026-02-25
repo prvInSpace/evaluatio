@@ -1,0 +1,11 @@
+[package]
+name = "evaluatio-core"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pyo3 = { version = "0.23.3", optional = true }
+itertools = "0.14.0"
+
+[features]
+python = ["pyo3"]
