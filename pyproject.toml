@@ -1,10 +1,20 @@
 [project]
 name = "evaluatio"
 version = "0.1.0"
-description = "Add your description here"
+description = "A library that contains computationally efficient metrics for the valuation of different NLP systems"
+license = "MIT"
 readme = "README.md"
 authors = [{ name = "Preben Vangberg", email = "prv21fgt@bangor.ac.uk" }]
 requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+[project.urls]
+homepage = "https://codeberg.org/prvinspace/evaluatio"
+repository = "https://codeberg.org/prvinspace/evaluatio"
 
 [build-system]
 requires = ["maturin>=1.0,<2.0"]
