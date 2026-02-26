@@ -52,3 +52,6 @@ def optimal_alignment(predictions: List[Any], references: List[Any]) -> list[Ali
     """Returns a list of alignments for indices in one list to the indicies in the other.
     Note that this is only one of the optimal solutions as there can be multiple optimal alignments
     """
+
+# Cohen's d
+def cohens_d(x1: list[float], x2: list[float]) -> float: ...
