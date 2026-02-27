@@ -1,8 +1,9 @@
 use pyo3::prelude::*;
 mod base;
+mod comparison;
+use comparison::*;
 mod effect_size;
 use effect_size::*;
-
 mod metrics;
 use metrics::*;
 
@@ -25,6 +26,9 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // Optimal alignment
     m.add_function(wrap_pyfunction!(alignment::optimial_alignment_py, m)?)?;
     m.add_class::<evaluatio_core::metrics::alignment::Alignment>()?;
+
+    // Paired Bootstrap Test
+    m.add_function(wrap_pyfunction!(bootstrap::paired_bootstrap_test_py, m)?)?;
 
     // Points of interest error rate
     m.add_function(wrap_pyfunction!(pier::poi_edit_distance_py, m)?)?;
