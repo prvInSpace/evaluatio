@@ -1,41 +1,41 @@
 /// Universally applicable error rates and distances
 pub fn universal_error_rate_per_pair<T: PartialEq>(
-    predictions: &Vec<&Vec<T>>,
     references: &Vec<&Vec<T>>,
+    hypotheses: &Vec<&Vec<T>>,
 ) -> Vec<f64> {
-    assert!(predictions.len() == references.len());
-    universal_edit_distance_per_pair(predictions, references)
+    assert!(references.len() == hypotheses.len());
+    universal_edit_distance_per_pair(references, hypotheses)
         .iter()
-        .zip(references)
+        .zip(hypotheses)
         .map(|(distance, reference)| *distance as f64 / reference.len() as f64)
         .collect()
 }
 
 pub fn universal_edit_distance_per_pair<T: PartialEq>(
-    predictions: &Vec<&Vec<T>>,
     references: &Vec<&Vec<T>>,
+    hypotheses: &Vec<&Vec<T>>,
 ) -> Vec<usize> {
-    assert!(predictions.len() == references.len());
-    predictions
+    assert!(references.len() == hypotheses.len());
+    references
         .iter()
-        .zip(references.iter())
+        .zip(hypotheses.iter())
         .map(|(a, b)| universal_edit_distance(a, b))
         .collect()
 }
 
 pub fn universal_error_rate<T: PartialEq>(
-    predictions: &Vec<&Vec<T>>,
     references: &Vec<&Vec<T>>,
+    hypotheses: &Vec<&Vec<T>>,
 ) -> f64 {
     // This is the equivalent to the jiwer and evaluatio package in Python
     // Takes the sum of the edit distances and divides it by total length of
-    // the references.
-    assert!(predictions.len() == references.len());
+    // the hypotheses.
+    assert!(references.len() == hypotheses.len());
     let mut distance: usize = 0;
     let mut total: usize = 0;
-    predictions
+    references
         .iter()
-        .zip(references.iter())
+        .zip(hypotheses.iter())
         .for_each(|(prediction, reference)| {
             distance += universal_edit_distance(prediction, reference);
             total += reference.len()

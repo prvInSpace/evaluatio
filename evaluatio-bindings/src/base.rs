@@ -99,6 +99,6 @@ pub fn convert_to_nested_edit_distance_item_vec(
         vecs.push(inner);
     }
 
-    // Create the vectors of references to vectors that the edit_distance function expects
+    // Create the vectors of hypotheses to vectors that the edit_distance function expects
     Ok(vecs)
 }

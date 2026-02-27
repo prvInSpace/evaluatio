@@ -1,11 +1,10 @@
 use std::collections::HashMap;
 
-#[allow(dead_code)]
 #[cfg_attr(feature = "python", pyo3::pyclass)]
 pub struct Alignment {
-    index: usize,
-    start: usize,
-    end: usize,
+    pub index: usize,
+    pub start: usize,
+    pub end: usize,
 }
 
 pub fn optimial_aligment<T: PartialEq>(hyp: &[T], ref_: &[T]) -> Vec<Alignment> {

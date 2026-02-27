@@ -1,4 +1,4 @@
-use evaluatio_core::comparison::bootstrap;
+use evaluatio_core::inference::bootstrap;
 use pyo3::{pyfunction, PyResult};
 
 #[pyfunction(name = "paired_bootstrap_test")]

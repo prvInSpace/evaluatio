@@ -1,7 +1,7 @@
 use pyo3::prelude::*;
 mod base;
-mod comparison;
-use comparison::*;
+mod inference;
+use inference::*;
 mod effect_size;
 use effect_size::*;
 mod metrics;

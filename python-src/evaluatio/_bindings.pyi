@@ -9,36 +9,36 @@ from typing import Any, List
 
 # Univeral functions
 def universal_error_rate_per_pair(
-    predictions: List[List[str]], references: List[List[Any]]
+    references: List[List[str]], hypotheses: List[List[Any]]
 ) -> List[float]: ...
 def universal_edit_distance_per_pair(
-    predictions: List[List[str]], references: List[List[Any]]
+    references: List[List[str]], hypotheses: List[List[Any]]
 ) -> List[int]: ...
 
 # Word-based helper functions
 def word_error_rate_per_pair(
-    predictions: List[str], references: List[str]
+    references: List[str], hypotheses: List[str]
 ) -> List[float]: ...
 def word_edit_distance_per_pair(
-    predictions: List[str], references: List[str]
+    references: List[str], hypotheses: List[str]
 ) -> List[int]: ...
-def word_error_rate(predictions: List[str], references: List[str]) -> float: ...
+def word_error_rate(references: List[str], hypotheses: List[str]) -> float: ...
 
 # Character-based helper functions
 def character_error_rate_per_pair(
-    predictions: List[str], references: List[str]
+    references: List[str], hypotheses: List[str]
 ) -> List[float]: ...
 def character_edit_distance_per_pair(
-    predictions: List[str], references: List[str]
+    references: List[str], hypotheses: List[str]
 ) -> List[int]: ...
-def character_error_rate(predictions: List[str], references: List[str]) -> float: ...
+def character_error_rate(references: List[str], hypotheses: List[str]) -> float: ...
 
 # Point of interest stuff
 def poi_edit_distance(
-    predictions: List[Any], references: List[Any], points_of_interest: List[bool]
+    references: List[Any], hypotheses: List[Any], points_of_interest: List[bool]
 ) -> List[int]: ...
 def poi_error_rate(
-    predictions: List[str], references: List[str], points_of_interest: List[bool]
+    references: List[str], hypotheses: List[str], points_of_interest: List[bool]
 ) -> float: ...
 
 # Optimal alignment
@@ -48,7 +48,7 @@ class Alignment:
     start: int
     end: int
 
-def optimal_alignment(predictions: List[Any], references: List[Any]) -> List[Alignment]:
+def optimal_alignment(references: List[Any], hypotheses: List[Any]) -> List[Alignment]:
     """Returns a list of alignments for indices in one list to the indicies in the other.
     Note that this is only one of the optimal solutions as there can be multiple optimal alignments
     """

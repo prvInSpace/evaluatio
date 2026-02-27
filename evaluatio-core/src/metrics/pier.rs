@@ -1,17 +1,17 @@
 use itertools::izip;
 
 pub fn poi_error_rate<T: PartialEq>(
-    predictions: &[&[T]],
     references: &[&[T]],
+    hypotheses: &[&[T]],
     point_of_interests: &[&[bool]],
 ) -> f64 {
     assert!(
-        predictions.len() == references.len(),
-        "length of predictions not the same as references"
+        references.len() == hypotheses.len(),
+        "length of references not the same as hypotheses"
     );
     let mut distance: usize = 0;
     let mut total: usize = 0;
-    izip!(predictions, references, point_of_interests).for_each(|(prediction, reference, pois)| {
+    izip!(references, hypotheses, point_of_interests).for_each(|(prediction, reference, pois)| {
         distance += poi_edit_distance(prediction, reference, pois);
         total += pois.iter().filter(|b| **b).count();
     });
