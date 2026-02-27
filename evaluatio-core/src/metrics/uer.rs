@@ -1,17 +1,17 @@
 /// Universally applicable error rates and distances
-pub fn universal_error_rate_array<T: PartialEq>(
+pub fn universal_error_rate_per_pair<T: PartialEq>(
     predictions: &Vec<&Vec<T>>,
     references: &Vec<&Vec<T>>,
 ) -> Vec<f64> {
     assert!(predictions.len() == references.len());
-    universal_edit_distance_array(predictions, references)
+    universal_edit_distance_per_pair(predictions, references)
         .iter()
         .zip(references)
         .map(|(distance, reference)| *distance as f64 / reference.len() as f64)
         .collect()
 }
 
-pub fn universal_edit_distance_array<T: PartialEq>(
+pub fn universal_edit_distance_per_pair<T: PartialEq>(
     predictions: &Vec<&Vec<T>>,
     references: &Vec<&Vec<T>>,
 ) -> Vec<usize> {

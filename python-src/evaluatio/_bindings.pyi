@@ -8,27 +8,27 @@ at the wrapper level in the Python package itself.
 from typing import Any, List
 
 # Univeral functions
-def universal_error_rate_array(
+def universal_error_rate_per_pair(
     predictions: List[List[str]], references: List[List[Any]]
 ) -> List[float]: ...
-def universal_edit_distance_array(
+def universal_edit_distance_per_pair(
     predictions: List[List[str]], references: List[List[Any]]
 ) -> List[int]: ...
 
 # Word-based helper functions
-def word_error_rate_array(
+def word_error_rate_per_pair(
     predictions: List[str], references: List[str]
 ) -> List[float]: ...
-def word_edit_distance_array(
+def word_edit_distance_per_pair(
     predictions: List[str], references: List[str]
 ) -> List[int]: ...
 def word_error_rate(predictions: List[str], references: List[str]) -> float: ...
 
 # Character-based helper functions
-def character_error_rate_array(
+def character_error_rate_per_pair(
     predictions: List[str], references: List[str]
 ) -> List[float]: ...
-def character_edit_distance_array(
+def character_edit_distance_per_pair(
     predictions: List[str], references: List[str]
 ) -> List[int]: ...
 def character_error_rate(predictions: List[str], references: List[str]) -> float: ...
