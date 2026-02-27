@@ -15,7 +15,8 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(cer::character_error_rate_array_py, m)?)?;
 
     // Cohen's d
-    m.add_function(wrap_pyfunction!(cohen::cohens_d_py, m)?)?;
+    m.add_function(wrap_pyfunction!(cohen::cohens_d_independent_py, m)?)?;
+    m.add_function(wrap_pyfunction!(cohen::cohens_d_paired_py, m)?)?;
 
     // Match error rate
     //m.add_function(wrap_pyfunction!(mer::match_error_rate_array_py, m)?)?;
