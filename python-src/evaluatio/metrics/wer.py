@@ -42,3 +42,15 @@ def word_error_rate(references: List[str], hypotheses: List[str]) -> float:
     that can be converted to a Vec<&string> by pyo3.
     """
     return _bindings.word_error_rate(references, hypotheses)
+
+
+def word_error_rate_ci(references: List[str], hypotheses: List[str], interations: int, alpha: float) -> _bindings.ConfidenceInterval:
+    """Calculates the confidence interval for the word error rate.
+    The bootstrapped metrics is equivalent to that of `word_error_rate`.
+
+    NOTE: If the reference string is empty or contain no words, the resulting WER is inf
+
+    NOTE: Even though the type indicates that the function only takes lists, it takes any iterable
+    that can be converted to a Vec<&string> by pyo3.
+    """
+    return _bindings.word_error_rate_ci(references, hypotheses, interations, alpha)

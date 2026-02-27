@@ -59,3 +59,15 @@ def cohens_d_paired(x1: List[float], x2: List[float]) -> float: ...
 def paired_bootstrap_test(
     x1: List[float], x2: List[float], iterations: int
 ) -> float: ...
+
+class ConfidenceInterval:
+    mean: float
+    lower: float
+    upper: float
+
+def confidence_interval(
+    x: List[float], iterations: int, alpha: float
+) -> ConfidenceInterval: ...
+def word_error_rate_ci(
+    references: List[str], hypotheses: List[str], iterations: int, alpha: float
+) -> ConfidenceInterval: ...

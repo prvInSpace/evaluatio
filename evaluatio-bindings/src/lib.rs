@@ -22,6 +22,10 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(cohen::cohens_d_independent_py, m)?)?;
     m.add_function(wrap_pyfunction!(cohen::cohens_d_paired_py, m)?)?;
 
+    // Confidence interval
+    m.add_function(wrap_pyfunction!(ci::confidence_interval_py, m)?)?;
+    m.add_class::<evaluatio_core::inference::ci::ConfidenceInterval>()?;
+
     // Match error rate
     //m.add_function(wrap_pyfunction!(mer::match_error_rate_per_pair_py, m)?)?;
     //m.add_function(wrap_pyfunction!(mer::hits_per_pair_py, m)?)?;
@@ -47,6 +51,7 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // Word error rate
     m.add_function(wrap_pyfunction!(wer::word_edit_distance_per_pair_py, m)?)?;
     m.add_function(wrap_pyfunction!(wer::word_error_rate_py, m)?)?;
+    m.add_function(wrap_pyfunction!(wer::word_error_rate_ci_py, m)?)?;
     m.add_function(wrap_pyfunction!(wer::word_error_rate_per_pair_py, m)?)?;
 
     Ok(())
