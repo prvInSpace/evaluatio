@@ -11,7 +11,10 @@ use metrics::*;
 #[pymodule]
 fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // Character error rate
-    m.add_function(wrap_pyfunction!(cer::character_edit_distance_per_pair_py, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        cer::character_edit_distance_per_pair_py,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(cer::character_error_rate_py, m)?)?;
     m.add_function(wrap_pyfunction!(cer::character_error_rate_per_pair_py, m)?)?;
 
@@ -35,7 +38,10 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(pier::poi_error_rate_py, m)?)?;
 
     // Universal error rate
-    m.add_function(wrap_pyfunction!(uer::universal_edit_distance_per_pair_py, m)?)?;
+    m.add_function(wrap_pyfunction!(
+        uer::universal_edit_distance_per_pair_py,
+        m
+    )?)?;
     m.add_function(wrap_pyfunction!(uer::universal_error_rate_per_pair_py, m)?)?;
 
     // Word error rate

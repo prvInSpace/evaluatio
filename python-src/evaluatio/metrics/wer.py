@@ -3,7 +3,9 @@ from typing import List
 import evaluatio._bindings as _bindings
 
 
-def word_error_rate_per_pair(predictions: List[str], references: List[str]) -> List[float]:
+def word_error_rate_per_pair(
+    predictions: List[str], references: List[str]
+) -> List[float]:
     """Calculates the word level error-rate for every zipped pair of predictions and references.
     The delimiter used to split the words is ' '.
 

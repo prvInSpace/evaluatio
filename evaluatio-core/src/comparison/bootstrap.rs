@@ -1,5 +1,5 @@
-use fastrand;
 use crate::stats;
+use fastrand;
 
 pub fn paired_bootstrap_test(x1: &[f64], x2: &[f64], iterations: usize) -> f64 {
     let diffs: Vec<f64> = x1.iter().zip(x2).map(|(a, b)| a - b).collect();
@@ -7,7 +7,7 @@ pub fn paired_bootstrap_test(x1: &[f64], x2: &[f64], iterations: usize) -> f64 {
     let diff_mean = stats::mean(&diffs);
     let diffs_centered: Vec<f64> = diffs.iter().map(|di| di - diff_mean).collect();
     let t_obs = diff_mean.abs();
-    
+
     let mut extreme_or_equal = 0usize;
     for _ in 0..iterations {
         let sample_mean = (0..n)
