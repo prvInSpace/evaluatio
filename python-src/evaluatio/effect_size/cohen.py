@@ -15,9 +15,7 @@ def cohens_d_independent(x1: List[float], x2: List[float]) -> float:
 
 def cohens_d_paired(x1: List[float], x2: List[float]) -> float:
     """Calculates Cohen's d for two paired samples.
-
-    Should be corrected using the formula d'/sqrt(1-r) after computation.
-
+    
     NOTE: At least two samples is required in each array for the variances to make sense.
 
     NOTE: Should work with any type that is castable to a f64, hence ints, floats, and bools.
