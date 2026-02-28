@@ -1,4 +1,6 @@
 # Evaluatio
+![PyPI - Version](https://img.shields.io/pypi/v/evaluatio)
+![License](https://img.shields.io/github/license/prvInSpace/evaluatio)
 [![CI](https://github.com/prvInSpace/evaluatio/actions/workflows/CI.yml/badge.svg)](https://github.com/prvInSpace/evaluatio/actions/workflows/CI.yml)
 
 ***Note: The library is under development, so things are likely to change, especially function signatures.***
