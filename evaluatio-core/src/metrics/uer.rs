@@ -6,7 +6,7 @@ pub fn universal_error_rate_per_pair<T: PartialEq>(
     assert!(references.len() == hypotheses.len());
     universal_edit_distance_per_pair(references, hypotheses)
         .iter()
-        .zip(hypotheses)
+        .zip(references)
         .map(|(distance, reference)| *distance as f64 / reference.len() as f64)
         .collect()
 }
@@ -36,8 +36,8 @@ pub fn universal_error_rate<T: PartialEq>(
     references
         .iter()
         .zip(hypotheses.iter())
-        .for_each(|(prediction, reference)| {
-            distance += universal_edit_distance(prediction, reference);
+        .for_each(|(reference, hypothesis)| {
+            distance += universal_edit_distance(reference, hypothesis);
             total += reference.len()
         });
     (distance as f64) / (total as f64)

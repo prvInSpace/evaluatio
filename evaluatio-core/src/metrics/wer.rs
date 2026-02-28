@@ -2,7 +2,7 @@ use crate::{inference::ci::ConfidenceInterval, metrics::uer};
 
 pub(crate) fn split_strings_into_word_vec<'a>(list: &Vec<&'a str>) -> Vec<Vec<&'a str>> {
     list.iter()
-        .map(|x| x.split(" ").filter(|x| !x.is_empty()).collect())
+        .map(|x| x.split_whitespace().filter(|x| !x.is_empty()).collect())
         .collect::<Vec<Vec<&str>>>()
 }
 
