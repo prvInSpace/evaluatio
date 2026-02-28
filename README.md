@@ -1,4 +1,5 @@
 # Evaluatio
+[![CI](https://github.com/prvInSpace/evaluatio/actions/workflows/CI.yml/badge.svg)](https://github.com/prvInSpace/evaluatio/actions/workflows/CI.yml)
 
 ***Note: The library is under development, so things are likely to change, especially function signatures.***
 
@@ -20,7 +21,7 @@ The name `evaluatio` is a Latin noun and means "evaluation". It also doubles as 
 `python-src` contains the main Python library. It contains wrappers for `evaluatio-bindings` to ensure that functions are documented, type-annotated, and sorted into different organised modules.
 
 ## Contribute to the project
-There is always room for improvements, new metrics, new functionality, etc. If you have any suggestions or requests please feel free to add an issue! The main repository for the project can be found at [https://codeberg.org/prvinspace/evaluatio](codeberg.org/prvinspace/evaluatio)
+There is always room for improvements, new metrics, new functionality, etc. If you have any suggestions or requests please feel free to add an issue! The main repository for the project can be found at [https://codeberg.org/prvinspace/evaluatio](codeberg.org/prvinspace/evaluatio).
 
 ## Maintainer
 

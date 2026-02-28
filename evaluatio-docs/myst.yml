@@ -1,0 +1,16 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: c2b814fd-0e6c-4403-8521-5383c3dc0ab6
+  title: Evaluatio Documenation
+  description: Documenation for the Evaluatio library and usage guides.
+  license: CC-BY-4.0
+  source_url: https://codeberg.org/prvinspace/evaluatio
+  bibliography:
+    - references.bib
+  # To autogenerate a Table of Contents, run "jupyter book init --write-toc"
+site:
+  template: book-theme
+  # options:
+  #   favicon: favicon.ico
+  #   logo: site_logo.png
