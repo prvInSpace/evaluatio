@@ -1,12 +1,12 @@
 # Univeral functions
-from typing import Any, List
+from typing import Any, Iterable
 
 import evaluatio._bindings as _bindings
 
 
 def universal_error_rate_per_pair(
-    references: List[List[str]], hypotheses: List[List[Any]]
-) -> List[float]:
+    references: Iterable[Iterable[str]], hypotheses: Iterable[Iterable[Any]]
+) -> Iterable[float]:
     """Calculates the error-rate for every zipped pair of references and hypotheses
 
     WARNING: This function is untested and you should sanity check the output of the function.
@@ -19,8 +19,8 @@ def universal_error_rate_per_pair(
 
 
 def universal_edit_distance_per_pair(
-    references: List[List[Any]], hypotheses: List[List[Any]]
-) -> List[int]:
+    references: Iterable[Iterable[Any]], hypotheses: Iterable[Iterable[Any]]
+) -> Iterable[int]:
     """Calculates the edit-distance for every zipped pair of references and hypotheses
 
     WARNING: This function is untested and you should sanity check the output of the function.

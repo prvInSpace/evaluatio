@@ -1,9 +1,9 @@
-from typing import List
+from typing import Iterable
 
 import evaluatio._bindings as _bindings
 
 
-def paired_bootstrap_test(x1: List[float], x2: List[float], iterations: int) -> float:
+def paired_bootstrap_test(x1: Iterable[float], x2: Iterable[float], iterations: int) -> float:
     """Performs a paired bootstrap significance test on the mean difference
     between two paired samples, returning a two-sided p-value.
 

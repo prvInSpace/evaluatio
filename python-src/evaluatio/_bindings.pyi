@@ -5,40 +5,40 @@ of the Python package. No actual documentation for each file is needed since tha
 at the wrapper level in the Python package itself.
 """
 
-from typing import Any, List
+from typing import Any, Iterable
 
 # Univeral functions
 def universal_error_rate_per_pair(
-    references: List[List[str]], hypotheses: List[List[Any]]
-) -> List[float]: ...
+    references: Iterable[Iterable[str]], hypotheses: Iterable[Iterable[Any]]
+) -> Iterable[float]: ...
 def universal_edit_distance_per_pair(
-    references: List[List[str]], hypotheses: List[List[Any]]
-) -> List[int]: ...
+    references: Iterable[Iterable[str]], hypotheses: Iterable[Iterable[Any]]
+) -> Iterable[int]: ...
 
 # Word-based helper functions
 def word_error_rate_per_pair(
-    references: List[str], hypotheses: List[str]
-) -> List[float]: ...
+    references: Iterable[str], hypotheses: Iterable[str]
+) -> Iterable[float]: ...
 def word_edit_distance_per_pair(
-    references: List[str], hypotheses: List[str]
-) -> List[int]: ...
-def word_error_rate(references: List[str], hypotheses: List[str]) -> float: ...
+    references: Iterable[str], hypotheses: Iterable[str]
+) -> Iterable[int]: ...
+def word_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -> float: ...
 
 # Character-based helper functions
 def character_error_rate_per_pair(
-    references: List[str], hypotheses: List[str]
-) -> List[float]: ...
+    references: Iterable[str], hypotheses: Iterable[str]
+) -> Iterable[float]: ...
 def character_edit_distance_per_pair(
-    references: List[str], hypotheses: List[str]
-) -> List[int]: ...
-def character_error_rate(references: List[str], hypotheses: List[str]) -> float: ...
+    references: Iterable[str], hypotheses: Iterable[str]
+) -> Iterable[int]: ...
+def character_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -> float: ...
 
 # Point of interest stuff
 def poi_edit_distance(
-    references: List[Any], hypotheses: List[Any], points_of_interest: List[bool]
-) -> List[int]: ...
+    references: Iterable[Any], hypotheses: Iterable[Any], points_of_interest: Iterable[bool]
+) -> Iterable[int]: ...
 def poi_error_rate(
-    references: List[str], hypotheses: List[str], points_of_interest: List[bool]
+    references: Iterable[str], hypotheses: Iterable[str], points_of_interest: Iterable[bool]
 ) -> float: ...
 
 # Optimal alignment
@@ -48,16 +48,16 @@ class Alignment:
     start: int
     end: int
 
-def optimal_alignment(references: List[Any], hypotheses: List[Any]) -> List[Alignment]:
+def optimal_alignment(references: Iterable[Any], hypotheses: Iterable[Any]) -> Iterable[Alignment]:
     """Returns a list of alignments for indices in one list to the indicies in the other.
     Note that this is only one of the optimal solutions as there can be multiple optimal alignments
     """
 
 # Cohen's d
-def cohens_d_independent(x1: List[float], x2: List[float]) -> float: ...
-def cohens_d_paired(x1: List[float], x2: List[float]) -> float: ...
+def cohens_d_independent(x1: Iterable[float], x2: Iterable[float]) -> float: ...
+def cohens_d_paired(x1: Iterable[float], x2: Iterable[float]) -> float: ...
 def paired_bootstrap_test(
-    x1: List[float], x2: List[float], iterations: int
+    x1: Iterable[float], x2: Iterable[float], iterations: int
 ) -> float: ...
 
 class ConfidenceInterval:
@@ -66,8 +66,8 @@ class ConfidenceInterval:
     upper: float
 
 def confidence_interval(
-    x: List[float], iterations: int, alpha: float
+    x: Iterable[float], iterations: int, alpha: float
 ) -> ConfidenceInterval: ...
 def word_error_rate_ci(
-    references: List[str], hypotheses: List[str], iterations: int, alpha: float
+    references: Iterable[str], hypotheses: Iterable[str], iterations: int, alpha: float
 ) -> ConfidenceInterval: ...

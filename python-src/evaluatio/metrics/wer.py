@@ -1,11 +1,11 @@
-from typing import List
+from typing import Iterable
 
 import evaluatio._bindings as _bindings
 
 
 def word_error_rate_per_pair(
-    references: List[str], hypotheses: List[str]
-) -> List[float]:
+    references: Iterable[str], hypotheses: Iterable[str]
+) -> Iterable[float]:
     """Calculates the word level error-rate for every zipped pair of references and hypotheses.
     The delimiter used to split the words is ' '.
 
@@ -18,8 +18,8 @@ def word_error_rate_per_pair(
 
 
 def word_edit_distance_per_pair(
-    references: List[str], hypotheses: List[str]
-) -> List[int]:
+    references: Iterable[str], hypotheses: Iterable[str]
+) -> Iterable[int]:
     """Calculates the word level edit-distance for every pair in references and hypotheses.
     The delimiter used to split the words is ' '.
 
@@ -31,7 +31,7 @@ def word_edit_distance_per_pair(
     return _bindings.word_edit_distance_per_pair(references, hypotheses)
 
 
-def word_error_rate(references: List[str], hypotheses: List[str]) -> float:
+def word_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -> float:
     """Calculates the mean word level error-rate for the entire set.
     This is the equivalent of using the `wer` metric for the `evaluate` library (using `jiwer`).
     The delimiter used to split the words is ' '.
@@ -44,7 +44,7 @@ def word_error_rate(references: List[str], hypotheses: List[str]) -> float:
     return _bindings.word_error_rate(references, hypotheses)
 
 
-def word_error_rate_ci(references: List[str], hypotheses: List[str], interations: int, alpha: float) -> _bindings.ConfidenceInterval:
+def word_error_rate_ci(references: Iterable[str], hypotheses: Iterable[str], interations: int, alpha: float) -> _bindings.ConfidenceInterval:
     """Calculates the confidence interval for the word error rate.
     The bootstrapped metrics is equivalent to that of `word_error_rate`.
 
