@@ -9,6 +9,9 @@ It is the continuation of the [`universal-edit-distance`](https://gitlab.com/pre
 ## Etymology
 The name `evaluatio` is a Latin noun and means "evaluation". It also doubles as the English verb "to evaluate" with the Welsh verbal derivational suffix `-io`, so it could also be Welsh slang for "to evaluate".
 
+## Documentation
+The documentation for the library and the project as a whole is hosted on [GitHub pages](https://prvinspace.github.io/evaluatio/).
+
 ## Components
 
 ### [evaluatio-core](./evaluatio-core/README.md)
