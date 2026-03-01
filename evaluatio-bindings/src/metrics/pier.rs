@@ -36,7 +36,7 @@ pub fn poi_error_rate_py(
     let poi_vec_refs: Vec<&[bool]> = points_of_interest.iter().map(|v| v.as_slice()).collect();
 
     // Call a modified edit_distance implementation that works with EditDistanceItem
-    let result = pier::poi_error_rate(&pred_vec_refs, &ref_vec_refs, &poi_vec_refs);
+    let result = pier::poi_error_rate(&pred_vec_refs, &ref_vec_refs, &poi_vec_refs)?;
 
     Ok(result)
 }

@@ -1,7 +1,10 @@
-use crate::stats;
+use crate::{err::ValueError, stats};
 use fastrand;
 
-pub fn paired_bootstrap_test(x1: &[f64], x2: &[f64], iterations: usize) -> f64 {
+pub fn paired_bootstrap_test(x1: &[f64], x2: &[f64], iterations: usize) -> Result<f64, ValueError> {
+    if x1.len() != x2.len() {
+        return Err(ValueError::UnequalLengths);
+    }
     let diffs: Vec<f64> = x1.iter().zip(x2).map(|(a, b)| a - b).collect();
     let n = diffs.len();
     let diff_mean = stats::mean(&diffs);
@@ -20,5 +23,5 @@ pub fn paired_bootstrap_test(x1: &[f64], x2: &[f64], iterations: usize) -> f64 {
         }
     }
 
-    (extreme_or_equal as f64 + 1.0) / (iterations as f64 + 1.0)
+    Ok((extreme_or_equal as f64 + 1.0) / (iterations as f64 + 1.0))
 }

@@ -1,4 +1,4 @@
-use crate::{inference::ci::ConfidenceInterval, metrics::uer};
+use crate::{err::ValueError, inference::ci::ConfidenceInterval, metrics::uer};
 
 pub(crate) fn split_strings_into_word_vec<'a>(list: &Vec<&'a str>) -> Vec<Vec<&'a str>> {
     list.iter()
@@ -6,7 +6,10 @@ pub(crate) fn split_strings_into_word_vec<'a>(list: &Vec<&'a str>) -> Vec<Vec<&'
         .collect::<Vec<Vec<&str>>>()
 }
 
-pub fn word_error_rate_per_pair(references: &Vec<&str>, hypotheses: &Vec<&str>) -> Vec<f64> {
+pub fn word_error_rate_per_pair(
+    references: &Vec<&str>,
+    hypotheses: &Vec<&str>,
+) -> Result<Vec<f64>, ValueError> {
     let references_split = split_strings_into_word_vec(references);
     let hypotheses_split = split_strings_into_word_vec(hypotheses);
     uer::universal_error_rate_per_pair(
@@ -15,7 +18,10 @@ pub fn word_error_rate_per_pair(references: &Vec<&str>, hypotheses: &Vec<&str>) 
     )
 }
 
-pub fn word_edit_distance_per_pair(references: &Vec<&str>, hypotheses: &Vec<&str>) -> Vec<usize> {
+pub fn word_edit_distance_per_pair(
+    references: &Vec<&str>,
+    hypotheses: &Vec<&str>,
+) -> Result<Vec<usize>, ValueError> {
     let references_split = split_strings_into_word_vec(references);
     let hypotheses_split = split_strings_into_word_vec(hypotheses);
     uer::universal_edit_distance_per_pair(
@@ -24,7 +30,7 @@ pub fn word_edit_distance_per_pair(references: &Vec<&str>, hypotheses: &Vec<&str
     )
 }
 
-pub fn word_error_rate(references: &Vec<&str>, hypotheses: &Vec<&str>) -> f64 {
+pub fn word_error_rate(references: &Vec<&str>, hypotheses: &Vec<&str>) -> Result<f64, ValueError> {
     let references_split = split_strings_into_word_vec(references);
     let hypotheses_split = split_strings_into_word_vec(hypotheses);
     uer::universal_error_rate(
@@ -38,8 +44,8 @@ pub fn word_error_rate_ci(
     hypotheses: &Vec<&str>,
     iterations: usize,
     alpha: f64,
-) -> ConfidenceInterval {
-    let edit_distances = word_edit_distance_per_pair(references, hypotheses);
+) -> Result<ConfidenceInterval, ValueError> {
+    let edit_distances = word_edit_distance_per_pair(references, hypotheses)?;
     let ref_lengths: Vec<usize> = split_strings_into_word_vec(references)
         .iter()
         .map(|a| a.len())
@@ -78,5 +84,5 @@ pub fn word_error_rate_ci(
     let lower = bootstrapped[lower_idx.min(iterations - 1)];
     let upper = bootstrapped[upper_idx.min(iterations - 1)];
 
-    ConfidenceInterval { mean, lower, upper }
+    Ok(ConfidenceInterval { mean, lower, upper })
 }

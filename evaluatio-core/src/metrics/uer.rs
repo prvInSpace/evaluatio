@@ -1,36 +1,44 @@
+use crate::err::ValueError;
+
 /// Universally applicable error rates and distances
 pub fn universal_error_rate_per_pair<T: PartialEq>(
     references: &Vec<&Vec<T>>,
     hypotheses: &Vec<&Vec<T>>,
-) -> Vec<f64> {
-    assert!(references.len() == hypotheses.len());
-    universal_edit_distance_per_pair(references, hypotheses)
+) -> Result<Vec<f64>, ValueError> {
+    if references.len() != hypotheses.len() {
+        return Err(ValueError::UnequalLengths);
+    }
+    Ok(universal_edit_distance_per_pair(references, hypotheses)?
         .iter()
         .zip(references)
         .map(|(distance, reference)| *distance as f64 / reference.len() as f64)
-        .collect()
+        .collect())
 }
 
 pub fn universal_edit_distance_per_pair<T: PartialEq>(
     references: &Vec<&Vec<T>>,
     hypotheses: &Vec<&Vec<T>>,
-) -> Vec<usize> {
-    assert!(references.len() == hypotheses.len());
-    references
+) -> Result<Vec<usize>, ValueError> {
+    if references.len() != hypotheses.len() {
+        return Err(ValueError::UnequalLengths);
+    }
+    Ok(references
         .iter()
         .zip(hypotheses.iter())
         .map(|(a, b)| universal_edit_distance(a, b))
-        .collect()
+        .collect())
 }
 
 pub fn universal_error_rate<T: PartialEq>(
     references: &Vec<&Vec<T>>,
     hypotheses: &Vec<&Vec<T>>,
-) -> f64 {
+) -> Result<f64, ValueError> {
     // This is the equivalent to the jiwer and evaluatio package in Python
     // Takes the sum of the edit distances and divides it by total length of
     // the hypotheses.
-    assert!(references.len() == hypotheses.len());
+    if references.len() != hypotheses.len() {
+        return Err(ValueError::UnequalLengths);
+    }
     let mut distance: usize = 0;
     let mut total: usize = 0;
     references
@@ -40,7 +48,7 @@ pub fn universal_error_rate<T: PartialEq>(
             distance += universal_edit_distance(reference, hypothesis);
             total += reference.len()
         });
-    (distance as f64) / (total as f64)
+    Ok((distance as f64) / (total as f64))
 }
 
 /// An actual implementation of the Levenshtein distance
@@ -100,9 +108,9 @@ mod tests {
         assert_eq!(result, 1);
         let result = universal_edit_distance(&prediction, &reference);
         assert_eq!(result, 1);
-        let result = universal_edit_distance(&vec![&prediction], &vec![&reference]);
+        let result = universal_edit_distance(&vec![&reference], &vec![&prediction]);
         assert_eq!(1, result);
-        let result = universal_error_rate(&vec![&prediction], &vec![&reference]);
+        let result = universal_error_rate(&vec![&reference], &vec![&prediction]).unwrap();
         assert_eq!(0.2, result);
     }
 }

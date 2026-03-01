@@ -1,21 +1,22 @@
 use itertools::izip;
 
+use crate::err::ValueError;
+
 pub fn poi_error_rate<T: PartialEq>(
     references: &[&[T]],
     hypotheses: &[&[T]],
     point_of_interests: &[&[bool]],
-) -> f64 {
-    assert!(
-        references.len() == hypotheses.len(),
-        "length of references not the same as hypotheses"
-    );
+) -> Result<f64, ValueError> {
+    if references.len() != hypotheses.len() {
+        return Err(ValueError::UnequalLengths);
+    }
     let mut distance: usize = 0;
     let mut total: usize = 0;
     izip!(references, hypotheses, point_of_interests).for_each(|(prediction, reference, pois)| {
         distance += poi_edit_distance(prediction, reference, pois);
         total += pois.iter().filter(|b| **b).count();
     });
-    (distance as f64) / (total as f64)
+    Ok((distance as f64) / (total as f64))
 }
 
 pub fn poi_edit_distance<T: PartialEq>(hyp: &[T], ref_: &[T], poi: &[bool]) -> usize {
