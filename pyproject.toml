@@ -36,3 +36,10 @@ manifest-path = "evaluatio-bindings/Cargo.toml"
 python-source = "python-src"
 module-name = "evaluatio._bindings"
 interpreter = "python3.8+"
+
+[tool.pytest]
+testpaths = ["python-tests"]
+pythonpath = ["python-src"]
+
+[dependency-groups]
+testing = ["pytest>=8.3.5"]
