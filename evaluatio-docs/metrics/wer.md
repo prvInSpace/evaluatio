@@ -1,8 +1,8 @@
 # Word Error Rate (WER)
 
-Word error rate is the most widely used metric for evaluating automatic speech recognition tasks. WER can best be explained as a length-normalised edit distance where the edit distance is defined as the number of substitutions, additions, and removals of words (or tokens) are required to turn the hypothesis into the reference. It is normalised based on the length of the reference. For a more comprehensive discussion about edit distance / error rate metrics, please see [Edit Distance](metrics/ued.md).
+Word error rate is the most widely used metric for evaluating automatic speech recognition tasks. WER can best be explained as a length-normalised edit distance where the edit distance is defined as the number of substitutions, additions, and removals of words (or tokens) are required to turn the hypothesis into the reference. It is normalised based on the length of the reference. For a more comprehensive discussion about edit distance / error rate metrics, please see [Edit Distance](/metrics/ued.md).
 
-It is strongly related to other error rate based metrics such as [Character Error Rate (CER)](metrics/cer.md).
+It is strongly related to other error rate based metrics such as [Character Error Rate (CER)](/metrics/cer.md).
 
 ## Corpus level WER
 In practice, the mean WER of a model is not computed as the simple average of test-level WERs. Instead, it is typically calculated as the total edit distance over the evaluation set divided by the total number of reference words. Formally, let $H = (H_1, \dots,H_n)$ be the hypotheses and $R=(R_1,\dots,R_n)$ the corresponding hypotheses. The corpus-level mean WER is defined as:
@@ -18,9 +18,9 @@ WER(H, R) = \frac{\sum_{i=1}^nWER(H_i, R_i)}{|R|}
 :::
 
 ## Evaluatio implemention
-[API reference](api/metrics/wer.md)
+[API reference](/api/metrics/wer.md)
 
-The main Evaluatio implemention of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](metrics/ued.md), but preprocesses the string beforehand by splitting them on whitespace. A per-pair is also provided called `word_error_rate_per_pair`.
+The main Evaluatio implemention of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/ued.md), but preprocesses the string beforehand by splitting them on whitespace. A per-pair is also provided called `word_error_rate_per_pair`.
 
 If you wish to tokenize the strings using more complex tokenization methods, please pre-tokenize the strings and use the `universal-error-rate` function instead.
 
@@ -44,7 +44,7 @@ The library does not automatically apply multiple comparison correction. Users m
 - Holm correction
 - False discovery rate control (Benjamini--Hochberg)
 
-See the page about [multiple testing](inference/multiple_testing.md) for more info.
+See the page about [multiple testing](/inference/multiple_testing.md) for more info.
 
 ### Example evaluation code
 ```python

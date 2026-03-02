@@ -6,5 +6,5 @@ It is strongly related to [](./wer.md) and [](./ued.md).
 
 ## Evaluatio implementation
 
-The `character_error_rate` function is implemented as a simple wrapper around the [`universal_error_rate` function](metrics/ued.md), but strings are split into a list of UTF-8 characters before they are passed on to the function.
+The `character_error_rate` function is implemented as a simple wrapper around the [`universal_error_rate` function](./ued.md), but strings are split into a list of UTF-8 characters before they are passed on to the function.
 For more details, please see [](./ued.md)
