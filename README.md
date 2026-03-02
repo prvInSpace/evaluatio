@@ -29,7 +29,7 @@ The documentation for the library and the project as a whole is hosted on [GitHu
 `python-src` contains the main Python library. It contains wrappers for `evaluatio-bindings` to ensure that functions are documented, type-annotated, and sorted into different organised modules.
 
 ## Contribute to the project
-There is always room for improvements, new metrics, new functionality, etc. If you have any suggestions or requests please feel free to add an issue! The main repository for the project can be found at [https://codeberg.org/prvinspace/evaluatio](codeberg.org/prvinspace/evaluatio).
+There is always room for improvements, new metrics, new functionality, etc. If you have any suggestions or requests please feel free to add an issue! The main repository for the project can be found at [codeberg.org/prvinspace/evaluatio](https://codeberg.org/prvinspace/evaluatio).
 
 ## Maintainer
 
