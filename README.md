@@ -22,6 +22,9 @@ The documentation for the library and the project as a whole is hosted on [GitHu
 ### [evaluatio-bindings](./evaluatio-bindings/README.md)
 `evaluatio-bindings` contains the Py03 bindings between `evaluatio-core` and the main Python library. It simply exposes the functions and classes in the `evaluatio-core` to the Python library while also containing some helper functions to ensure that Python types are handled properly. All classes and functions are exported to a single Python module.
 
+### [evaluatio-docs](./evaluatio-docs/README.md)
+`evaluatio-docs` is the main documentation of the project. It contains documentation for not only the library, but also how to use the library properly. It is hosted on [GitHub pages](https://prvinspace.github.io/evaluatio/).
+
 ### python-src
 `python-src` contains the main Python library. It contains wrappers for `evaluatio-bindings` to ensure that functions are documented, type-annotated, and sorted into different organised modules.
 

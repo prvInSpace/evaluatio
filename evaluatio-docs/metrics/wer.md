@@ -33,7 +33,7 @@ As with other length-normalised metrics, WERs are subject to certain distributio
 The synopsis is that WERs are rarely normally distributed and the distribution of pairwise differences are regularly asymmetrical. As a consequence, regular statistical significance tests like Student's $t$-test and Wilcoxon signed-rank test are poorly suited when comparing ASR systems.
 
 ### Confidence interval
-Because corpus-level WER is computed as a ratio of aggregated errors over aggregated reference tokens, uncertainty should be estimated via bootstrap resampling over utterances and recomputation of corpus-level WER. Confidence intervals derived from the distribution of utterance-level WERs do not correspond to the corpus-level metric and may misrepresent uncertainty.
+Because corpus-level WER is computed as a ratio of aggregated errors over aggregated reference tokens, uncertainty should be estimated via bootstrap resampling over utterances and recomputation of corpus-level WER. Confidence intervals derived from the distribution of utterance-level WERs do not correspond to the corpus-level metric and may misrepresent uncertainty. To make the process more efficient, a `word_error_rate_ci` function is also provided.
 
 ### Multiple testing
 When performing subgroup analyses (e.g., by gender, accent, age group), multiple statistical tests are often conducted simultaneously. Without correction, the probability of false positives increases.
@@ -81,3 +81,13 @@ When reporting results for WERs comparisons, it is recommended to give the follo
 - Mean WER for each model (and 95% CI)
 - Paired bootstrap $p$-value 
 - Effect size (paired Cohen's $d$)
+
+## Open questions
+
+### Effect size computations
+
+Since utterance WERs are often heavily skewed and features a long right tail, the standard deviation is often massive due to significant outliers. What the best way of compensating for these remains an open question. Some methods that could be used could be:
+- 99th percentile winsorisation
+- 99th percentile filtering 
+
+Regardless, if these methods are used that should be made explicitly clear when reporting the effect size of the comparison e.g. how many values are effected and the capped value if using winsorisation.
