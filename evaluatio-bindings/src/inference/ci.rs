@@ -7,5 +7,5 @@ pub fn confidence_interval_py(
     iterations: usize,
     alpha: f64,
 ) -> PyResult<ConfidenceInterval> {
-    Ok(ci::confidence_interval(&x1, iterations, alpha))
+    Ok(ci::confidence_interval(&x1, iterations, alpha)?)
 }

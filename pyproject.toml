@@ -42,4 +42,7 @@ testpaths = ["python-tests"]
 pythonpath = ["python-src"]
 
 [dependency-groups]
-testing = ["pytest>=8.3.5"]
+testing = [
+    "coverage>=7.6.1",
+    "pytest>=8.3.5",
+]

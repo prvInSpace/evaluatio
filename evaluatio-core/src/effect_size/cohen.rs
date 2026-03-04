@@ -3,8 +3,8 @@ use crate::{err::ValueError, stats};
 pub fn cohens_d_independent(x1: &[f64], x2: &[f64]) -> Result<f64, ValueError> {
     let x1_len = x1.len() as f64;
     let x2_len = x2.len() as f64;
-    let x1_mean = stats::mean(x1);
-    let x2_mean = stats::mean(x2);
+    let x1_mean = stats::mean(x1)?;
+    let x2_mean = stats::mean(x2)?;
     let x1_variance = stats::variance(x1, x1_mean)?;
     let x2_variance = stats::variance(x2, x2_mean)?;
 
@@ -16,7 +16,7 @@ pub fn cohens_d_independent(x1: &[f64], x2: &[f64]) -> Result<f64, ValueError> {
 
 pub fn cohens_d_paired(x1: &[f64], x2: &[f64]) -> Result<f64, ValueError> {
     let diff: Vec<f64> = x1.iter().zip(x2).map(|(a, b)| a - b).collect();
-    let diff_mean = stats::mean(&diff);
+    let diff_mean = stats::mean(&diff)?;
     let diff_std = stats::variance(&diff, diff_mean)?.sqrt();
     Ok(diff_mean / diff_std)
 }

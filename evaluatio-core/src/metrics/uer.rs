@@ -101,7 +101,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
+    fn edit_distance_works_both_ways() {
         let reference = vec!["h", "e", "l", "l", "o"];
         let prediction = vec!["h", "e", "l", "o"];
         let result = universal_edit_distance(&reference, &prediction);
@@ -110,7 +110,29 @@ mod tests {
         assert_eq!(result, 1);
         let result = universal_edit_distance(&vec![&reference], &vec![&prediction]);
         assert_eq!(1, result);
+    }
+
+    #[test]
+    fn error_rate_should_return_correct_value() {
+        let reference = vec!["h", "e", "l", "l", "o"];
+        let prediction = vec!["h", "e", "l", "o"];
         let result = universal_error_rate(&vec![&reference], &vec![&prediction]).unwrap();
         assert_eq!(0.2, result);
+    }
+
+    #[test]
+    fn edit_distance_should_be_length_of_left_if_right_is_empty() {
+        let left = vec!["h", "e", "l", "l", "o"];
+        let right = vec![];
+        let result = universal_edit_distance(&left, &right);
+        assert_eq!(5, result);
+    }
+
+    #[test]
+    fn edit_distance_should_be_length_of_right_if_left_is_empty() {
+        let left = vec![];
+        let right = vec!["h", "e", "l", "l", "o"];
+        let result = universal_edit_distance(&left, &right);
+        assert_eq!(5, result);
     }
 }

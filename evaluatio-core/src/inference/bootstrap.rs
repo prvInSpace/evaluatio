@@ -7,7 +7,7 @@ pub fn paired_bootstrap_test(x1: &[f64], x2: &[f64], iterations: usize) -> Resul
     }
     let diffs: Vec<f64> = x1.iter().zip(x2).map(|(a, b)| a - b).collect();
     let n = diffs.len();
-    let diff_mean = stats::mean(&diffs);
+    let diff_mean = stats::mean(&diffs)?;
     let diffs_centered: Vec<f64> = diffs.iter().map(|di| di - diff_mean).collect();
     let t_obs = diff_mean.abs();
 

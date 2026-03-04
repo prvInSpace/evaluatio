@@ -4,6 +4,9 @@ use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum ValueError {
+    #[error("at least one bootstrap iteration required")]
+    AtLeastOneIterationRequired,
+
     #[error("variance requires at least two values")]
     NotEnoughValues,
 

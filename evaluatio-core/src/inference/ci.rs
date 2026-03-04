@@ -1,10 +1,11 @@
-use crate::stats;
+use crate::{err::ValueError, stats};
 
 #[cfg(feature = "python")]
 use pyo3::prelude::*;
 
 #[cfg(feature = "python")]
 #[pyclass]
+#[derive(Debug, PartialEq)]
 pub struct ConfidenceInterval {
     #[pyo3(get)]
     pub mean: f64,
@@ -15,13 +16,21 @@ pub struct ConfidenceInterval {
 }
 
 #[cfg(not(feature = "python"))]
+#[derive(Debug, PartialEq)]
 pub struct ConfidenceInterval {
     pub mean: f64,
     pub lower: f64,
     pub upper: f64,
 }
 
-pub fn confidence_interval(x: &[f64], iterations: usize, alpha: f64) -> ConfidenceInterval {
+pub fn confidence_interval(
+    x: &[f64],
+    iterations: usize,
+    alpha: f64,
+) -> Result<ConfidenceInterval, ValueError> {
+    if iterations < 1 {
+        return Err(ValueError::AtLeastOneIterationRequired);
+    }
     let n = x.len();
     let mut bootstrap_means = Vec::with_capacity(iterations);
     for _ in 0..iterations {
@@ -35,6 +44,28 @@ pub fn confidence_interval(x: &[f64], iterations: usize, alpha: f64) -> Confiden
     let lower = bootstrap_means[lower_idx.min(iterations - 1)];
     let upper = bootstrap_means[upper_idx.min(iterations - 1)];
 
-    let mean = stats::mean(x);
-    ConfidenceInterval { mean, lower, upper }
+    let mean = stats::mean(x)?;
+    Ok(ConfidenceInterval { mean, lower, upper })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ensure_that_it_does_what_it_should() {
+        let res = confidence_interval(&[1.0], 1, 0.05).unwrap();
+        let expected = ConfidenceInterval {
+            mean: 1.0,
+            lower: 1.0,
+            upper: 1.0,
+        };
+        assert_eq!(res, expected)
+    }
+
+    #[test]
+    fn need_at_least_one_bootstrap() {
+        let res = confidence_interval(&[1.0], 0, 0.05);
+        assert!(res.is_err())
+    }
 }
