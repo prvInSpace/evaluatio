@@ -26,8 +26,19 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
+    fn test_cohens_d_independent() {
         let result = cohens_d_independent(&[1.0, 2.0, 3.0, 4.0], &[2.0, 3.0, 4.0, 5.0]).unwrap();
         assert_eq!(result, -0.7745966692414834);
+    }
+
+    #[test]
+    fn test_paired_cohens_d() {
+        let left = [1.0, 2.0, 3.0, 4.0];
+        let right = [0.0, 3.0, 4.0, 5.0];
+        let result = cohens_d_paired(&left, &right).unwrap();
+        let ind = cohens_d_independent(&left, &right).unwrap();
+        assert_eq!(result, -0.5);
+        // It is a more powerful tests, so it should be bigger than the independent test
+        assert!(result.abs() > ind.abs())
     }
 }

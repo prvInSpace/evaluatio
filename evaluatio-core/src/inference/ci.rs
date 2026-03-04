@@ -31,6 +31,9 @@ pub fn confidence_interval(
     if iterations < 1 {
         return Err(ValueError::AtLeastOneIterationRequired);
     }
+    if !(0.0..=1.0).contains(&alpha) {
+        return Err(ValueError::InvalidAlphaValue);
+    }
     let n = x.len();
     let mut bootstrap_means = Vec::with_capacity(iterations);
     for _ in 0..iterations {
@@ -67,5 +70,23 @@ mod tests {
     fn need_at_least_one_bootstrap() {
         let res = confidence_interval(&[1.0], 0, 0.05);
         assert!(res.is_err())
+    }
+
+    #[test]
+    fn word_error_rate_ci_should_not_allow_wrong_alpha_above_1() {
+        let reference = vec![1.0, 1.0];
+        let result = confidence_interval(&reference, 1, 1.01);
+        assert!(result.is_err());
+        // Should not fail
+        let _ = confidence_interval(&reference, 1, 1.00);
+    }
+
+    #[test]
+    fn word_error_rate_ci_should_not_allow_wrong_alpha_below_0() {
+        let reference = vec![1.0, 1.0];
+        let result = confidence_interval(&reference, 1, -0.01);
+        assert!(result.is_err());
+        // Should not fail
+        let _ = confidence_interval(&reference, 1, -0.00);
     }
 }

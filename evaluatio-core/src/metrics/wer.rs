@@ -45,16 +45,25 @@ pub fn word_error_rate_ci(
     iterations: usize,
     alpha: f64,
 ) -> Result<ConfidenceInterval, ValueError> {
+    if !(0.0..=1.0).contains(&alpha) {
+        return Err(ValueError::InvalidAlphaValue);
+    }
+
+    if iterations < 1 {
+        return Err(ValueError::AtLeastOneIterationRequired);
+    }
+
     let edit_distances = word_edit_distance_per_pair(references, hypotheses)?;
     let ref_lengths: Vec<usize> = split_strings_into_word_vec(references)
         .iter()
         .map(|a| a.len())
         .collect();
 
+    if edit_distances.is_empty() {
+        return Err(ValueError::NotEnoughValues);
+    }
+
     let n = edit_distances.len();
-    assert!(n == ref_lengths.len(), "Lengths must match");
-    assert!(n > 0, "Cannot compute CI for empty slice");
-    assert!(alpha > 0.0 && alpha < 1.0, "Alpha must be in (0,1)");
 
     // Compute observed corpus-level WER
     let total_edits: usize = edit_distances.iter().sum();
@@ -137,5 +146,62 @@ mod tests {
         let prediction = vec![];
         let result = word_edit_distance_per_pair(&reference, &prediction);
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn word_error_rate_ci_should_work() {
+        let reference = vec!["hello world"];
+        let prediction = vec!["helo world"];
+        let result = word_error_rate_ci(&reference, &prediction, 1, 0.05).unwrap();
+        let expected = ConfidenceInterval {
+            mean: 0.5,
+            lower: 0.5,
+            upper: 0.5,
+        };
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn word_error_rate_ci_should_not_allow_lists_of_different_lengths() {
+        let reference = vec!["hello world"];
+        let prediction = vec!["helo world", "tada!"];
+        let result = word_error_rate_ci(&reference, &prediction, 1, 0.05);
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn word_error_rate_ci_should_require_at_least_one_iteration() {
+        let reference = vec!["hello world"];
+        let prediction = vec!["helo world"];
+        let result = word_error_rate_ci(&reference, &prediction, 0, 0.05);
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn word_error_rate_ci_should_not_allow_wrong_alpha_above_1() {
+        let reference = vec!["hello world"];
+        let prediction = vec!["helo world"];
+        let result = word_error_rate_ci(&reference, &prediction, 1, 1.01);
+        assert!(result.is_err());
+        // Should not fail
+        let _ = word_error_rate_ci(&reference, &prediction, 1, 1.0).unwrap();
+    }
+
+    #[test]
+    fn word_error_rate_ci_should_not_allow_wrong_alpha_below_0() {
+        let reference = vec!["hello world"];
+        let prediction = vec!["helo world"];
+        let result = word_error_rate_ci(&reference, &prediction, 1, -0.01);
+        assert!(result.is_err());
+        // Should not fail
+        let _ = word_error_rate_ci(&reference, &prediction, 1, -0.0);
+    }
+
+    #[test]
+    fn word_error_rate_ci_should_require_at_least_one_pair() {
+        let reference = vec![];
+        let prediction = vec![];
+        let result = word_error_rate_ci(&reference, &prediction, 1, 0.05);
+        assert!(result.is_err())
     }
 }

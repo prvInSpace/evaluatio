@@ -39,3 +39,56 @@ pub fn character_error_rate(
         &hypotheses_split.iter().collect(),
     )
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn character_error_rate_should_return_correct_value() {
+        let reference = vec!["hello world"];
+        let prediction = vec!["helo world"];
+        let result = character_error_rate(&reference, &prediction).unwrap();
+        assert_eq!(1.0/11.0, result);
+    }
+
+    #[test]
+    fn character_error_rate_should_return_error_if_lengths_differ() {
+        let reference = vec!["hello world"];
+        let prediction = vec![];
+        let result = character_error_rate(&reference, &prediction);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn character_error_rate_per_pair_should_return_correct_value() {
+        let reference = vec!["hello world"];
+        let prediction = vec!["helo world"];
+        let result = character_error_rate_per_pair(&reference, &prediction).unwrap();
+        assert_eq!(vec![1.0/11.0], result);
+    }
+
+    #[test]
+    fn character_error_rate_per_pair_should_return_error_if_lengths_differ() {
+        let reference = vec!["hello world"];
+        let prediction = vec![];
+        let result = character_error_rate_per_pair(&reference, &prediction);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn character_edit_distance_per_pair_should_return_correct_value() {
+        let reference = vec!["hello world"];
+        let prediction = vec!["helo word"];
+        let result = character_edit_distance_per_pair(&reference, &prediction).unwrap();
+        assert_eq!(vec![2], result);
+    }
+
+    #[test]
+    fn character_edit_distance_per_pair_should_return_error_if_lengths_differ() {
+        let reference = vec!["hello world"];
+        let prediction = vec![];
+        let result = character_edit_distance_per_pair(&reference, &prediction);
+        assert!(result.is_err());
+    }
+}

@@ -7,6 +7,9 @@ pub enum ValueError {
     #[error("at least one bootstrap iteration required")]
     AtLeastOneIterationRequired,
 
+    #[error("alpha must be in (0,1)")]
+    InvalidAlphaValue,
+
     #[error("variance requires at least two values")]
     NotEnoughValues,
 
