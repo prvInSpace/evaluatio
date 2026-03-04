@@ -1,13 +1,13 @@
 """Character error rate (CER) functions"""
 
-from typing import Iterable
+from typing import Iterable, List
 
 import evaluatio._bindings as _bindings
 
 
 def character_error_rate_per_pair(
     references: Iterable[str], hypotheses: Iterable[str]
-) -> Iterable[float]:
+) -> List[float]:
     """Calculates the character level error-rate for every zipped pair of references and hypotheses.
 
     NOTE: If the reference string is empty or contain no characters, the resulting CER is inf
@@ -20,7 +20,7 @@ def character_error_rate_per_pair(
 
 def character_edit_distance_per_pair(
     references: Iterable[str], hypotheses: Iterable[str]
-) -> Iterable[int]:
+) -> List[int]:
     """Calculates the character level edit-distance for every zipped pair of references and hypotheses.
 
     NOTE: If the reference string is empty or contain no characters, the resulting CER is inf

@@ -1,11 +1,11 @@
-from typing import Iterable
+from typing import Iterable, List
 
 import evaluatio._bindings as _bindings
 
 
 def word_error_rate_per_pair(
     references: Iterable[str], hypotheses: Iterable[str]
-) -> Iterable[float]:
+) -> List[float]:
     """Calculates the word level error-rate for every zipped pair of references and hypotheses.
     The delimiter used to split the words is ' '.
 
@@ -19,7 +19,7 @@ def word_error_rate_per_pair(
 
 def word_edit_distance_per_pair(
     references: Iterable[str], hypotheses: Iterable[str]
-) -> Iterable[int]:
+) -> List[int]:
     """Calculates the word level edit-distance for every pair in references and hypotheses.
     The delimiter used to split the words is ' '.
 
