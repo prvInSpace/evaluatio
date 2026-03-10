@@ -2,6 +2,7 @@ use crate::{err::ValueError, stats};
 
 #[cfg(feature = "python")]
 use pyo3::prelude::*;
+use rayon::iter::{IntoParallelIterator, ParallelIterator};
 
 #[cfg(feature = "python")]
 #[pyclass]
@@ -34,12 +35,16 @@ pub fn confidence_interval(
     if !(0.0..=1.0).contains(&alpha) {
         return Err(ValueError::InvalidAlphaValue);
     }
-    let n = x.len();
-    let mut bootstrap_means = Vec::with_capacity(iterations);
-    for _ in 0..iterations {
-        let sample_mean = (0..n).map(|_| x[fastrand::usize(0..n)]).sum::<f64>() / (n as f64);
-        bootstrap_means.push(sample_mean);
-    }
+    let n: usize = x.len();
+    let mut bootstrap_means: Vec<f64> = (0..iterations)
+        .into_par_iter()
+        .map(|_| {
+            let sample_mean = (0..n).map(|_| x[fastrand::usize(0..n)]).sum::<f64>() / (n as f64);
+            sample_mean
+        })
+        .collect();
+
+    bootstrap_means.sort_by(|a, b| a.partial_cmp(b).unwrap());
 
     let lower_idx = ((alpha / 2.0) * iterations as f64).floor() as usize;
     let upper_idx = ((1.0 - alpha / 2.0) * iterations as f64).floor() as usize;

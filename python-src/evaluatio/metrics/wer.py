@@ -44,7 +44,9 @@ def word_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -> flo
     return _bindings.word_error_rate(references, hypotheses)
 
 
-def word_error_rate_ci(references: Iterable[str], hypotheses: Iterable[str], interations: int, alpha: float) -> _bindings.ConfidenceInterval:
+def word_error_rate_ci(
+    references: Iterable[str], hypotheses: Iterable[str], interations: int, alpha: float
+) -> _bindings.ConfidenceInterval:
     """Calculates the confidence interval for the word error rate.
     The bootstrapped metrics is equivalent to that of `word_error_rate`.
 

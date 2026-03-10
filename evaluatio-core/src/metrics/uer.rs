@@ -1,3 +1,5 @@
+use rayon::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
+
 use crate::err::ValueError;
 
 /// Universally applicable error rates and distances
@@ -24,12 +26,12 @@ pub fn universal_edit_distance_per_pair<T: PartialEq>(
     }
     Ok(references
         .iter()
-        .zip(hypotheses.iter())
+        .zip(hypotheses)
         .map(|(a, b)| universal_edit_distance(a, b))
         .collect())
 }
 
-pub fn universal_error_rate<T: PartialEq>(
+pub fn universal_error_rate<T: PartialEq + Send + Sync>(
     references: &Vec<&Vec<T>>,
     hypotheses: &Vec<&Vec<T>>,
 ) -> Result<f64, ValueError> {
@@ -39,15 +41,15 @@ pub fn universal_error_rate<T: PartialEq>(
     if references.len() != hypotheses.len() {
         return Err(ValueError::UnequalLengths);
     }
-    let mut distance: usize = 0;
-    let mut total: usize = 0;
-    references
-        .iter()
-        .zip(hypotheses.iter())
-        .for_each(|(reference, hypothesis)| {
-            distance += universal_edit_distance(reference, hypothesis);
-            total += reference.len()
-        });
+
+    let distance: usize = references
+        .par_iter()
+        .zip(hypotheses)
+        .map(|(reference, hypothesis)| universal_edit_distance(reference, hypothesis))
+        .sum();
+
+    let total: usize = references.par_iter().map(|reference| reference.len()).sum();
+
     Ok((distance as f64) / (total as f64))
 }
 
