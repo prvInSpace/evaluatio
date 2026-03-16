@@ -1,4 +1,4 @@
-use crate::{err::ValueError, metrics::uer};
+use crate::{err::ValueError, inference::ci::ConfidenceInterval, metrics::uer::{self, error_rate_ci}};
 
 fn split_strings_into_char_vec(list: &[&str]) -> Vec<Vec<char>> {
     list.iter().map(|x| x.chars().collect()).collect()
@@ -38,6 +38,20 @@ pub fn character_error_rate(
         &references_split.iter().collect(),
         &hypotheses_split.iter().collect(),
     )
+}
+
+pub fn character_error_rate_ci(
+    references: &Vec<&str>,
+    hypotheses: &Vec<&str>,
+    iterations: usize,
+    alpha: f64,
+) -> Result<ConfidenceInterval, ValueError> {
+    let edit_distances = character_edit_distance_per_pair(references, hypotheses)?;
+    let ref_lengths: Vec<usize> = split_strings_into_char_vec(references)
+        .iter()
+        .map(|a| a.len())
+        .collect();
+    error_rate_ci(&edit_distances, &ref_lengths, iterations, alpha)
 }
 
 #[cfg(test)]

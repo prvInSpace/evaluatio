@@ -1,5 +1,8 @@
-use crate::{err::ValueError, inference::ci::ConfidenceInterval, metrics::uer};
-use rayon::prelude::*;
+use crate::{
+    err::ValueError,
+    inference::ci::ConfidenceInterval,
+    metrics::uer::{self, error_rate_ci},
+};
 
 pub(crate) fn split_strings_into_word_vec<'a>(list: &Vec<&'a str>) -> Vec<Vec<&'a str>> {
     list.iter()
@@ -46,56 +49,12 @@ pub fn word_error_rate_ci(
     iterations: usize,
     alpha: f64,
 ) -> Result<ConfidenceInterval, ValueError> {
-    if !(0.0..=1.0).contains(&alpha) {
-        return Err(ValueError::InvalidAlphaValue);
-    }
-
-    if iterations < 1 {
-        return Err(ValueError::AtLeastOneIterationRequired);
-    }
-
     let edit_distances = word_edit_distance_per_pair(references, hypotheses)?;
     let ref_lengths: Vec<usize> = split_strings_into_word_vec(references)
         .iter()
         .map(|a| a.len())
         .collect();
-
-    if edit_distances.is_empty() {
-        return Err(ValueError::NotEnoughValues);
-    }
-
-    let n = edit_distances.len();
-
-    // Compute observed corpus-level WER
-    let total_edits: usize = edit_distances.iter().sum();
-    let total_refs: usize = ref_lengths.iter().sum();
-    let mean = total_edits as f64 / total_refs as f64;
-
-    let mut bootstrapped: Vec<f64> = (0..iterations)
-        .into_par_iter()
-        .map(|_| {
-            let mut sum_edits = 0;
-            let mut sum_refs = 0;
-
-            for _ in 0..n {
-                let idx = fastrand::usize(0..n);
-                sum_edits += edit_distances[idx];
-                sum_refs += ref_lengths[idx];
-            }
-
-            sum_edits as f64 / sum_refs as f64
-        })
-        .collect();
-
-    bootstrapped.sort_by(|a, b| a.partial_cmp(b).unwrap());
-
-    let lower_idx = ((alpha / 2.0) * iterations as f64).floor() as usize;
-    let upper_idx = ((1.0 - alpha / 2.0) * iterations as f64).floor() as usize;
-
-    let lower = bootstrapped[lower_idx.min(iterations - 1)];
-    let upper = bootstrapped[upper_idx.min(iterations - 1)];
-
-    Ok(ConfidenceInterval { mean, lower, upper })
+    error_rate_ci(&edit_distances, &ref_lengths, iterations, alpha)
 }
 
 #[cfg(test)]

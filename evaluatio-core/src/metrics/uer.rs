@@ -1,6 +1,6 @@
-use rayon::iter::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
+use rayon::iter::{IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator};
 
-use crate::err::ValueError;
+use crate::{err::ValueError, inference::ci::ConfidenceInterval};
 
 /// Universally applicable error rates and distances
 pub fn universal_error_rate_per_pair<T: PartialEq>(
@@ -97,6 +97,59 @@ pub fn universal_edit_distance<T: PartialEq>(left: &Vec<T>, right: &Vec<T>) -> u
 
     current_row[len_right - 1]
 }
+
+pub fn error_rate_ci(
+    edit_distances: &[usize],
+    ref_lengths: &[usize],
+    iterations: usize,
+    alpha: f64,
+) -> Result<ConfidenceInterval, ValueError> {
+    if !(0.0..=1.0).contains(&alpha) {
+        return Err(ValueError::InvalidAlphaValue);
+    }
+
+    if iterations < 1 {
+        return Err(ValueError::AtLeastOneIterationRequired);
+    }
+
+    if edit_distances.is_empty() {
+        return Err(ValueError::NotEnoughValues);
+    }
+
+    let n = edit_distances.len();
+
+    // Compute observed corpus-level WER
+    let total_edits: usize = edit_distances.iter().sum();
+    let total_refs: usize = ref_lengths.iter().sum();
+    let mean = total_edits as f64 / total_refs as f64;
+
+    let mut bootstrapped: Vec<f64> = (0..iterations)
+        .into_par_iter()
+        .map(|_| {
+            let mut sum_edits = 0;
+            let mut sum_refs = 0;
+
+            for _ in 0..n {
+                let idx = fastrand::usize(0..n);
+                sum_edits += edit_distances[idx];
+                sum_refs += ref_lengths[idx];
+            }
+
+            sum_edits as f64 / sum_refs as f64
+        })
+        .collect();
+
+    bootstrapped.sort_by(|a, b| a.partial_cmp(b).unwrap());
+
+    let lower_idx = ((alpha / 2.0) * iterations as f64).floor() as usize;
+    let upper_idx = ((1.0 - alpha / 2.0) * iterations as f64).floor() as usize;
+
+    let lower = bootstrapped[lower_idx.min(iterations - 1)];
+    let upper = bootstrapped[upper_idx.min(iterations - 1)];
+
+    Ok(ConfidenceInterval { mean, lower, upper })
+}
+
 
 #[cfg(test)]
 mod tests {

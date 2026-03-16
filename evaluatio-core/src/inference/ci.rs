@@ -38,10 +38,7 @@ pub fn confidence_interval(
     let n: usize = x.len();
     let mut bootstrap_means: Vec<f64> = (0..iterations)
         .into_par_iter()
-        .map(|_| {
-            let sample_mean = (0..n).map(|_| x[fastrand::usize(0..n)]).sum::<f64>() / (n as f64);
-            sample_mean
-        })
+        .map(|_| (0..n).map(|_| x[fastrand::usize(0..n)]).sum::<f64>() / (n as f64))
         .collect();
 
     bootstrap_means.sort_by(|a, b| a.partial_cmp(b).unwrap());

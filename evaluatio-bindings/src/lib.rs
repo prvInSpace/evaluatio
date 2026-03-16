@@ -16,6 +16,7 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
         m
     )?)?;
     m.add_function(wrap_pyfunction!(cer::character_error_rate_py, m)?)?;
+    m.add_function(wrap_pyfunction!(cer::character_error_rate_ci_py, m)?)?;
     m.add_function(wrap_pyfunction!(cer::character_error_rate_per_pair_py, m)?)?;
 
     // Cohen's d

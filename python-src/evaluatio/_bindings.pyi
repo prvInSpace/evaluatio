@@ -71,3 +71,6 @@ def confidence_interval(
 def word_error_rate_ci(
     references: Iterable[str], hypotheses: Iterable[str], iterations: int, alpha: float
 ) -> ConfidenceInterval: ...
+def character_error_rate_ci(
+    references: Iterable[str], hypotheses: Iterable[str], iterations: int, alpha: float
+) -> ConfidenceInterval: ...
