@@ -1,7 +1,7 @@
 use crate::{
     err::ValueError,
     inference::ci::ConfidenceInterval,
-    metrics::uer::{self, error_rate_ci},
+    metrics::uer,
 };
 
 pub(crate) fn split_strings_into_word_vec<'a>(list: &Vec<&'a str>) -> Vec<Vec<&'a str>> {
@@ -54,7 +54,7 @@ pub fn word_error_rate_ci(
         .iter()
         .map(|a| a.len())
         .collect();
-    error_rate_ci(&edit_distances, &ref_lengths, iterations, alpha)
+    uer::error_rate_ci(&edit_distances, &ref_lengths, iterations, alpha)
 }
 
 #[cfg(test)]

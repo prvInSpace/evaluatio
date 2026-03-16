@@ -1,4 +1,4 @@
-use crate::{err::ValueError, inference::ci::ConfidenceInterval, metrics::uer::{self, error_rate_ci}};
+use crate::{err::ValueError, inference::ci::ConfidenceInterval, metrics::uer};
 
 fn split_strings_into_char_vec(list: &[&str]) -> Vec<Vec<char>> {
     list.iter().map(|x| x.chars().collect()).collect()
@@ -51,7 +51,7 @@ pub fn character_error_rate_ci(
         .iter()
         .map(|a| a.len())
         .collect();
-    error_rate_ci(&edit_distances, &ref_lengths, iterations, alpha)
+    uer::error_rate_ci(&edit_distances, &ref_lengths, iterations, alpha)
 }
 
 #[cfg(test)]
@@ -63,7 +63,7 @@ mod tests {
         let reference = vec!["hello world"];
         let prediction = vec!["helo world"];
         let result = character_error_rate(&reference, &prediction).unwrap();
-        assert_eq!(1.0/11.0, result);
+        assert_eq!(1.0 / 11.0, result);
     }
 
     #[test]
@@ -79,7 +79,7 @@ mod tests {
         let reference = vec!["hello world"];
         let prediction = vec!["helo world"];
         let result = character_error_rate_per_pair(&reference, &prediction).unwrap();
-        assert_eq!(vec![1.0/11.0], result);
+        assert_eq!(vec![1.0 / 11.0], result);
     }
 
     #[test]
