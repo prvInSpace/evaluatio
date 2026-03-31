@@ -1,15 +1,45 @@
 # Project and Design Philosophy
 
-Evaluatio is more than just a fast metrics library, it is a project attempting to make statistically rigorous testing easier and more available to academics, researchers, hobbyists, and alike. This document is meant to serve as the foundation of the philosophy of the design of the library and project at large.  
+Evaluatio is more than just a fast metrics library, it is a project library for statistically rigorous evaluation.
 
-### Making evaluations straightforward
-Evaluation, statistical testing, and comparisons should not be difficult. While there are infinite ways of making mistakes when using statistics, the library and the documentation should make it easier to understand how to do it properly and highlight common pitfalls.
+The goal of the project is simple: make correct evaluation the default, not the exception. Too often, model evaluation is inconsistent, statistically unsound, or difficult to reproduce. Evaluatio aims to reduce these issues by providing well-defined metrics, principled statistical tools, and clear guidance on how to use them.
 
-### Strongly typed and type annotated
-Ever tried to use libraries that have poor type annotation? Well, it sucks, and we aim to be better. Functions should only ever return one thing, and one thing only, and if it returns several values it should be in a struct with named fields.
+Statistically rigorous evaluation should be available to academics, researchers, hobbyists, and alike.
 
-### Not implement features for the sake of it
-The core of the library uses Rust to optimise performance, but we will not implement metrics and functions without there being a legitimate reason. A legitimate reason might be performance, type-safety, compatibility, etc. but we will not reinvent the wheel for no reason.
+### Make correct evaluation easy and incorrect evaluation harder
+Evaluation and statistical testing should be accessible, but not at the cost of correctness.
 
-### Encourage community improvement of evaluations
-We are stronger together, and as such having a community verify and improve the ways we do evaluations makes us all better and ensures that our results are reproducible and trustworthy. Together we can make evaluations, statistical testing, and rigorous testing of models the norm.
+Evaluatio is designed to:
+- make common evaluation workflows straightforward
+- guide users toward statistically sound practices
+- highlight common pitfalls and invalid comparisons
+
+### Strong typing and explicit interfaces
+Clear interfaces lead to more reliable results.
+
+Evaluatio emphasises:
+- strong type annotations
+- predictable return types
+- structured outputs with named fields
+
+This reduces ambiguity, improves readability and developer experience, and helps catch errors early.
+
+### Purpose-driven design
+Features are not added unless they serve a clear purpose.
+
+A new metric or functionality should:
+- solve a real problem
+- improve correctness, performance, or usability
+- integrate cleanly with the rest of the library
+
+Evaluatio does not aim to reimplement existing tools without a clear benefit. In many circumstances, sign-posting users to existing tools is preferable.
+
+### Reproducibility and shared standards
+Reliable evaluation requires shared understanding.
+
+Evaluatio encourages:
+- reproducible evaluation pipelines
+- transparent statistical methodology
+- community review and iteration on best practices
+
+By aligning on common tools and principles, we can make evaluation results more comparable, interpretable, and trustworthy.

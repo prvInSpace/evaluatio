@@ -4,34 +4,93 @@
 [![CI](https://github.com/prvInSpace/evaluatio/actions/workflows/CI.yml/badge.svg)](https://github.com/prvInSpace/evaluatio/actions/workflows/CI.yml)
 [![codecov](https://codecov.io/github/prvInSpace/evaluatio/graph/badge.svg?token=63NBX8175Q)](https://codecov.io/github/prvInSpace/evaluatio)
 
-***Note: The library is under development, so things are likely to change, especially function signatures.***
+***Statistically rigorous evaluation for NLP with fast, correct metrics and built-in inference tools.***
 
-Evaluatio is a library that contains computationally efficient metrics for the valuation of different NLP systems.
-It is the continuation of the [`universal-edit-distance`](https://gitlab.com/prebens-phd-adventures/universal-edit-distance) project, but was renamed and restructured due to the project outgrowing its original purpose.
+## Why Evaluatio?
+Most libraries make it easy to compute metrics.
+Few make it easy to **evaluate models correctly**.
 
-## Etymology
-The name `evaluatio` is a Latin noun and means "evaluation". It also doubles as the English verb "to evaluate" with the Welsh verbal derivational suffix `-io`, so it could also be Welsh slang for "to evaluate".
+Evaluatio is designed to fix that.
+
+It provides:
+- **Correct metric implementations** (e.g. WER, CER)
+- **Uncertainty estimation** (e.g. bootstrap confidence intervals)
+- **Model comparison tools** (e.g. paired bootstrap tests)
+- **Multiple testing correction** (e.g. Holm-Bonferroni)
+- **High performance** (Rust-backed implementations)
+
+## Quick example
+```python
+import pandas as pd
+from evaluatio.metrics.wer import (
+    word_error_rate,
+    word_error_rate_ci,
+    word_error_rate_per_pair,
+)
+from evaluatio.inference.bootstrap import paired_bootstrap_test
+
+df = pd.read_csv("inferences.csv")
+
+# Corpus-level WER
+wer = word_error_rate(df["references"], df["predictions"])
+
+# Confidence interval
+ci = word_error_rate_ci(df["references"], df["predictions"], 5000, 0.95)
+
+# Model comparison
+wer_a = word_error_rate_per_pair(df["references"], df["model_a"])
+wer_b = word_error_rate_per_pair(df["references"], df["model_b"])
+
+pvalue = paired_bootstrap_test(wer_a, wer_b, iterations=5000)
+
+print(f"WER: {ci.mean:.3f} ± {ci.upper - ci.mean:.3f}")
+print(f"P-value: {pvalue}")
+```
+
+This workflow reflects the recommended approach: compute a corpus-level metric, estimate uncertainty, and compare models using paired statistical tests.
+
+## Key features
+
+### Correct by default
+- Explicit, strongly typed APIs that reduce common evaluation mistakes.
+- Documentation is designed as a reference for statistically rigorous evaluation, not just API usage. 
+
+### Built-in statistical inference
+- Bootstrap confidence intervals
+- Paired bootstrap significance testing
+- Multiple testing correction
+
+### High performance
+- Rust-backed core for efficient computation
+- Faster WER/CER than common alternatives
+
+## Installation
+```bash
+pip install evaluatio
+```
 
 ## Documentation
-The documentation for the library and the project as a whole is hosted on [GitHub pages](https://prvinspace.github.io/evaluatio/).
+Full documentation (including evaluation guides and statistical background): [https://prvinspace.github.io/evaluatio/](https://prvinspace.github.io/evaluatio/).
 
-## Components
+## Status
+The library is under active development and APIs may change.  
 
-### [evaluatio-core](./evaluatio-core/README.md)
-`evaluatio-core` is a standalone Rust library that implements certain metrics and functions to improve the performance of the main library. This can be used by other Rust projects without requiring PyO3.
-
-### [evaluatio-bindings](./evaluatio-bindings/README.md)
-`evaluatio-bindings` contains the Py03 bindings between `evaluatio-core` and the main Python library. It simply exposes the functions and classes in the `evaluatio-core` to the Python library while also containing some helper functions to ensure that Python types are handled properly. All classes and functions are exported to a single Python module.
-
-### [evaluatio-docs](./evaluatio-docs/README.md)
-`evaluatio-docs` is the main documentation of the project. It contains documentation for not only the library, but also how to use the library properly. It is hosted on [GitHub pages](https://prvinspace.github.io/evaluatio/).
-
-### python-src
-`python-src` contains the main Python library. It contains wrappers for `evaluatio-bindings` to ensure that functions are documented, type-annotated, and sorted into different organised modules.
+Core functionality is stable, particularly for automatic speech recognition (ASR) metrics.  
+While current metrics focus on ASR, the statistical inference tools are designed to be generally applicable across tasks.
 
 ## Contribute to the project
 There is always room for improvements, new metrics, new functionality, etc. If you have any suggestions or requests please feel free to add an issue! The main repository for the project can be found at [codeberg.org/prvinspace/evaluatio](https://codeberg.org/prvinspace/evaluatio).
 
+
+## Components
+- [`evaluatio-core`](./evaluatio-core/README.md): Rust implementations
+- [`evaluatio-bindings`](./evaluatio-bindings/README.md): Python bindings (PyO3)
+- `python-src`: Python API layer
+- [`evaluatio-docs`](./evaluatio-docs/README.md) - Documentation
+
+## Etymology
+The name `evaluatio` is a Latin noun and means "evaluation". It also doubles as the English verb "to evaluate" with the Welsh verbal derivational suffix `-io`, so it could also be Welsh slang for "to evaluate".
+
 ## Maintainer
 
-The project is maintained by Preben Vangberg &lt;prv21fgt@bangor.ac.uk&gt;.
+The project is maintained by Preben Vangberg &lt;[prv21fgt@bangor.ac.uk](mailto:prv21fgt@bangor.ac.uk)&gt;.

@@ -1,21 +1,24 @@
 # Word Error Rate (WER)
 
-Word error rate is the most widely used metric for evaluating automatic speech recognition tasks. WER can best be explained as a length-normalised edit distance where the edit distance is defined as the number of substitutions, additions, and removals of words (or tokens) are required to turn the hypothesis into the reference. It is normalised based on the length of the reference. For a more comprehensive discussion about edit distance / error rate metrics, please see [Edit Distance](/metrics/ued.md).
+Word error rate is the most widely used metric for evaluating automatic speech recognition tasks. WER can best be explained as a length-normalised edit distance. The edit distance is defined as the number of substitutions, insertions, and removals of words (or tokens) required to turn the hypothesis into the reference. The result is normalised by the number of words in the reference. For a more comprehensive discussion about edit distance / error rate metrics, please see [Edit Distance](/metrics/ued.md).
 
 It is strongly related to other error rate based metrics such as [Character Error Rate (CER)](/metrics/cer.md).
 
 ## Corpus level WER
-In practice, the mean WER of a model is not computed as the simple average of test-level WERs. Instead, it is typically calculated as the total edit distance over the evaluation set divided by the total number of reference words. Formally, let $H = (H_1, \dots,H_n)$ be the hypotheses and $R=(R_1,\dots,R_n)$ the corresponding hypotheses. The corpus-level mean WER is defined as:
+In practice, the mean WER of a model is not computed as the simple average of utterance-level WERs. Instead, it is typically calculated as the total edit distance over the evaluation set divided by the total number of reference words. Formally, let $H = (H_1, \dots,H_n)$ be the hypotheses and $R=(R_1,\dots,R_n)$ the corresponding references. The corpus-level mean WER is defined as:
 
 :::{math}
-WER(H, R) = \frac{\sum_{i=1}^nedit\_distance(H_i, R_i)}{\sum_{i=1}^n|R_i|}.
+WER(H, R) = \frac{\sum_{i=1}^n \text{edit\_distance}(H_i, R_i)}{\sum_{i=1}^n|R_i|}.
 :::
 
-This differs from more conventional definition means, which for test-level WERs would be defined as:
+This differs from more conventional definition of mean, which for utterance-level WERs would be defined as:
 
 :::{math}
-WER(H, R) = \frac{\sum_{i=1}^nWER(H_i, R_i)}{|R|}
+WER_{\text{macro}}(H, R) = \frac{1}{n} \sum_{i=1}^n WER(H_i, R_i)
 :::
+
+The standard definition of WER used in ASR is the micro-average (corpus-level WER).
+The macro-average (mean of utterance-level WERs) is a different quantity and is generally not reported, but is useful for statistical analysis.
 
 ## Limitations of WER
 WER has many limitations that has been highlighted by various authors over the years. Some of these include:
@@ -23,10 +26,18 @@ WER has many limitations that has been highlighted by various authors over the y
 - WER is sensitive to normalisation choices (casing, punctuation)
 - WER can exceed 100%
 
-## Evaluatio implemention
+WER also depends on alignment choices. Multiple optimal alignments can exist, which can affect:
+- substitution vs insertion/deletion counts
+- downstream analysis
+
+This issue is especially prevalent for [PIER](/metrics/pier.md).
+
+## Evaluatio implementation
 [API reference](/api/metrics/wer.md)
 
-The main Evaluatio implemention of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/ued.md), but preprocesses the string beforehand by splitting them on whitespace. A per-pair is also provided called `word_error_rate_per_pair`.
+The main Evaluatio implementation of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/ued.md), but preprocesses the string beforehand by splitting them on whitespace. While this is common for WER implementations, this assumes that whitespace tokenisation is appropriate for the language and task. Please ensure that it is appropriate for the language and task you are using it for.
+
+A per-utterance variant is also provided: `word_error_rate_per_pair`.
 
 How to choose which function to use:
 - Use `word_error_rate` for a single corpus-level score.
@@ -38,7 +49,8 @@ If you wish to tokenize the strings using more complex tokenization methods, ple
 
 ## Comparing WERs of different models
 
-Because comparisons of WERs for models is an inherently paired problem and since inferences are paired, we can use a paired bootstrap test (`paired_bootstrap_test`) and the paired version of Cohen's $d$ (`paired_cohens_d`) to evaluate two models.
+Because comparisons of WERs for models is an inherently paired problem and since inferences are paired, we can use a paired bootstrap test (`paired_bootstrap_test`) to evaluate two models.
+The paired bootstrap test operates over utterances, preserving the dependency structure between model outputs.
 
 ### Why conventional tests might not work
 As with other length-normalised metrics, WERs are subject to certain distributional properties that complicate comparisons between different models.
@@ -72,23 +84,20 @@ pvalue = paired_bootstrap_test(
     iterations=5000
 )
 
-from evaluatio.effect_size.cohen import cohens_d_paired
-effect_size = cohens_d_paired(x1=model_1_wer_per_test, x2=model_2_wer_per_test)
-
 def ci_plus_minus(ci):
     delta = ci.upper - ci.mean
     return f"{ci.mean:.3f} ± {delta:.3f}"
 
 print(f"Model 1 WER: {ci_plus_minus(model_1_ci)}")
 print(f"Model 2 WER: {ci_plus_minus(model_2_ci)}")
-print(f"P-value: {pvalue}, Effect size: {effect_size}")
+print(f"P-value: {pvalue}")
 ```
 
 ### Reporting recommendations
-When reporting results for WERs comparisons, it is recommended to give the following:
+When reporting results for WER comparisons, it is recommended to give the following:
 - Mean WER for each model (and 95% CI)
 - Paired bootstrap $p$-value 
-- Effect size (paired Cohen's $d$)
+- Absolute difference in WER
 
 An example could look like:
-> "Model A achieved a WER of 0.243 ± 0.008 (95% CI), compared to 0.31 ± 0.011 for Model B (paired bootstrap p=0.003, Cohen's d=0.42)."
+> "Model A achieved a WER of 0.243 ± 0.008 (95% CI), compared to 0.31 ± 0.011 for Model B (paired bootstrap p=0.003), a reduction of 6.7 percentage points."
