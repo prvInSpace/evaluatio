@@ -1,3 +1,21 @@
+"""
+Word-level error metrics
+
+This module provides utilities to compute word error rate (WER) and
+word-level edit distance between reference and hypothesis text sequences.
+All computations operate on whitespace-tokenized words. If you need more
+complex tokenizing, please see ``metrics.uer``.
+
+The functions accept any iterable of strings and internally convert them
+to a format compatible with the underlying native bindings.
+
+Notes
+-----
+- If a reference string is empty or contains no tokens, the corresponding
+  WER is defined as ``inf``.
+- These functions are thin wrappers around optimized native implementations.
+"""
+
 from typing import Iterable, List
 
 from evaluatio import _bindings
@@ -7,13 +25,36 @@ from evaluatio.inference.ci import ConfidenceInterval, _convert_confidence_inter
 def word_error_rate_per_pair(
     references: Iterable[str], hypotheses: Iterable[str]
 ) -> List[float]:
-    """Calculates the word level error-rate for every zipped pair of references and hypotheses.
-    The delimiter used to split the words is ' '.
+    """
+    Compute word error rate (WER) for each reference-hypothesis pair.
 
-    NOTE: If the reference string is empty or contain no words, the resulting WER is inf
+    Parameters
+    ----------
+    references : Iterable[str]
+        Iterable of reference strings.
+    hypotheses : Iterable[str]
+        Iterable of hypothesis strings. Must be the same length as
+        ``references``.
 
-    NOTE: Even though the type indicates that the function only takes lists, it takes any iterable
-    that can be converted to a Vec<&string> by pyo3.
+    Returns
+    -------
+    List[float]
+        Word error rate for each pair of reference and hypothesis.
+    
+    Raises
+    ------
+    ValueError
+        If the lists are of different lengths.
+
+    See Also
+    --------
+    metrics.uer.universal_error_rate_per_pair : Type-agnostic version.
+
+    Notes
+    -----
+    - Tokenization is performed by splitting on whitespace.
+    - If a reference string is empty or contains no tokens, the resulting
+      WER is ``inf``.
     """
     return _bindings.word_error_rate_per_pair(references, hypotheses)
 
@@ -21,26 +62,56 @@ def word_error_rate_per_pair(
 def word_edit_distance_per_pair(
     references: Iterable[str], hypotheses: Iterable[str]
 ) -> List[int]:
-    """Calculates the word level edit-distance for every pair in references and hypotheses.
-    The delimiter used to split the words is ' '.
+    """
+    Compute word-level edit distance for each reference-hypothesis pair.
 
-    NOTE: If the reference string is empty or contain no words, the resulting WER is inf
+    Parameters
+    ----------
+    references : Iterable[str]
+        Iterable of reference strings.
+    hypotheses : Iterable[str]
+        Iterable of hypothesis strings. Must be the same length as
+        ``references``.
 
-    NOTE: Even though the type indicates that the function only takes lists, it takes any iterable
-    that can be converted to a Vec<&string> by pyo3.
+    Returns
+    -------
+    List[int]
+        Word-level edit distance for each pair.
+        
+    See Also
+    --------
+    metrics.uer.universal_edit_distance_per_pair : Type-agnostic version.
+
+    Notes
+    -----
+    - Tokenization is performed by splitting on whitespace.
     """
     return _bindings.word_edit_distance_per_pair(references, hypotheses)
 
 
 def word_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -> float:
-    """Calculates the mean word level error-rate for the entire set.
-    This is the equivalent of using the `wer` metric for the `evaluate` library (using `jiwer`).
-    The delimiter used to split the words is ' '.
+    """
+    Compute the corpus level word error rate (WER) over all pairs.
 
-    NOTE: If the reference string is empty or contain no words, the resulting WER is inf
+    Parameters
+    ----------
+    references : Iterable[str]
+        Iterable of reference strings.
+    hypotheses : Iterable[str]
+        Iterable of hypothesis strings. Must be the same length as
+        ``references``.
 
-    NOTE: Even though the type indicates that the function only takes lists, it takes any iterable
-    that can be converted to a Vec<&string> by pyo3.
+    Returns
+    -------
+    float
+        Corpus level word error rate across all pairs.
+
+    Notes
+    -----
+    - Tokenization is performed by splitting on whitespace.
+    - Equivalent to common WER implementations (e.g., ``jiwer``-based metrics).
+    - If all reference strings are empty or contains no tokens, the resulting
+      WER is ``inf``.
     """
     return _bindings.word_error_rate(references, hypotheses)
 
@@ -66,14 +137,14 @@ def word_error_rate_ci(
     Returns
     -------
     ConfidenceInterval
-        Estimated confidence interval for the mean word error rate.
+        Estimated confidence interval for the corpus level word error rate.
 
     Notes
     -----
     - The bootstrapped metric corresponds to ``word_error_rate``.
     - Tokenization is performed by splitting on whitespace.
     - If any reference string is empty or contains no tokens, the resulting
-      WER is ``inf``.
+      WER can be ``inf``.
     """
     return _convert_confidence_interval(
         _bindings.word_error_rate_ci(references, hypotheses, interations, alpha)
