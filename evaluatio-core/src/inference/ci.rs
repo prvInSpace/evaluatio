@@ -24,7 +24,7 @@ pub struct ConfidenceInterval {
     pub upper: f64,
 }
 
-pub fn confidence_interval(
+pub fn bootstrap_confidence_interval(
     x: &[f64],
     iterations: usize,
     alpha: f64,
@@ -59,7 +59,7 @@ mod tests {
 
     #[test]
     fn ensure_that_it_does_what_it_should() {
-        let res = confidence_interval(&[1.0], 1, 0.05).unwrap();
+        let res = bootstrap_confidence_interval(&[1.0], 1, 0.05).unwrap();
         let expected = ConfidenceInterval {
             mean: 1.0,
             lower: 1.0,
@@ -70,25 +70,25 @@ mod tests {
 
     #[test]
     fn need_at_least_one_bootstrap() {
-        let res = confidence_interval(&[1.0], 0, 0.05);
+        let res = bootstrap_confidence_interval(&[1.0], 0, 0.05);
         assert!(res.is_err())
     }
 
     #[test]
-    fn word_error_rate_ci_should_not_allow_wrong_alpha_above_1() {
+    fn bootstrap_ci_should_not_allow_wrong_alpha_above_1() {
         let reference = vec![1.0, 1.0];
-        let result = confidence_interval(&reference, 1, 1.01);
+        let result = bootstrap_confidence_interval(&reference, 1, 1.01);
         assert!(result.is_err());
         // Should not fail
-        let _ = confidence_interval(&reference, 1, 1.00);
+        let _ = bootstrap_confidence_interval(&reference, 1, 1.00);
     }
 
     #[test]
-    fn word_error_rate_ci_should_not_allow_wrong_alpha_below_0() {
+    fn bootstrap_ci_should_not_allow_wrong_alpha_below_0() {
         let reference = vec![1.0, 1.0];
-        let result = confidence_interval(&reference, 1, -0.01);
+        let result = bootstrap_confidence_interval(&reference, 1, -0.01);
         assert!(result.is_err());
         // Should not fail
-        let _ = confidence_interval(&reference, 1, -0.00);
+        let _ = bootstrap_confidence_interval(&reference, 1, -0.00);
     }
 }

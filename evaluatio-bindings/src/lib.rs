@@ -24,7 +24,7 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(cohen::cohens_d_paired_py, m)?)?;
 
     // Confidence interval
-    m.add_function(wrap_pyfunction!(ci::confidence_interval_py, m)?)?;
+    m.add_function(wrap_pyfunction!(ci::bootstrap_confidence_interval_py, m)?)?;
     m.add_class::<evaluatio_core::inference::ci::ConfidenceInterval>()?;
 
     // Match error rate

@@ -65,7 +65,7 @@ class ConfidenceInterval:
     lower: float
     upper: float
 
-def confidence_interval(
+def bootstrap_confidence_interval(
     x: Iterable[float], iterations: int, alpha: float
 ) -> ConfidenceInterval: ...
 def word_error_rate_ci(
