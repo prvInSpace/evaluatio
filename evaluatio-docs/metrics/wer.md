@@ -17,10 +17,22 @@ This differs from more conventional definition means, which for test-level WERs 
 WER(H, R) = \frac{\sum_{i=1}^nWER(H_i, R_i)}{|R|}
 :::
 
+## Limitations of WER
+WER has many limitations that has been highlighted by various authors over the years. Some of these include:
+- WER treats all errors equally regardless of semantic impact
+- WER is sensitive to normalisation choices (casing, punctuation)
+- WER can exceed 100%
+
 ## Evaluatio implemention
 [API reference](/api/metrics/wer.md)
 
 The main Evaluatio implemention of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/ued.md), but preprocesses the string beforehand by splitting them on whitespace. A per-pair is also provided called `word_error_rate_per_pair`.
+
+How to choose which function to use:
+- Use `word_error_rate` for a single corpus-level score.
+- Use `word_error_rate_per_pair` when you need utterance-level scores for downstream analysis (e.g. bootstrap tests, effect sizes).
+- Use `word_error_rate_ci` when you want uncertainty quantification on the corpus-level score directly.
+- Use `word_edit_distance` when need to use the edit distances directly (e.g. for count modelling)
 
 If you wish to tokenize the strings using more complex tokenization methods, please pre-tokenize the strings and use the `universal-error-rate` function instead.
 
@@ -35,14 +47,10 @@ The synopsis is that WERs are rarely normally distributed and the distribution o
 ### Confidence interval
 Because corpus-level WER is computed as a ratio of aggregated errors over aggregated reference tokens, uncertainty should be estimated via bootstrap resampling over utterances and recomputation of corpus-level WER. Confidence intervals derived from the distribution of utterance-level WERs do not correspond to the corpus-level metric and may misrepresent uncertainty. To make the process more efficient, a `word_error_rate_ci` function is also provided.
 
+The CI returned by `word_error_rate_ci` is a bootstrap confidence interval on the corpus-level WER, i.e. the ratio of total errors to total reference tokens across the evaluation set. This is not a CI on the mean of utterance-level WERs, which would be a different quantity.
+
 ### Multiple testing
 When performing subgroup analyses (e.g., by gender, accent, age group), multiple statistical tests are often conducted simultaneously. Without correction, the probability of false positives increases.
-
-The library does not automatically apply multiple comparison correction. Users may consider:
-
-- Bonferroni correction (conservative)
-- Holm correction
-- False discovery rate control (Benjamini--Hochberg)
 
 See the page about [multiple testing](/inference/multiple_testing.md) for more info.
 
@@ -55,7 +63,7 @@ from evaluatio.metrics.wer import word_error_rate_per_pair, word_error_rate_ci
 model_1_wer_per_test = word_error_rate_per_pair(df["references"], df["model_1"])
 model_2_wer_per_test = word_error_rate_per_pair(df["references"], df["model_2"])
 model_1_ci = word_error_rate_ci(df["references"], df["model_1"], 5000, 0.95)
-model_2_ci = word_error_rate_ci(df["references"], df["model_1"], 5000, 0.95)
+model_2_ci = word_error_rate_ci(df["references"], df["model_2"], 5000, 0.95)
 
 from evaluatio.inference.bootstrap import paired_bootstrap_test
 pvalue = paired_bootstrap_test(
@@ -82,12 +90,5 @@ When reporting results for WERs comparisons, it is recommended to give the follo
 - Paired bootstrap $p$-value 
 - Effect size (paired Cohen's $d$)
 
-## Open questions
-
-### Effect size computations
-
-Since utterance WERs are often heavily skewed and features a long right tail, the standard deviation is often massive due to significant outliers. What the best way of compensating for these remains an open question. Some methods that could be used could be:
-- 99th percentile winsorisation
-- 99th percentile filtering 
-
-Regardless, if these methods are used that should be made explicitly clear when reporting the effect size of the comparison e.g. how many values are effected and the capped value if using winsorisation.
+An example could look like:
+> "Model A achieved a WER of 0.243 ± 0.008 (95% CI), compared to 0.31 ± 0.011 for Model B (paired bootstrap p=0.003, Cohen's d=0.42)."
