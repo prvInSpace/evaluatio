@@ -14,7 +14,7 @@ pub fn poi_edit_distance_py(
     let pred: Vec<EditDistanceItem> = convert_to_edit_distance_vec(&references)?;
     let ref_: Vec<EditDistanceItem> = convert_to_edit_distance_vec(&hypotheses)?;
 
-    let result = pier::poi_edit_distance(&pred, &ref_, &points_of_interest);
+    let result = pier::poi_edit_distance(&pred, &ref_, &points_of_interest)?;
     Ok(result)
 }
 

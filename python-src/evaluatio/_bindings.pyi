@@ -38,7 +38,7 @@ def poi_edit_distance(
     references: Iterable[Any], hypotheses: Iterable[Any], points_of_interest: Iterable[bool]
 ) -> List[int]: ...
 def poi_error_rate(
-    references: Iterable[str], hypotheses: Iterable[str], points_of_interest: Iterable[bool]
+    references: Iterable[Iterable[Any]], hypotheses: Iterable[Iterable[Any]], points_of_interest: Iterable[Iterable[bool]]
 ) -> float: ...
 
 # Optimal alignment
