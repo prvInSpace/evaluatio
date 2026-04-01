@@ -1,6 +1,6 @@
 # Word Error Rate (WER)
 
-Word error rate is the most widely used metric for evaluating automatic speech recognition tasks. WER can best be explained as a length-normalised edit distance. The edit distance is defined as the number of substitutions, insertions, and removals of words (or tokens) required to turn the hypothesis into the reference. The result is normalised by the number of words in the reference. For a more comprehensive discussion about edit distance / error rate metrics, please see [Edit Distance](/metrics/ued.md).
+Word error rate is the most widely used metric for evaluating automatic speech recognition tasks. WER can best be explained as a length-normalised edit distance. The edit distance is defined as the number of substitutions, insertions, and removals of words (or tokens) required to turn the hypothesis into the reference. The result is normalised by the number of words in the reference. For a more comprehensive discussion about edit distance / error rate metrics, please see [Edit Distance](/metrics/uer.md).
 
 It is strongly related to other error rate based metrics such as [Character Error Rate (CER)](/metrics/cer.md).
 
@@ -32,7 +32,7 @@ This matters primarily for downstream analysis with [PIER](/metrics/pier.md), wh
 ## Evaluatio implementation
 [API reference](/api/metrics/wer.md)
 
-The main Evaluatio implementation of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/ued.md), but preprocesses the string beforehand by splitting them on whitespace. While this is common for WER implementations, this assumes that whitespace tokenisation is appropriate for the language and task. Please ensure that it is appropriate for the language and task you are using it for.
+The main Evaluatio implementation of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/uer.md), but preprocesses the string beforehand by splitting them on whitespace. While this is common for WER implementations, this assumes that whitespace tokenisation is appropriate for the language and task. Please ensure that it is appropriate for the language and task you are using it for.
 
 A per-utterance variant is also provided: `word_error_rate_per_pair`.
 
@@ -40,9 +40,9 @@ How to choose which function to use:
 - Use `word_error_rate` for a single corpus-level score.
 - Use `word_error_rate_per_pair` when you need utterance-level scores for downstream analysis (e.g. bootstrap tests, effect sizes).
 - Use `word_error_rate_ci` when you want uncertainty quantification on the corpus-level score directly.
-- Use `word_edit_distance` when need to use the edit distances directly (e.g. for Poisson regression on error counts).
+- Use `word_edit_distance_per_pair` when need to use the edit distances directly (e.g. for Poisson regression on error counts).
 
-If you wish to tokenize the strings using more complex tokenization methods, please pre-tokenize the strings and use the `universal-error-rate` function instead.
+If you wish to tokenize the strings using more complex tokenization methods, please pre-tokenize the strings and use the [`universal_error_rate`](/metrics/uer.md) function instead.
 
 ## Comparing WERs of different models
 

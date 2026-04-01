@@ -12,7 +12,7 @@ $$UER(H, R) = \frac{\text{edit\_distance}(H, R)}{|R|}$$
 
 ## When to use UED/UER directly
 
-In most cases you should use [WER](/metrics/wer.md) or [CER](/metrics/cer.md) directly. Use `universal_edit_distance` or `universal_error_rate` when:
+In most cases you should use [WER](/metrics/wer.md) or [CER](/metrics/cer.md) directly. Use `universal_edit_distance_per_pair` or `universal_error_rate` when:
 
 - You want to use a **custom tokenisation** scheme (e.g. language-specific segmentation, handling of contractions or hyphenated words)
 - You are working with **non-string data** where elements support `__eq__`
@@ -20,7 +20,15 @@ In most cases you should use [WER](/metrics/wer.md) or [CER](/metrics/cer.md) di
 
 In these cases, pre-tokenise your sequences into lists and pass them directly to `universal_error_rate`. For corpus-level evaluation and confidence intervals over custom tokens, the same bootstrap tools used for WER and CER apply.
 
+How to choose which function to use:
+- Use `universal_error_rate` for a single corpus-level score.
+- Use `universal_error_rate_per_pair` when you need utterance-level scores for downstream analysis (e.g. bootstrap tests, effect sizes).
+- Use `universal_error_rate_ci` when you want uncertainty quantification on the corpus-level score directly.
+- Use `universal_edit_distance_per_pair` when need to use the edit distances directly (e.g. for Poisson regression on error counts).
+
 ## Evaluatio implementation
+
+[API reference](/api/metrics/uer.md)
 
 The Rust implementation uses a generic function bounded by `PartialEq`, making it truly type-agnostic at the core level. The PyO3 bindings expose this to Python by implementing `PartialEq` for `PyAny` using the following dispatch:
 

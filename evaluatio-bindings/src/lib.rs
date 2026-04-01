@@ -47,6 +47,8 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
         uer::universal_edit_distance_per_pair_py,
         m
     )?)?;
+    m.add_function(wrap_pyfunction!(uer::universal_error_rate_py, m)?)?;
+    m.add_function(wrap_pyfunction!(uer::universal_error_rate_ci_py, m)?)?;
     m.add_function(wrap_pyfunction!(uer::universal_error_rate_per_pair_py, m)?)?;
 
     // Word error rate

@@ -1,11 +1,13 @@
-use rayon::iter::{IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator};
+use rayon::iter::{
+    IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator,
+};
 
 use crate::{err::ValueError, inference::ci::ConfidenceInterval};
 
 /// Universally applicable error rates and distances
 pub fn universal_error_rate_per_pair<T: PartialEq>(
-    references: &Vec<&Vec<T>>,
-    hypotheses: &Vec<&Vec<T>>,
+    references: &[&[T]],
+    hypotheses: &[&[T]],
 ) -> Result<Vec<f64>, ValueError> {
     if references.len() != hypotheses.len() {
         return Err(ValueError::UnequalLengths);
@@ -18,8 +20,8 @@ pub fn universal_error_rate_per_pair<T: PartialEq>(
 }
 
 pub fn universal_edit_distance_per_pair<T: PartialEq>(
-    references: &Vec<&Vec<T>>,
-    hypotheses: &Vec<&Vec<T>>,
+    references: &[&[T]],
+    hypotheses: &[&[T]],
 ) -> Result<Vec<usize>, ValueError> {
     if references.len() != hypotheses.len() {
         return Err(ValueError::UnequalLengths);
@@ -32,8 +34,8 @@ pub fn universal_edit_distance_per_pair<T: PartialEq>(
 }
 
 pub fn universal_error_rate<T: PartialEq + Send + Sync>(
-    references: &Vec<&Vec<T>>,
-    hypotheses: &Vec<&Vec<T>>,
+    references: &[&[T]],
+    hypotheses: &[&[T]],
 ) -> Result<f64, ValueError> {
     // This is the equivalent to the jiwer and evaluatio package in Python
     // Takes the sum of the edit distances and divides it by total length of
@@ -54,7 +56,7 @@ pub fn universal_error_rate<T: PartialEq + Send + Sync>(
 }
 
 /// An actual implementation of the Levenshtein distance
-pub fn universal_edit_distance<T: PartialEq>(left: &Vec<T>, right: &Vec<T>) -> usize {
+pub fn universal_edit_distance<T: PartialEq>(left: &[T], right: &[T]) -> usize {
     if left.is_empty() {
         return right.len();
     }
@@ -96,6 +98,17 @@ pub fn universal_edit_distance<T: PartialEq>(left: &Vec<T>, right: &Vec<T>) -> u
     }
 
     current_row[len_right - 1]
+}
+
+pub fn universal_error_rate_ci<T: PartialEq>(
+    references: &[&[T]],
+    hypotheses: &[&[T]],
+    iterations: usize,
+    alpha: f64,
+) -> Result<ConfidenceInterval, ValueError> {
+    let edit_distances = universal_edit_distance_per_pair(references, hypotheses)?;
+    let ref_lengths: Vec<usize> = references.iter().map(|a| a.len()).collect();
+    error_rate_ci(&edit_distances, &ref_lengths, iterations, alpha)
 }
 
 pub fn error_rate_ci(
@@ -150,7 +163,6 @@ pub fn error_rate_ci(
     Ok(ConfidenceInterval { mean, lower, upper })
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -171,7 +183,7 @@ mod tests {
     fn error_rate_should_return_correct_value() {
         let reference = vec!["h", "e", "l", "l", "o"];
         let prediction = vec!["h", "e", "l", "o"];
-        let result = universal_error_rate(&vec![&reference], &vec![&prediction]).unwrap();
+        let result = universal_error_rate(&[&reference], &[&prediction]).unwrap();
         assert_eq!(0.2, result);
     }
 
@@ -189,5 +201,63 @@ mod tests {
         let right = vec!["h", "e", "l", "l", "o"];
         let result = universal_edit_distance(&left, &right);
         assert_eq!(5, result);
+    }
+
+    #[test]
+    fn universal_error_rate_ci_should_work() {
+        let reference = vec![0, 0];
+        let prediction = vec![0, 1];
+        let result = universal_error_rate_ci(&[&reference], &[&prediction], 1, 0.05).unwrap();
+        let expected = ConfidenceInterval {
+            mean: 1.0 / 2.0,
+            lower: 1.0 / 2.0,
+            upper: 1.0 / 2.0,
+        };
+        println!("{:?}", result);
+        assert_eq!(result, expected)
+    }
+
+    #[test]
+    fn universal_error_rate_ci_should_not_allow_lists_of_different_lengths() {
+        let reference = vec![0];
+        let prediction = vec![0, 1];
+        let result = universal_error_rate_ci(&[&reference, &reference], &[&prediction], 1, 0.05);
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn universal_error_rate_ci_should_require_at_least_one_iteration() {
+        let reference = vec![0];
+        let prediction = vec![0];
+        let result = universal_error_rate_ci(&[&reference], &[&prediction], 0, 0.05);
+        assert!(result.is_err())
+    }
+
+    #[test]
+    fn universal_error_rate_ci_should_not_allow_wrong_alpha_above_1() {
+        let reference = vec![0];
+        let prediction = vec![0];
+        let result = universal_error_rate_ci(&[&reference], &[&prediction], 1, 1.01);
+        assert!(result.is_err());
+        // Should not fail
+        let _ = universal_error_rate_ci(&[&reference], &[&prediction], 1, 1.0).unwrap();
+    }
+
+    #[test]
+    fn universal_error_rate_ci_should_not_allow_wrong_alpha_below_0() {
+        let reference = vec![0];
+        let prediction = vec![0];
+        let result = universal_error_rate_ci(&[&reference], &[&prediction], 1, -0.01);
+        assert!(result.is_err());
+        // Should not fail
+        let _ = universal_error_rate_ci(&[&reference], &[&prediction], 1, -0.0);
+    }
+
+    #[test]
+    fn universal_error_rate_ci_should_require_at_least_one_pair() {
+        let reference: Vec<&[i32]> = vec![];
+        let prediction: Vec<&[i32]> = vec![];
+        let result = universal_error_rate_ci(&reference, &prediction, 1, 0.05);
+        assert!(result.is_err())
     }
 }

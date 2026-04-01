@@ -4,6 +4,10 @@ fn split_strings_into_char_vec(list: &[&str]) -> Vec<Vec<char>> {
     list.iter().map(|x| x.chars().collect()).collect()
 }
 
+fn convert_list_reference<'a>(list: &'a Vec<Vec<char>>) -> Vec<&'a [char]> {
+    list.iter().map(|v| v.as_slice()).collect()
+}
+
 pub fn character_error_rate_per_pair(
     references: &Vec<&str>,
     hypotheses: &Vec<&str>,
@@ -11,8 +15,8 @@ pub fn character_error_rate_per_pair(
     let references_split = split_strings_into_char_vec(references);
     let hypotheses_split = split_strings_into_char_vec(hypotheses);
     uer::universal_error_rate_per_pair(
-        &references_split.iter().collect(),
-        &hypotheses_split.iter().collect(),
+        &convert_list_reference(&references_split),
+        &convert_list_reference(&hypotheses_split),
     )
 }
 
@@ -23,8 +27,8 @@ pub fn character_edit_distance_per_pair(
     let references_split = split_strings_into_char_vec(references);
     let hypotheses_split = split_strings_into_char_vec(hypotheses);
     uer::universal_edit_distance_per_pair(
-        &references_split.iter().collect(),
-        &hypotheses_split.iter().collect(),
+        &convert_list_reference(&references_split),
+        &convert_list_reference(&hypotheses_split),
     )
 }
 
@@ -35,8 +39,8 @@ pub fn character_error_rate(
     let references_split = split_strings_into_char_vec(references);
     let hypotheses_split = split_strings_into_char_vec(hypotheses);
     uer::universal_error_rate(
-        &references_split.iter().collect(),
-        &hypotheses_split.iter().collect(),
+        &convert_list_reference(&references_split),
+        &convert_list_reference(&hypotheses_split),
     )
 }
 
@@ -112,9 +116,9 @@ mod tests {
         let prediction = vec!["helo world"];
         let result = character_error_rate_ci(&reference, &prediction, 1, 0.05).unwrap();
         let expected = ConfidenceInterval {
-            mean: 1.0/11.0,
-            lower: 1.0/11.0,
-            upper: 1.0/11.0,
+            mean: 1.0 / 11.0,
+            lower: 1.0 / 11.0,
+            upper: 1.0 / 11.0,
         };
         assert_eq!(result, expected)
     }

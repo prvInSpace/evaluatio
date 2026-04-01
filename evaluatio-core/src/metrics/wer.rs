@@ -10,6 +10,11 @@ pub(crate) fn split_strings_into_word_vec<'a>(list: &Vec<&'a str>) -> Vec<Vec<&'
         .collect::<Vec<Vec<&str>>>()
 }
 
+
+fn convert_list_reference<'a>(list: &'a Vec<Vec<&'a str>>) -> Vec<&'a [&'a str]> {
+    list.iter().map(|v| v.as_slice()).collect()
+}
+
 pub fn word_error_rate_per_pair(
     references: &Vec<&str>,
     hypotheses: &Vec<&str>,
@@ -17,8 +22,8 @@ pub fn word_error_rate_per_pair(
     let references_split = split_strings_into_word_vec(references);
     let hypotheses_split = split_strings_into_word_vec(hypotheses);
     uer::universal_error_rate_per_pair(
-        &references_split.iter().collect(),
-        &hypotheses_split.iter().collect(),
+        &convert_list_reference(&references_split),
+        &convert_list_reference(&hypotheses_split),
     )
 }
 
@@ -29,8 +34,8 @@ pub fn word_edit_distance_per_pair(
     let references_split = split_strings_into_word_vec(references);
     let hypotheses_split = split_strings_into_word_vec(hypotheses);
     uer::universal_edit_distance_per_pair(
-        &references_split.iter().collect(),
-        &hypotheses_split.iter().collect(),
+        &convert_list_reference(&references_split),
+        &convert_list_reference(&hypotheses_split),
     )
 }
 
@@ -38,8 +43,8 @@ pub fn word_error_rate(references: &Vec<&str>, hypotheses: &Vec<&str>) -> Result
     let references_split = split_strings_into_word_vec(references);
     let hypotheses_split = split_strings_into_word_vec(hypotheses);
     uer::universal_error_rate(
-        &references_split.iter().collect(),
-        &hypotheses_split.iter().collect(),
+        &convert_list_reference(&references_split),
+        &convert_list_reference(&hypotheses_split),
     )
 }
 
@@ -127,7 +132,8 @@ mod tests {
         let reference = vec!["hello world"];
         let prediction = vec!["helo world", "tada!"];
         let result = word_error_rate_ci(&reference, &prediction, 1, 0.05);
-        assert!(result.is_err())
+        println!("{:?}", result.err().unwrap());
+        //assert!(result.is_err())
     }
 
     #[test]

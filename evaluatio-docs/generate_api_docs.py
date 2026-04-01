@@ -12,7 +12,7 @@ from pathlib import Path
 
 import griffe
 
-# Root of your Python source (the directory that contains the evaluatio package)
+# Root of the Python source
 PACKAGE_DIR = Path("../python-src")
 
 # Where to write the generated .md files
