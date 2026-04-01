@@ -1,26 +1,26 @@
 # Evaluatio Documentation
 
-Welcome to the documentation for the Evaluatio library!
+Welcome to the documentation for the Evaluatio library! Evaluatio is a Python library for statistically rigorous NLP evaluation. It provides metric implementations, bootstrap confidence intervals, and model comparison tools. Evaluatio's documentation is designed as a reference for evaluation methodology, not just API usage.
 
 ## Documentation philosophy
 
 The documentation for Evaluatio should not only serve as the hub for the API of the project, but also as a go-to resource for how to do evaluation, comparisons, and statistical testing properly.
 
-As such, documentation should not only include information on how to use the functions, but also the context for when and how to use it, when not to use it, implementation details to be aware of, examples, common pitfalls, etc.
+The documentation aims to be a reference for evaluation methodology as much as for the library itself. Each metric page covers not just the API, but when to use it, when not to, common pitfalls, and the statistical background. We also document metrics not included in the library where they are relevant to rigorous evaluation.
 
-We also accept documentation of metrics that are not included in the library provided that they serve to further the vision of the project and improving the state of evaluations.
+## Getting started
+- [ASR evaluation guide](tasks/asr.md)
+
+## Metrics
+- [](metrics/cer.md)
+- [](metrics/uer.md)
+- [](metrics/wer.md)
+
+## Statistical inference
+- [](inference/multiple_testing.md)
 
 ## Project and library design
 For the philosophy of the project, please see the [project and design philosophy document](project/design_philosophy.md)
 
 ## Contribution Guide
 We follow the principle that there is always space for more people in the community and that everyone has something to contribute, so if you want to contribute, please feel free to get in touch and read our [contribution guide](project/contributing.md) :)
-
-## Documentation guidelines
-If you want to contribute to the documentation, you are more than welcome to, but please bear the following in mind.
-
-### Use British English
-I felt it had to be said, but please use British English and please uses s'es instead of z's where applicable.
-
-### Use references were available
-Where academic literature is available to verify claims, please use the bibliography to cite it.

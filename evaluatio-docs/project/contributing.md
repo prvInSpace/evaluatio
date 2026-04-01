@@ -16,3 +16,12 @@ If implementing a new feature in the library, be that a metric, inference test, 
 - Benchmarks that show that the implementation is faster or comparable to existing implementations.
 - Show that existing solutions have issues, including, but not limited to poor typing, poor performance, correctness issues, etc.
 - If applicable, please ensure that the feature is properly cited.
+
+## Documentation guidelines
+If you want to contribute to the documentation, you are more than welcome to, but please bear the following in mind.
+
+### Use British English
+I felt it had to be said, but please use British English, and please use s'es instead of z's where applicable.
+
+### Use references were available
+Where academic literature is available to verify claims, please use the bibliography to cite it.
