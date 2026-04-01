@@ -19,6 +19,25 @@ It provides:
 - **Multiple testing correction** (e.g. Holm-Bonferroni)
 - **High performance** (Rust-backed implementations)
 
+## What's included
+
+### Metrics
+| Metric | Description |
+|--------|-------------|
+| WER / CER | Word and character error rate, including edit-distance variants |
+| UED / UER | Type-agnostic edit distance/error rate. Works with any Python object supporting `__eq__` |
+| PIER | Point of interest error rate, for evaluating punctuation, code-switching, capitalisation, etc. individually |
+
+### Statistical inference
+| Tool | Description |
+|------|-------------|
+| Bootstrap CI | Confidence intervals via bootstrap resampling (general, and corpus-correct variants for WER/CER) |
+| Paired bootstrap test | Significance testing for model comparison |
+| Multiple testing correction | Bonferroni and Holm-Bonferroni |
+| Cohen's d | Effect size estimation (independent and paired) |
+
+Current task guides cover **ASR**. The inference tools are general-purpose and apply across tasks.
+
 ## Quick example
 ```python
 import pandas as pd
@@ -73,24 +92,13 @@ pip install evaluatio
 Full documentation (including evaluation guides and statistical background): [https://prvinspace.github.io/evaluatio/](https://prvinspace.github.io/evaluatio/).
 
 ## Status
-The library is under active development and APIs may change.  
-
-Core functionality is stable, particularly for automatic speech recognition (ASR) metrics.  
-While current metrics focus on ASR, the statistical inference tools are designed to be generally applicable across tasks.
+ASR metrics (WER, CER) and the statistical inference tools are stable. APIs elsewhere may change.
 
 ## Contribute to the project
 There is always room for improvements, new metrics, new functionality, etc. If you have any suggestions or requests please feel free to add an issue! The main repository for the project can be found at [codeberg.org/prvinspace/evaluatio](https://codeberg.org/prvinspace/evaluatio).
 
-
-## Components
-- [`evaluatio-core`](./evaluatio-core/README.md): Rust implementations
-- [`evaluatio-bindings`](./evaluatio-bindings/README.md): Python bindings (PyO3)
-- `python-src`: Python API layer
-- [`evaluatio-docs`](./evaluatio-docs/README.md) - Documentation
+## Maintainer
+The project is maintained by Preben Vangberg &lt;[prv21fgt@bangor.ac.uk](mailto:prv21fgt@bangor.ac.uk)&gt;.
 
 ## Etymology
 The name `evaluatio` is a Latin noun and means "evaluation". It also doubles as the English verb "to evaluate" with the Welsh verbal derivational suffix `-io`, so it could also be Welsh slang for "to evaluate".
-
-## Maintainer
-
-The project is maintained by Preben Vangberg &lt;[prv21fgt@bangor.ac.uk](mailto:prv21fgt@bangor.ac.uk)&gt;.
