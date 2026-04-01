@@ -23,14 +23,11 @@ The macro-average (mean of utterance-level WERs) is a different quantity and is 
 ## Limitations of WER
 WER has many limitations that has been highlighted by various authors over the years. Some of these include:
 - WER treats all errors equally regardless of semantic impact
-- WER is sensitive to normalisation choices (casing, punctuation)
+- WER is sensitive to normalisation choices (casing, punctuation). See the [normalisation guide](/tasks/asr-evaluation#normalisation) for recommendations.
 - WER can exceed 100%
 
-WER also depends on alignment choices. Multiple optimal alignments can exist, which can affect:
-- substitution vs insertion/deletion counts
-- downstream analysis
-
-This issue is especially prevalent for [PIER](/metrics/pier.md).
+Evaluatio resolves alignment deterministically, guaranteeing a unique and reproducible result. While multiple optimal alignments may exist, the total edit distance is invariant across them, hence the WER will always be correct.
+This matters primarily for downstream analysis with [PIER](/metrics/pier.md), which is discussed on that page.
 
 ## Evaluatio implementation
 [API reference](/api/metrics/wer.md)
@@ -43,7 +40,7 @@ How to choose which function to use:
 - Use `word_error_rate` for a single corpus-level score.
 - Use `word_error_rate_per_pair` when you need utterance-level scores for downstream analysis (e.g. bootstrap tests, effect sizes).
 - Use `word_error_rate_ci` when you want uncertainty quantification on the corpus-level score directly.
-- Use `word_edit_distance` when need to use the edit distances directly (e.g. for count modelling)
+- Use `word_edit_distance` when need to use the edit distances directly (e.g. for Poisson regression on error counts).
 
 If you wish to tokenize the strings using more complex tokenization methods, please pre-tokenize the strings and use the `universal-error-rate` function instead.
 
