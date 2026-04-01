@@ -39,7 +39,7 @@ def holm_correction(
     ----------
     pvalues : array-like of float
         P-values to correct. Order is preserved in the output arrays.
-        Must all be in the range [0, 1].
+        Must all be in the range (0, 1).
     alpha : float, optional
         Familywise error rate threshold. Default is 0.05.
 
@@ -54,7 +54,7 @@ def holm_correction(
     Raises
     ------
     ValueError
-        If any p-value is outside [0, 1] or if alpha is not in (0, 1).
+        If any p-value is outside (0, 1) or if alpha is not in [0, 1].
 
     See Also
     --------
@@ -86,8 +86,8 @@ def holm_correction(
         raise ValueError("alpha is not within [0, 1]")
 
     pvalues: np.ndarray = np.asarray(pvalues, dtype=float)
-    if len(pvalues[(pvalues <= 0.0) & (pvalues >= 1.0)]) > 0:
-        raise ValueError("p-values contains values outside of [0, 1]")
+    if len(pvalues[(pvalues < 0.0) | (pvalues > 1.0)]) > 0:
+        raise ValueError("p-values contains values outside of (0, 1)")
 
     n = len(pvalues)
 
@@ -132,7 +132,7 @@ def bonferroni_correction(
     ----------
     pvalues : array-like of float
         P-values to correct. Order is preserved in the output arrays.
-        Must all be in the range [0, 1].
+        Must all be in the range (0, 1).
     alpha : float, optional
         Familywise error rate threshold. Default is 0.05.
 
@@ -147,7 +147,7 @@ def bonferroni_correction(
     Raises
     ------
     ValueError
-        If any p-value is outside [0, 1] or if alpha is not in (0, 1).
+        If any p-value is outside (0, 1) or if alpha is not in (0, 1).
 
     See Also
     --------
@@ -172,8 +172,8 @@ def bonferroni_correction(
         raise ValueError("alpha is not within [0, 1]")
     
     pvalues: np.ndarray = np.asarray(pvalues, dtype=float)
-    if len(pvalues[(pvalues <= 0.0) & (pvalues >= 1.0)]) > 0:
-        raise ValueError("p-values contains values outside of [0, 1]")
+    if len(pvalues[(pvalues < 0.0) | (pvalues > 1.0)]) > 0:
+        raise ValueError("p-values contains values outside of (0, 1)")
 
     n = len(pvalues)
 
