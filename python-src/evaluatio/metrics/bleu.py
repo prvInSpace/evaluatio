@@ -76,7 +76,7 @@ def _sentence_stats(
     return _bindings.BLEUSufficientStats(s.counts, s.totals, s.sys_len, s.ref_len)
 
 
-def bootstrap_bleu(
+def bleu_bootstrap_test(
     references: Iterable[Iterable[str]],
     hyp1: Iterable[str],
     hyp2: Iterable[str],
@@ -150,7 +150,7 @@ def bootstrap_bleu(
     >>> references = [["the cat sat on the mat"], ["the dog ate the bone"]]
     >>> hyp1 = ["the cat sat on the mat", "the dog ate the bone"]
     >>> hyp2 = ["a cat sat on a mat", "a dog ate a bone"]
-    >>> p = bootstrap_bleu(references, hyp1, hyp2, iterations=9999)
+    >>> p = bleu_bootstrap_test(references, hyp1, hyp2, iterations=9999)
     >>> print(f"p = {p:.4f}")
     p = 0.0231
     """
@@ -173,4 +173,4 @@ def bootstrap_bleu(
     stats_a = [_sentence_stats(h, r, bleu) for h, r in zip(hyp1, references)]
     stats_b = [_sentence_stats(h, r, bleu) for h, r in zip(hyp2, references)]
 
-    return _bindings.bootstrap_bleu(stats_a, stats_b, iterations)
+    return _bindings.bleu_bootstrap_test(stats_a, stats_b, iterations)

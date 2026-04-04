@@ -107,7 +107,7 @@ class BLEUSufficientStats:
         self, counts: List[int], total: List[int], sys_len: int, ref_len: int
     ) -> None: ...
 
-def bootstrap_bleu(
+def bleu_bootstrap_test(
     stats_a: List[BLEUSufficientStats],
     stats_b: List[BLEUSufficientStats],
     iterations: int,

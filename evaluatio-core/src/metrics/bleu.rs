@@ -63,7 +63,7 @@ pub fn bleu_from_stats(stats: &[BLEUSufficientStats]) -> f64 {
     bp * log_avg.exp() * 100.0
 }
 
-pub fn bootstrap_bleu(
+pub fn bleu_bootstrap_test(
     stats_a: &[BLEUSufficientStats],
     stats_b: &[BLEUSufficientStats],
     iterations: usize,
@@ -160,7 +160,7 @@ mod tests {
         let stats_b: Vec<_> = (0..30)
             .map(|_| make_stats([3, 2, 1, 0], [10, 9, 8, 7], 10, 10))
             .collect();
-        let p = bootstrap_bleu(&stats_a, &stats_b, 4999);
+        let p = bleu_bootstrap_test(&stats_a, &stats_b, 4999);
         assert!(p < 0.01, "Expected p < 0.01, got {}", p);
     }
 
@@ -169,7 +169,7 @@ mod tests {
         let stats: Vec<_> = (0..30)
             .map(|_| make_stats([8, 7, 6, 5], [10, 9, 8, 7], 10, 10))
             .collect();
-        let p = bootstrap_bleu(&stats, &stats, 4999);
+        let p = bleu_bootstrap_test(&stats, &stats, 4999);
         assert!(p > 0.5, "Expected p > 0.5 for identical systems, got {}", p);
     }
 
@@ -181,7 +181,7 @@ mod tests {
         let stats_b: Vec<_> = (0..10)
             .map(|_| make_stats([1, 1, 1, 1], [10, 9, 8, 7], 10, 10))
             .collect();
-        let p = bootstrap_bleu(&stats_a, &stats_b, 999);
+        let p = bleu_bootstrap_test(&stats_a, &stats_b, 999);
         assert!(p > 0.0, "p-value must be > 0");
         assert!(p <= 1.0, "p-value must be <= 1");
     }
@@ -195,7 +195,7 @@ mod tests {
         let stats_b: Vec<_> = (0..50)
             .map(|_| make_stats([0, 0, 0, 0], [10, 9, 8, 7], 10, 10))
             .collect();
-        let p = bootstrap_bleu(&stats_a, &stats_b, 999);
+        let p = bleu_bootstrap_test(&stats_a, &stats_b, 999);
         assert!(
             (p - 0.001).abs() < 1e-10,
             "Expected minimum p of 0.001, got {}",
@@ -213,8 +213,8 @@ mod tests {
         let stats_b: Vec<_> = (0..20)
             .map(|_| make_stats([6, 5, 4, 3], [10, 9, 8, 7], 10, 10))
             .collect();
-        let p_ab = bootstrap_bleu(&stats_a, &stats_b, 9999);
-        let p_ba = bootstrap_bleu(&stats_b, &stats_a, 9999);
+        let p_ab = bleu_bootstrap_test(&stats_a, &stats_b, 9999);
+        let p_ba = bleu_bootstrap_test(&stats_b, &stats_a, 9999);
         assert!(
             (p_ab - p_ba).abs() < 0.05,
             "Expected symmetric p-values, got {} vs {}",
