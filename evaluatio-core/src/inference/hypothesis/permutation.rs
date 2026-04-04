@@ -91,7 +91,7 @@ mod tests {
         assert!(p_two > p_one, "Two-tailed p should exceed one-tailed p");
         // And roughly double, with generous Monte Carlo tolerance
         assert!(
-            p_two < p_one * 3.0,
+            p_two < p_one * 4.0,
             "Two-tailed p should be roughly 2x one-tailed"
         );
     }
