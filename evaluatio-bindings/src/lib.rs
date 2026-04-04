@@ -35,8 +35,9 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(alignment::optimial_alignment_py, m)?)?;
     m.add_class::<evaluatio_core::metrics::alignment::Alignment>()?;
 
-    // Paired Bootstrap Test
-    m.add_function(wrap_pyfunction!(bootstrap::paired_bootstrap_test_py, m)?)?;
+    // Paired inference tests
+    m.add_function(wrap_pyfunction!(hypothesis::paired_bootstrap_test_py, m)?)?;
+    m.add_function(wrap_pyfunction!(hypothesis::paired_permutation_test_py, m)?)?;
 
     // Points of interest error rate
     m.add_function(wrap_pyfunction!(pier::poi_edit_distance_py, m)?)?;
