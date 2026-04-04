@@ -4,7 +4,7 @@
 [![CI](https://github.com/prvInSpace/evaluatio/actions/workflows/CI.yml/badge.svg)](https://github.com/prvInSpace/evaluatio/actions/workflows/CI.yml)
 [![codecov](https://codecov.io/github/prvInSpace/evaluatio/graph/badge.svg?token=63NBX8175Q)](https://codecov.io/github/prvInSpace/evaluatio)
 
-***Statistically rigorous evaluation for NLP with fast, correct metrics and built-in inference tools.***
+***Statistically rigorous evaluation for NLP with fast metrics and built-in inference tools.***
 
 ## Why Evaluatio?
 Most libraries make it easy to compute metrics.
@@ -13,7 +13,7 @@ Few make it easy to **evaluate models correctly**.
 Evaluatio is designed to fix that.
 
 It provides:
-- **Correct metric implementations** (e.g. WER, CER)
+- **Fast metric implementations** (e.g. WER, CER)
 - **Uncertainty estimation** (e.g. bootstrap confidence intervals)
 - **Model comparison tools** (e.g. paired bootstrap tests)
 - **Multiple testing correction** (e.g. Holm-Bonferroni)
@@ -32,11 +32,11 @@ It provides:
 | Tool | Description |
 |------|-------------|
 | Bootstrap CI | Confidence intervals via bootstrap resampling (general, and corpus-correct variants for WER/CER) |
-| Paired bootstrap test | Significance testing for model comparison |
+| Significance testing for model comparison |  Including paired bootstrap test, paired permutation test, and BLEU specific paired bootstrap test for MT. |
 | Multiple testing correction | Bonferroni and Holm-Bonferroni |
 | Cohen's d | Effect size estimation (independent and paired) |
 
-Current task guides cover **ASR**. The inference tools are general-purpose and apply across tasks.
+Current task guides cover **ASR**. The inference tools are general-purpose and apply across tasks (especially for **machine translation**).
 
 ## Quick example
 ```python
