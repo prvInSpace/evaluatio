@@ -10,6 +10,10 @@ use metrics::*;
 /// A Python module implemented in Rust.
 #[pymodule]
 fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
+    // Bleu
+    m.add_function(wrap_pyfunction!(metrics::bleu::bootstrap_bleu_py, m)?)?;
+    m.add_class::<evaluatio_core::metrics::bleu::BLEUSufficientStats>()?;
+
     // Character error rate
     m.add_function(wrap_pyfunction!(
         cer::character_edit_distance_per_pair_py,

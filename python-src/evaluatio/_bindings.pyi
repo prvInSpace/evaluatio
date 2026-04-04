@@ -95,3 +95,20 @@ def paired_permutation_test(
 def bootstrap_confidence_interval(
     x: Iterable[float], iterations: int, alpha: float
 ) -> ConfidenceInterval: ...
+
+# BLEU
+class BLEUSufficientStats:
+    counts: list[int]
+    totals: list[int]
+    sys_len: int
+    ref_len: int
+
+    def __init__(
+        self, counts: List[int], total: List[int], sys_len: int, ref_len: int
+    ) -> None: ...
+
+def bootstrap_bleu(
+    stats_a: List[BLEUSufficientStats],
+    stats_b: List[BLEUSufficientStats],
+    iterations: int,
+) -> float: ...

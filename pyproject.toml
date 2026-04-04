@@ -64,3 +64,6 @@ pythonpath = ["python-src"]
 
 [dependency-groups]
 testing = ["coverage>=7.6.1", "pytest>=8.3.5"]
+translation = [
+    "sacrebleu>=2.5.1",
+]
