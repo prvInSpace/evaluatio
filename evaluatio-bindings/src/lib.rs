@@ -12,6 +12,7 @@ use metrics::*;
 fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
     // Bleu
     m.add_function(wrap_pyfunction!(metrics::bleu::bleu_bootstrap_test_py, m)?)?;
+    m.add_function(wrap_pyfunction!(metrics::bleu::bleu_ci_py, m)?)?;
     m.add_class::<evaluatio_core::metrics::bleu::BLEUSufficientStats>()?;
 
     // Character error rate

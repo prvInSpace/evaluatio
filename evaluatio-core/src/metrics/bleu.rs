@@ -1,5 +1,7 @@
 use rayon::prelude::*;
 
+use crate::{err::ValueError, inference::ci::ConfidenceInterval, stats};
+
 // Default object if Python is not used
 #[cfg(not(feature = "python"))]
 #[derive(Copy, Clone)]
@@ -43,12 +45,15 @@ impl BLEUSufficientStats {
     }
 }
 
-pub fn bleu_from_stats(stats: &[BLEUSufficientStats]) -> f64 {
+fn bleu_from_stats(stats: &[BLEUSufficientStats]) -> f64 {
     let counts: [u32; 4] = std::array::from_fn(|i| stats.iter().map(|s| s.counts[i]).sum());
     let totals: [u32; 4] = std::array::from_fn(|i| stats.iter().map(|s| s.totals[i]).sum());
     let sys_len: u32 = stats.iter().map(|s| s.sys_len).sum();
     let ref_len: u32 = stats.iter().map(|s| s.ref_len).sum();
+    bleu_from_aggregated(counts, totals, sys_len, ref_len)
+}
 
+fn bleu_from_aggregated(counts: [u32; 4], totals: [u32; 4], sys_len: u32, ref_len: u32) -> f64 {
     let bp = if sys_len >= ref_len {
         1.0
     } else {
@@ -78,20 +83,71 @@ pub fn bleu_bootstrap_test(
 
     let extreme_count: usize = (0..iterations)
         .into_par_iter()
-        .map_init(
-            || fastrand::Rng::new(),
-            |rng, _| {
-                let indices: Vec<usize> = (0..stats_a.len())
-                    .map(|_| rng.usize(0..stats_a.len()))
-                    .collect();
-                let sample_a: Vec<_> = indices.iter().map(|&i| better.0[i]).collect();
-                let sample_b: Vec<_> = indices.iter().map(|&i| better.1[i]).collect();
-                (bleu_from_stats(&sample_a) <= bleu_from_stats(&sample_b)) as usize
-            },
-        )
+        .map_init(fastrand::Rng::new, |rng, _| {
+            let indices: Vec<usize> = (0..stats_a.len())
+                .map(|_| rng.usize(0..stats_a.len()))
+                .collect();
+            let sample_a: Vec<_> = indices.iter().map(|&i| better.0[i]).collect();
+            let sample_b: Vec<_> = indices.iter().map(|&i| better.1[i]).collect();
+            (bleu_from_stats(&sample_a) <= bleu_from_stats(&sample_b)) as usize
+        })
         .sum();
 
     (extreme_count + 1) as f64 / (iterations + 1) as f64
+}
+
+pub fn bleu_ci(
+    stats_a: &[BLEUSufficientStats],
+    iterations: usize,
+    alpha: f64,
+) -> Result<ConfidenceInterval, ValueError> {
+    if !(0.0 < alpha && alpha < 1.0) {
+        return Err(ValueError::InvalidAlphaValue);
+    }
+
+    if iterations < 1 {
+        return Err(ValueError::AtLeastOneIterationRequired);
+    }
+
+    if stats_a.is_empty() {
+        return Err(ValueError::NotEnoughValues);
+    }
+
+    let n = stats_a.len();
+    let mut bootstrapped: Vec<f64> = (0..iterations)
+        .into_par_iter()
+        .map_init(fastrand::Rng::new, |rng, _| {
+            let mut counts = [0u32; 4];
+            let mut totals = [0u32; 4];
+            let mut sys_len = 0u32;
+            let mut ref_len = 0u32;
+
+            for _ in 0..n {
+                let i = rng.usize(0..n);
+                let s = stats_a[i];
+
+                for j in 0..4 {
+                    counts[j] += s.counts[j];
+                    totals[j] += s.totals[j];
+                }
+                sys_len += s.sys_len;
+                ref_len += s.ref_len;
+            }
+
+            bleu_from_aggregated(counts, totals, sys_len, ref_len)
+        })
+        .collect();
+
+    bootstrapped.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+
+    let lower_idx = ((alpha / 2.0) * (iterations - 1) as f64).floor() as usize;
+    let upper_idx = ((1.0 - alpha / 2.0) * (iterations - 1) as f64).ceil() as usize;
+
+    let mean = stats::mean(&bootstrapped)?;
+    let lower = bootstrapped[lower_idx.min(iterations - 1)];
+    let upper = bootstrapped[upper_idx.min(iterations - 1)];
+
+    Ok(ConfidenceInterval { mean, lower, upper })
 }
 
 #[cfg(test)]
@@ -110,6 +166,50 @@ mod tests {
             sys_len,
             ref_len,
         }
+    }
+
+    fn generate_random_data() -> Vec<BLEUSufficientStats> {
+        let mut rng = fastrand::Rng::new();
+        (0..50)
+            .map(|_| {
+                make_stats(
+                    [rng.u32(0..8), rng.u32(0..7), rng.u32(0..6), rng.u32(0..5)],
+                    [10, 9, 8, 7],
+                    10,
+                    10,
+                )
+            })
+            .collect()
+    }
+
+    #[test]
+    fn test_bleu_ci_basic() {
+        let stats = generate_random_data();
+        let ci = bleu_ci(&stats, 1000, 0.05).unwrap();
+        println!("{:?}", ci);
+        assert!(ci.lower <= ci.mean);
+        assert!(ci.mean <= ci.upper);
+        assert!(ci.lower >= 0.0);
+        assert!(ci.upper <= 100.0);
+    }
+
+    #[test]
+    fn test_bleu_ci_invalid_inputs() {
+        let stats = vec![make_stats([1, 1, 1, 1], [1, 1, 1, 1], 1, 1)];
+
+        assert!(bleu_ci(&[], 100, 0.05).is_err());
+        assert!(bleu_ci(&stats, 0, 0.05).is_err());
+        assert!(bleu_ci(&stats, 100, 0.0).is_err());
+        assert!(bleu_ci(&stats, 100, 1.0).is_err());
+    }
+
+    #[test]
+    fn test_bleu_ci_alpha_effect() {
+        let stats = generate_random_data();
+        let ci_95 = bleu_ci(&stats, 1000, 0.05).unwrap();
+        let ci_90 = bleu_ci(&stats, 1000, 0.10).unwrap();
+
+        assert!((ci_95.upper - ci_95.lower) > (ci_90.upper - ci_90.lower));
     }
 
     #[test]

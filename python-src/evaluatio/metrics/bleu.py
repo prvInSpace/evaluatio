@@ -1,5 +1,10 @@
 """
-Bootstrap significance testing for BLEU score comparison.
+BLEU metrics
+
+Evaluatio does not implement BLEU natively, but instead relies on `sacrebleu`<sup>3</sup>.
+Evaluation complements `sacrebleu` by providing statistical comparison tools,
+which are not included in `sacrebleu` itself. This module contains those
+functions.
 
 This module provides a paired bootstrap significance test for comparing two
 machine translation systems using the BLEU metric. It follows the method
@@ -8,15 +13,12 @@ each bootstrap resample rather than aggregating per-sentence scores directly.
 
 Sufficient statistics (clipped n-gram counts, total n-gram counts, and
 lengths required for the brevity penalty) are precomputed per sentence using
-sacrebleu, ensuring that tokenisation and scoring are fully compatible with
-the sacrebleu reference implementation. The resampling itself is performed
+`sacrebleu`, ensuring that tokenisation and scoring are fully compatible with
+the `sacrebleu` reference implementation. The resampling itself is performed
 in Rust for efficiency.
 
-The resampling unit is the sentence. Each bootstrap iteration draws a
-pseudo-test-set of the same size as the original by sampling sentences with
-replacement, recomputes corpus-level BLEU for both systems on that sample,
-and records which system performs better. The p-value is the proportion of
-iterations in which the worse system appears to win.
+The confidence interval function works the same way as the paired bootstrap
+and the required statistics are precomputed using `sacrebleu`.
 
 Notes
 -----
@@ -36,14 +38,17 @@ per-sentence scores.
 
 References
 ----------
-.. [1] Koehn, P. (2004). Statistical significance tests for machine
+.. [1] Papineni, K., et al. (2002). BLEU: a method for automatic evaluation of
+        machine translation. ACL.
+.. [2] Koehn, P. (2004). Statistical significance tests for machine
        translation evaluation. *Proceedings of EMNLP 2004*, 388-395.
-.. [2] Post, M. (2018). A call for clarity in reporting BLEU scores.
+.. [3] Post, M. (2018). A call for clarity in reporting BLEU scores.
        *Proceedings of the Third Conference on Machine Translation*, 186-191.
 """
 
 from typing import Iterable, List
 
+from evaluatio.inference.ci import ConfidenceInterval, _convert_confidence_interval
 import sacrebleu
 from evaluatio import _bindings
 
@@ -141,10 +146,6 @@ def bleu_bootstrap_test(
     comparable to sacrebleu corpus-level scores produced with the same
     tokeniser and ``effective_order`` setting.
 
-    This test does not account for variance across training runs. Two models
-    differing only in random seed may yield a significant result. See
-    Müller & Birch (2020) for discussion.
-
     Examples
     --------
     >>> references = [["the cat sat on the mat"], ["the dog ate the bone"]]
@@ -174,3 +175,68 @@ def bleu_bootstrap_test(
     stats_b = [_sentence_stats(h, r, bleu) for h, r in zip(hyp2, references)]
 
     return _bindings.bleu_bootstrap_test(stats_a, stats_b, iterations)
+
+
+def bleu_ci(
+    references: Iterable[Iterable[str]],
+    hypotheses: Iterable[str],
+    iterations: int,
+    alpha: float,
+    effective_order: bool = True,
+) -> ConfidenceInterval:
+    """
+    Estimate a confidence interval for corpus-level BLEU using bootstrap resampling.
+
+    This function computes a percentile bootstrap confidence interval for the BLEU
+    score by repeatedly resampling sentence-level sufficient statistics with
+    replacement and recomputing corpus-level BLEU for each resample.
+
+    The returned interval reflects uncertainty due to sampling variation in the
+    evaluation dataset.
+
+    Parameters
+    ----------
+    references : Iterable[Iterable[str]]
+        Reference translations. Each element corresponds to a sample and should
+        be an iterable of reference strings (to support multiple references per
+        hypothesis).
+    hypotheses : Iterable[str]
+        Model predictions (hypotheses). Must be aligned with ``references`` such
+        that each hypothesis corresponds to the same-indexed reference set.
+    iterations : int
+        Number of bootstrap resampling iterations. Larger values yield more stable
+        estimates but increase computation time.
+    alpha : float
+        Significance level for the confidence interval. For example, ``alpha=0.05``
+        corresponds to a 95% confidence interval.
+    effective_order : bool, optional
+        Whether to enable effective n-gram order when computing BLEU. This is
+        passed directly to ``sacrebleu.BLEU`` and is recommended for shorter
+        sequences. Default is ``True``.
+
+    Returns
+    -------
+    ConfidenceInterval
+        Estimated confidence interval for the corpus level word error rate.
+
+    Notes
+    -----
+    - BLEU is not well-defined at the sentence level; this method operates on
+      corpus-level BLEU computed from resampled sentence-level sufficient
+      statistics.
+    - The interval is computed using the percentile bootstrap method.
+    - The resampling procedure preserves alignment between hypotheses and their
+      corresponding references.
+    - Small differences in BLEU may not be practically meaningful, even if
+      confidence intervals do not overlap.
+
+    References
+    ----------
+    .. [1] Papineni, K., et al. (2002). BLEU: a method for automatic evaluation of
+           machine translation. ACL.
+    """
+
+    bleu = sacrebleu.BLEU(effective_order=effective_order)
+
+    stats = [_sentence_stats(h, list(r), bleu) for h, r in zip(hypotheses, references)]
+    return _convert_confidence_interval(_bindings.bleu_ci(stats, iterations, alpha))

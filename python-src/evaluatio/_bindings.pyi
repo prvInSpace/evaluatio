@@ -112,3 +112,6 @@ def bleu_bootstrap_test(
     stats_b: List[BLEUSufficientStats],
     iterations: int,
 ) -> float: ...
+def bleu_ci(
+    stats: List[BLEUSufficientStats], iterations: int, alpha: float
+) -> ConfidenceInterval: ...
