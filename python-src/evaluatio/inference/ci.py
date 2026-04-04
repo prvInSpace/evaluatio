@@ -71,7 +71,7 @@ def bootstrap_confidence_interval(
     >>> from evaluatio.inference.ci import bootstrap_confidence_interval
     >>> values = [0.4, 0.7, 0.5, 0.9]
     >>> result = bootstrap_confidence_interval(values, 1000, 0.05)
-    >>> result.rejected
+    >>> result
     ConfidenceInterval(mean=0.625, lower=0.45, upper=0.8)
     """
     return _convert_confidence_interval(

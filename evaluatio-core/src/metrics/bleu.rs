@@ -1,6 +1,6 @@
 use rayon::prelude::*;
 
-use crate::{err::ValueError, inference::ci::ConfidenceInterval, stats};
+use crate::{err::ValueError, inference::ci::ConfidenceInterval};
 
 // Default object if Python is not used
 #[cfg(not(feature = "python"))]
@@ -97,7 +97,7 @@ pub fn bleu_bootstrap_test(
 }
 
 pub fn bleu_ci(
-    stats_a: &[BLEUSufficientStats],
+    stats: &[BLEUSufficientStats],
     iterations: usize,
     alpha: f64,
 ) -> Result<ConfidenceInterval, ValueError> {
@@ -109,11 +109,11 @@ pub fn bleu_ci(
         return Err(ValueError::AtLeastOneIterationRequired);
     }
 
-    if stats_a.is_empty() {
+    if stats.is_empty() {
         return Err(ValueError::NotEnoughValues);
     }
 
-    let n = stats_a.len();
+    let n = stats.len();
     let mut bootstrapped: Vec<f64> = (0..iterations)
         .into_par_iter()
         .map_init(fastrand::Rng::new, |rng, _| {
@@ -124,7 +124,7 @@ pub fn bleu_ci(
 
             for _ in 0..n {
                 let i = rng.usize(0..n);
-                let s = stats_a[i];
+                let s = stats[i];
 
                 for j in 0..4 {
                     counts[j] += s.counts[j];
@@ -143,7 +143,7 @@ pub fn bleu_ci(
     let lower_idx = ((alpha / 2.0) * (iterations - 1) as f64).floor() as usize;
     let upper_idx = ((1.0 - alpha / 2.0) * (iterations - 1) as f64).ceil() as usize;
 
-    let mean = stats::mean(&bootstrapped)?;
+    let mean = bleu_from_stats(stats);
     let lower = bootstrapped[lower_idx.min(iterations - 1)];
     let upper = bootstrapped[upper_idx.min(iterations - 1)];
 

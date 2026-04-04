@@ -117,7 +117,7 @@ def word_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -> flo
 
 
 def word_error_rate_ci(
-    references: Iterable[str], hypotheses: Iterable[str], interations: int, alpha: float
+    references: Iterable[str], hypotheses: Iterable[str], iterations: int, alpha: float
 ) -> ConfidenceInterval:
     """
     Estimate a confidence interval for the word error rate via bootstrapping.
@@ -129,7 +129,7 @@ def word_error_rate_ci(
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
         ``references``.
-    interations : int
+    iterations : int
         Number of bootstrap iterations.
     alpha : float
         Significance level for the confidence interval.
@@ -147,5 +147,5 @@ def word_error_rate_ci(
       WER can be ``inf``.
     """
     return _convert_confidence_interval(
-        _bindings.word_error_rate_ci(references, hypotheses, interations, alpha)
+        _bindings.word_error_rate_ci(references, hypotheses, iterations, alpha)
     )

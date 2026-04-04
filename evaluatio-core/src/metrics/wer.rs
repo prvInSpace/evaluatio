@@ -132,8 +132,7 @@ mod tests {
         let reference = vec!["hello world"];
         let prediction = vec!["helo world", "tada!"];
         let result = word_error_rate_ci(&reference, &prediction, 1, 0.05);
-        println!("{:?}", result.err().unwrap());
-        //assert!(result.is_err())
+        assert!(result.is_err())
     }
 
     #[test]
