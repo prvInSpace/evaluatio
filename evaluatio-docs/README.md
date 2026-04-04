@@ -12,6 +12,7 @@ The documentation aims to be a reference for evaluation methodology as much as f
 - [ASR evaluation guide](/tasks/asr_evaluation.md)
 
 ## Metrics
+- [](/metrics/bleu.md)
 - [](/metrics/cer.md)
 - [](/metrics/uer.md)
 - [](/metrics/wer.md)

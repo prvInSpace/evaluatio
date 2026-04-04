@@ -2,7 +2,7 @@
 
 Edit distance measures the minimum number of substitutions, insertions, and deletions required to transform one sequence into another. It is also known as Levenshtein distance, after Vladimir Levenshtein who described the algorithm in 1966 [@levenshteinBinaryCodesCapable1966] in the context of correcting binary codes.
 
-While edit distance is most commonly applied to characters or words in NLP, the algorithm itself only requires elements to be comparable — it makes no assumptions about what those elements are. In Python terms, any object implementing `__eq__` is sufficient. This makes it applicable to any tokenisation scheme, including custom or language-specific ones.
+While edit distance is most commonly applied to characters or words in NLP, the algorithm itself only requires elements to be comparable, it makes no assumptions about what those elements are. In Python terms, any object implementing `__eq__` is sufficient. This makes it applicable to any tokenisation scheme, including custom or language-specific ones.
 
 The normalised variant, universal error rate (UER), divides the edit distance by the length of the reference sequence:
 
@@ -28,7 +28,7 @@ How to choose which function to use:
 
 ## Evaluatio implementation
 
-[API reference](/api/metrics/uer.md)
+[API reference](/api/metrics/uer)
 
 The Rust implementation uses a generic function bounded by `PartialEq`, making it truly type-agnostic at the core level. The PyO3 bindings expose this to Python by implementing `PartialEq` for `PyAny` using the following dispatch:
 

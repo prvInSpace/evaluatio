@@ -30,7 +30,7 @@ Evaluatio resolves alignment deterministically, guaranteeing a unique and reprod
 This matters primarily for downstream analysis with [PIER](/metrics/pier.md), which is discussed on that page.
 
 ## Evaluatio implementation
-[API reference](/api/metrics/wer.md)
+[API reference](/api/metrics/wer)
 
 The main Evaluatio implementation of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/uer.md), but preprocesses the string beforehand by splitting them on whitespace. While this is common for WER implementations, this assumes that whitespace tokenisation is appropriate for the language and task. Please ensure that it is appropriate for the language and task you are using it for.
 
