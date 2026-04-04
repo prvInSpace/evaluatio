@@ -1,3 +1,5 @@
+from typing import List
+
 from evaluatio.metrics import uer
 
 
@@ -15,7 +17,7 @@ def test_uer_custom_object():
     class Option:
         """Allow different options"""
 
-        def __init__(self, values: list[str]) -> None:
+        def __init__(self, values: List[str]) -> None:
             self.values = values
 
         def __eq__(self, value: object) -> bool:

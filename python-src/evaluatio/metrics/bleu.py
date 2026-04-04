@@ -42,7 +42,7 @@ References
        *Proceedings of the Third Conference on Machine Translation*, 186-191.
 """
 
-from typing import Iterable
+from typing import Iterable, List
 
 import sacrebleu
 from evaluatio import _bindings
@@ -50,7 +50,7 @@ from evaluatio import _bindings
 
 def _sentence_stats(
     hyp: str,
-    refs: list[str],
+    refs: List[str],
     bleu: sacrebleu.BLEU,
 ) -> _bindings.BLEUSufficientStats:
     """
