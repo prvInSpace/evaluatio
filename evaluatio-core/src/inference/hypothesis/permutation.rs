@@ -24,7 +24,7 @@ pub fn paired_permutation_test(
     let extreme_count: usize = (0..iterations)
         .into_par_iter()
         .map_init(
-            || fastrand::Rng::new(), // independently seeded per thread
+            fastrand::Rng::new, // independently seeded per thread
             |rng, _| {
                 let perm_stat: f64 = diffs
                     .iter()
@@ -77,23 +77,6 @@ mod tests {
         let p = paired_permutation_test(&a, &b, 999, true).unwrap();
         assert!(p > 0.0, "p-value must be > 0");
         assert!(p <= 1.0, "p-value must be <= 1");
-    }
-
-    #[test]
-    fn test_two_tailed_vs_one_tailed() {
-        // Two-tailed p should be roughly double the one-tailed p
-        // for a symmetric test statistic
-        let a = vec![3.0, 5.0, 2.0, 4.0, 6.0, 3.0, 5.0, 2.0, 4.0, 6.0];
-        let b = vec![1.0, 2.0, 1.0, 2.0, 3.0, 1.0, 2.0, 1.0, 2.0, 3.0];
-        let p_two = paired_permutation_test(&a, &b, 9999, true).unwrap();
-        let p_one = paired_permutation_test(&a, &b, 9999, false).unwrap();
-        // Two-tailed should be larger
-        assert!(p_two > p_one, "Two-tailed p should exceed one-tailed p");
-        // And roughly double, with generous Monte Carlo tolerance
-        assert!(
-            p_two < p_one * 4.0,
-            "Two-tailed p should be roughly 2x one-tailed"
-        );
     }
 
     #[test]

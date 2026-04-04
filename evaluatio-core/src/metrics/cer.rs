@@ -4,7 +4,7 @@ fn split_strings_into_char_vec(list: &[&str]) -> Vec<Vec<char>> {
     list.iter().map(|x| x.chars().collect()).collect()
 }
 
-fn convert_list_reference<'a>(list: &'a Vec<Vec<char>>) -> Vec<&'a [char]> {
+fn convert_list_reference(list: &[Vec<char>]) -> Vec<&[char]> {
     list.iter().map(|v| v.as_slice()).collect()
 }
 
