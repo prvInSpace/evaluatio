@@ -5,7 +5,7 @@ of the Python package. No actual documentation for each file is needed since tha
 at the wrapper level in the Python package itself.
 """
 
-from typing import Any, Iterable, List
+from typing import Iterable, List
 
 class ConfidenceInterval:
     mean: float
@@ -14,17 +14,17 @@ class ConfidenceInterval:
 
 # Univeral functions
 def universal_edit_distance_per_pair(
-    references: Iterable[Iterable[Any]], hypotheses: Iterable[Iterable[Any]]
+    references: Iterable[Iterable[object]], hypotheses: Iterable[Iterable[object]]
 ) -> List[int]: ...
 def universal_error_rate_per_pair(
-    references: Iterable[Iterable[Any]], hypotheses: Iterable[Iterable[Any]]
+    references: Iterable[Iterable[object]], hypotheses: Iterable[Iterable[object]]
 ) -> List[float]: ...
 def universal_error_rate(
-    references: Iterable[Iterable[Any]], hypotheses: Iterable[Iterable[Any]]
+    references: Iterable[Iterable[object]], hypotheses: Iterable[Iterable[object]]
 ) -> float: ...
 def universal_error_rate_ci(
-    references: Iterable[Iterable[Any]],
-    hypotheses: Iterable[Iterable[Any]],
+    references: Iterable[Iterable[object]],
+    hypotheses: Iterable[Iterable[object]],
     iterations: int,
     alpha: float,
 ) -> ConfidenceInterval: ...
@@ -57,13 +57,13 @@ def character_error_rate_ci(
 
 # Point of interest stuff
 def poi_edit_distance(
-    references: Iterable[Any],
-    hypotheses: Iterable[Any],
+    references: Iterable[object],
+    hypotheses: Iterable[object],
     points_of_interest: Iterable[bool],
 ) -> List[int]: ...
 def poi_error_rate(
-    references: Iterable[Iterable[Any]],
-    hypotheses: Iterable[Iterable[Any]],
+    references: Iterable[Iterable[object]],
+    hypotheses: Iterable[Iterable[object]],
     points_of_interest: Iterable[Iterable[bool]],
 ) -> float: ...
 
@@ -75,7 +75,7 @@ class Alignment:
     end: int
 
 def optimal_alignment(
-    references: Iterable[Any], hypotheses: Iterable[Any]
+    references: Iterable[object], hypotheses: Iterable[object]
 ) -> List[Alignment]:
     """Returns a list of alignments for indices in one list to the indicies in the other.
     Note that this is only one of the optimal solutions as there can be multiple optimal alignments

@@ -62,6 +62,10 @@ interpreter = "python3.8+"
 testpaths = ["python-tests"]
 pythonpath = ["python-src"]
 
+[tool.mypy]
+files = ["python-src"]
+strict = true
+
 [dependency-groups]
 testing = ["coverage>=7.6.1", "pytest>=8.3.5"]
 translation = [

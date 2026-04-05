@@ -1,7 +1,8 @@
+from dataclasses import dataclass
 from typing import Iterable
 
 import numpy as np
-from dataclasses import dataclass
+from numpy.typing import NDArray
 
 
 @dataclass
@@ -23,14 +24,14 @@ class MultipleTestingResult:
         The familywise error rate used.
     """
 
-    rejected: np.ndarray
-    adjusted_pvalues: np.ndarray
+    rejected: NDArray[np.bool_]
+    adjusted_pvalues: NDArray[np.float64]
     method: str
     alpha: float
 
 
 def holm_correction(
-    pvalues: Iterable[float], alpha: float = 0.05  # type: ignore
+    pvalues: Iterable[float], alpha: float = 0.05
 ) -> MultipleTestingResult:
     """
     Apply Holm-Bonferroni correction to a set of p-values.
@@ -85,20 +86,21 @@ def holm_correction(
     if not (0 < alpha < 1):
         raise ValueError("alpha is not within [0, 1]")
 
-    pvalues: np.ndarray = np.asarray(pvalues, dtype=float)
-    if len(pvalues[(pvalues < 0.0) | (pvalues > 1.0)]) > 0:
+    np_pvalues: NDArray[np.float64] = np.asarray(pvalues, dtype=np.float64)
+    if len(np_pvalues[(np_pvalues < 0.0) | (np_pvalues > 1.0)]) > 0:
         raise ValueError("p-values contains values outside of (0, 1)")
 
-    n = len(pvalues)
+    n = len(np_pvalues)
 
     # Sort by p-value, keeping track of original indices
-    sort_idx = np.argsort(pvalues)
-    sorted_pvals = pvalues[sort_idx]
+    sort_idx = np.argsort(np_pvalues)
+    sorted_pvals = np_pvalues[sort_idx]
 
     # Holm adjusted p-values
     # adjusted_p[i] = max(p[0]*(n), p[1]*(n-1), ..., p[i]*(n-i))
     # cumulatively take the max to ensure monotonicity
-    adjusted = np.maximum.accumulate(sorted_pvals * np.arange(n, 0, -1))
+    factors = np.linspace(n, 1, n, dtype=np.int64)
+    adjusted = np.maximum.accumulate(sorted_pvals * factors)
     adjusted = np.minimum(adjusted, 1.0)  # cap at 1
 
     # Reject if adjusted p-value <= alpha
@@ -119,7 +121,7 @@ def holm_correction(
 
 
 def bonferroni_correction(
-    pvalues: Iterable[float], alpha: float = 0.05  # type: ignore
+    pvalues: Iterable[float], alpha: float = 0.05
 ) -> MultipleTestingResult:
     """
     Apply Bonferroni correction to a set of p-values.
@@ -127,7 +129,7 @@ def bonferroni_correction(
     Included for completeness. Holm correction is preferred in almost
     all cases as it is uniformly more powerful while providing the
     same familywise error rate control.
-    
+
     Parameters
     ----------
     pvalues : array-like of float
@@ -170,17 +172,17 @@ def bonferroni_correction(
     """
     if not (0 < alpha < 1):
         raise ValueError("alpha is not within [0, 1]")
-    
-    pvalues: np.ndarray = np.asarray(pvalues, dtype=float)
-    if len(pvalues[(pvalues < 0.0) | (pvalues > 1.0)]) > 0:
+
+    np_pvalues: NDArray[np.float64] = np.asarray(pvalues, dtype=float)
+    if len(np_pvalues[(np_pvalues < 0.0) | (np_pvalues > 1.0)]) > 0:
         raise ValueError("p-values contains values outside of (0, 1)")
 
-    n = len(pvalues)
+    n = len(np_pvalues)
 
     # Whether the p-values are multipled by n or the alpha is divided
     # by n makes little difference. In this case, we decide to multiply
     # since it makes the p-values comparable with the original alpha
-    adjusted = np.minimum(pvalues * n, 1.0)
+    adjusted = np.minimum(np_pvalues * n, 1.0)
 
     return MultipleTestingResult(
         rejected=adjusted <= alpha,

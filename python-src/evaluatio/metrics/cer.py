@@ -37,7 +37,7 @@ def character_error_rate_per_pair(
     -------
     List[float]
         Character error rate for each pair of reference and hypothesis.
-    
+
     Raises
     ------
     ValueError

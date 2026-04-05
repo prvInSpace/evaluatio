@@ -96,9 +96,9 @@ def test_identical_systems_not_significant(identical_references_and_hypotheses):
 def test_clearly_different_systems_significant(clearly_different_hypotheses):
     references, hyp1, hyp2 = clearly_different_hypotheses
     result = bleu_bootstrap_test(references, hyp1, hyp2, iterations=4999)
-    assert (
-        result < 0.05
-    ), f"Expected p < 0.05 for clearly different systems, got {result}"
+    assert result < 0.05, (
+        f"Expected p < 0.05 for clearly different systems, got {result}"
+    )
 
 
 def test_symmetry(clearly_different_hypotheses):

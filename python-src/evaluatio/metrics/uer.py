@@ -17,23 +17,23 @@ Notes
 - These functions are thin wrappers around optimized native implementations.
 """
 
-from typing import Any, Iterable, List
+from typing import Iterable, List
 
 from evaluatio import _bindings
 from evaluatio.inference.ci import ConfidenceInterval, _convert_confidence_interval
 
 
 def universal_error_rate_per_pair(
-    references: Iterable[Iterable[Any]], hypotheses: Iterable[Iterable[Any]]
+    references: Iterable[Iterable[object]], hypotheses: Iterable[Iterable[object]]
 ) -> List[float]:
     """
     Compute universal error rate (UER) for each reference-hypothesis pair.
 
     Parameters
     ----------
-    references : Iterable[Iterable[Any]]
+    references : Iterable[Iterable[object]]
         Iterable of reference token sequences.
-    hypotheses : Iterable[Iterable[Any]]
+    hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
         ``references``.
 
@@ -62,16 +62,16 @@ def universal_error_rate_per_pair(
 
 
 def universal_edit_distance_per_pair(
-    references: Iterable[Iterable[Any]], hypotheses: Iterable[Iterable[Any]]
+    references: Iterable[Iterable[object]], hypotheses: Iterable[Iterable[object]]
 ) -> List[int]:
     """
     Compute universal edit distance for each reference-hypothesis pair.
 
     Parameters
     ----------
-    references : Iterable[Iterable[Any]]
+    references : Iterable[Iterable[object]]
         Iterable of reference token sequences.
-    hypotheses : Iterable[Iterable[Any]]
+    hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
         ``references``.
 
@@ -93,16 +93,16 @@ def universal_edit_distance_per_pair(
 
 
 def universal_error_rate(
-    references: Iterable[Iterable[Any]], hypotheses: Iterable[Iterable[Any]]
+    references: Iterable[Iterable[object]], hypotheses: Iterable[Iterable[object]]
 ) -> float:
     """
     Compute the corpus level universal error rate (UER) over all pairs.
 
     Parameters
     ----------
-    references : Iterable[Iterable[Any]]
+    references : Iterable[Iterable[object]]
         Iterable of reference token sequences.
-    hypotheses : Iterable[Iterable[Any]]
+    hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
         ``references``.
 
@@ -126,8 +126,8 @@ def universal_error_rate(
 
 
 def universal_error_rate_ci(
-    references: Iterable[Iterable[Any]],
-    hypotheses: Iterable[Iterable[Any]],
+    references: Iterable[Iterable[object]],
+    hypotheses: Iterable[Iterable[object]],
     iterations: int,
     alpha: float,
 ) -> ConfidenceInterval:
@@ -136,9 +136,9 @@ def universal_error_rate_ci(
 
     Parameters
     ----------
-    references : Iterable[Iterable[Any]]
+    references : Iterable[Iterable[object]]
         Iterable of reference token sequences.
-    hypotheses : Iterable[Iterable[Any]]
+    hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
         ``references``.
     iterations : int

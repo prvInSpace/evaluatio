@@ -40,7 +40,7 @@ def word_error_rate_per_pair(
     -------
     List[float]
         Word error rate for each pair of reference and hypothesis.
-    
+
     Raises
     ------
     ValueError
@@ -77,7 +77,7 @@ def word_edit_distance_per_pair(
     -------
     List[int]
         Word-level edit distance for each pair.
-        
+
     See Also
     --------
     metrics.uer.universal_edit_distance_per_pair : Type-agnostic version.

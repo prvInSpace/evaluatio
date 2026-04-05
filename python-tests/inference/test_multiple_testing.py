@@ -1,5 +1,5 @@
-from evaluatio.inference import multiple_testing
 import pytest
+from evaluatio.inference import multiple_testing
 
 
 def test_holm_alpha_out_of_bounds():

@@ -18,14 +18,14 @@ you have to pre-tokenize your strings.
 All functions are thin wrappers around optimized native bindings.
 """
 
-from typing import Any, Iterable, List
+from typing import Iterable, List
 
 import evaluatio._bindings as _bindings
 
 
 def poi_edit_distance(
-    references: Iterable[Any],
-    hypotheses: Iterable[Any],
+    references: Iterable[object],
+    hypotheses: Iterable[object],
     points_of_interest: Iterable[bool],
 ) -> List[int]:
     """
@@ -33,9 +33,9 @@ def poi_edit_distance(
 
     Parameters
     ----------
-    references : Iterable[Any]
+    references : Iterable[object]
         Reference sequence.
-    hypotheses : Iterable[Any]
+    hypotheses : Iterable[object]
         Hypothesis sequence.
     points_of_interest : Iterable[bool]
         Boolean mask indicating which indices should be included in the
@@ -67,8 +67,8 @@ def poi_edit_distance(
 
 
 def poi_error_rate(
-    references: Iterable[Iterable[Any]],
-    hypotheses: Iterable[Iterable[Any]],
+    references: Iterable[Iterable[object]],
+    hypotheses: Iterable[Iterable[object]],
     points_of_interest: Iterable[Iterable[bool]],
 ) -> float:
     """
@@ -76,9 +76,9 @@ def poi_error_rate(
 
     Parameters
     ----------
-    references : Iterable of Iterable[Any]
+    references : Iterable of Iterable[object]
         Collection of reference sequences.
-    hypotheses : Iterable of Iterable[Any]
+    hypotheses : Iterable of Iterable[object]
         Collection of hypothesis sequences. Must align with ``references``.
     points_of_interest : Iterable of Iterable[bool]
         Collection of boolean masks indicating points of interest for each

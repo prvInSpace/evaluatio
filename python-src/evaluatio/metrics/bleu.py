@@ -46,16 +46,17 @@ References
        *Proceedings of the Third Conference on Machine Translation*, 186-191.
 """
 
-from typing import Iterable, List
+from typing import Collection, Iterable, Sequence
 
-from evaluatio.inference.ci import ConfidenceInterval, _convert_confidence_interval
 import sacrebleu
+
 from evaluatio import _bindings
+from evaluatio.inference.ci import ConfidenceInterval, _convert_confidence_interval
 
 
 def _sentence_stats(
     hyp: str,
-    refs: List[str],
+    refs: Sequence[str],
     bleu: sacrebleu.BLEU,
 ) -> _bindings.BLEUSufficientStats:
     """
@@ -155,24 +156,25 @@ def bleu_bootstrap_test(
     >>> print(f"p = {p:.4f}")
     p = 0.0231
     """
-    references = [list(r) for r in references]
 
-    if len(references) == 0:
+    refs = [list(r) for r in references]
+
+    if len(refs) == 0:
         raise ValueError("references must not be empty")
 
     hyp1 = list(hyp1)
     hyp2 = list(hyp2)
 
-    if not (len(references) == len(hyp1) == len(hyp2)):
+    if not (len(refs) == len(hyp1) == len(hyp2)):
         raise ValueError(
             f"references, hyp1, and hyp2 must be the same length, "
-            f"got {len(references)}, {len(hyp1)}, {len(hyp2)}"
+            f"got {len(refs)}, {len(hyp1)}, {len(hyp2)}"
         )
 
     bleu = sacrebleu.BLEU(effective_order=effective_order)
 
-    stats_a = [_sentence_stats(h, r, bleu) for h, r in zip(hyp1, references)]
-    stats_b = [_sentence_stats(h, r, bleu) for h, r in zip(hyp2, references)]
+    stats_a = [_sentence_stats(h, r, bleu) for h, r in zip(hyp1, refs)]
+    stats_b = [_sentence_stats(h, r, bleu) for h, r in zip(hyp2, refs)]
 
     return _bindings.bleu_bootstrap_test(stats_a, stats_b, iterations)
 
