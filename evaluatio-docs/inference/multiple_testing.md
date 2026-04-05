@@ -45,7 +45,7 @@ import itertools
 import numpy as np
 
 from evaluatio.metrics.wer import word_error_rate_per_pair
-from evaluatio.inference.bootstrap import paired_bootstrap_test
+from evaluatio.inference.hypothesis import paired_bootstrap_test
 from evaluatio.inference.multiple_testing import holm_correction
 
 # This assumes inferences are already preprocessed and normalised

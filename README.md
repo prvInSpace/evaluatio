@@ -46,7 +46,7 @@ from evaluatio.metrics.wer import (
     word_error_rate_ci,
     word_error_rate_per_pair,
 )
-from evaluatio.inference.bootstrap import paired_bootstrap_test
+from evaluatio.inference.hypothesis import paired_bootstrap_test
 
 df = pd.read_csv("inferences.csv")
 

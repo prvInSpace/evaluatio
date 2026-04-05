@@ -74,7 +74,7 @@ model_2_wer_per_test = word_error_rate_per_pair(df["references"], df["model_2"])
 model_1_ci = word_error_rate_ci(df["references"], df["model_1"], 5000, 0.95)
 model_2_ci = word_error_rate_ci(df["references"], df["model_2"], 5000, 0.95)
 
-from evaluatio.inference.bootstrap import paired_bootstrap_test
+from evaluatio.inference.hypothesis import paired_bootstrap_test
 pvalue = paired_bootstrap_test(
     x1=model_1_wer_per_test,
     x2=model_2_wer_per_test,
