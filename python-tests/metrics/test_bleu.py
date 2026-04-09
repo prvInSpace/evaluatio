@@ -1,5 +1,5 @@
 import pytest
-from evaluatio.metrics.bleu import bleu_bootstrap_test
+from evaluatio.metrics.bleu import bleu_bootstrap_test, bleu_ci
 
 
 @pytest.fixture
@@ -108,3 +108,20 @@ def test_symmetry(clearly_different_hypotheses):
     p_12 = bleu_bootstrap_test(references, hyp1, hyp2, iterations=9999)
     p_21 = bleu_bootstrap_test(references, hyp2, hyp1, iterations=9999)
     assert abs(p_12 - p_21) < 0.05, f"Expected symmetric p-values, got {p_12} vs {p_21}"
+
+def test_bleu_ci():
+    references = [
+        ["hello world"],
+        ["cymru am byth"],
+        ["croeso i gymru"]
+    ]
+    predictions = [
+        "hello byd", # 50%
+        "gymru ap dydd", # 100%
+        "croeso i gymru"# 0%
+    ]
+    res = bleu_ci(references, predictions, 1000, 0.01)
+    assert res.lower < res.mean < res.upper
+    assert abs(50 - res.mean) < 10
+    assert res.lower <= 0.125
+    assert res.upper >= 0.875

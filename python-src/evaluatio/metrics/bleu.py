@@ -46,7 +46,7 @@ References
        *Proceedings of the Third Conference on Machine Translation*, 186-191.
 """
 
-from typing import Collection, Iterable, Sequence
+from typing import Iterable, Sequence
 
 import sacrebleu
 

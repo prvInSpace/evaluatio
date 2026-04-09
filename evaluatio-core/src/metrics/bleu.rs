@@ -60,12 +60,29 @@ fn bleu_from_aggregated(counts: [u32; 4], totals: [u32; 4], sys_len: u32, ref_le
         (1.0 - ref_len as f64 / sys_len as f64).exp()
     };
 
-    let log_avg = (0..4)
-        .map(|i| (counts[i] as f64 / totals[i] as f64).ln())
-        .sum::<f64>()
-        / 4.0;
+    if counts.iter().all(|&c| c == 0) {
+        return 0.0;
+    }
 
-    bp * log_avg.exp() * 100.0
+    let mut smooth_mteval = 1.0_f64;
+    let mut eff_order = 4;
+    let mut log_sum = 0.0;
+
+    for n in 0..4 {
+        if totals[n] == 0 {
+            eff_order = n;
+            break;
+        }
+        let p = if counts[n] == 0 {
+            smooth_mteval *= 2.0;
+            100.0 / (smooth_mteval * totals[n] as f64)
+        } else {
+            100.0 * counts[n] as f64 / totals[n] as f64
+        };
+        log_sum += p.ln();
+    }
+
+    bp * (log_sum / eff_order as f64).exp()
 }
 
 pub fn bleu_bootstrap_test(
@@ -321,5 +338,19 @@ mod tests {
             p_ab,
             p_ba
         );
+    }
+
+    #[test]
+    fn test_sacrebleu_compatibility() {
+        // Basically to ensure that it returns the same values as
+        // sacrebleu
+        let stats_a = BLEUSufficientStats {
+            counts: [13, 9, 6, 4],
+            totals: [16, 15, 14, 13],
+            sys_len: 16,
+            ref_len: 16,
+        };
+        let res = bleu_from_stats(&[stats_a]);
+        assert_eq!(res, 50.353378875558576)
     }
 }
