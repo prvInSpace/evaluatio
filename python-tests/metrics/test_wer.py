@@ -76,3 +76,12 @@ def test_word_edit_distance_different_lengths():
     """Word error rate without any data is also nan"""
     with pytest.raises(ValueError):
         _ = wer.word_edit_distance_per_pair(["hello world"], [])
+
+def test_word_error_rate_ci():
+    ref = ["a", "a a", "a"]
+    hyp = ["a", "a b", "b"]
+    res = wer.word_error_rate_ci(ref, hyp, 1000, 0.01)
+    assert res.lower < res.mean < res.upper
+    assert res.mean == 0.5
+    assert res.lower <= 0.125
+    assert res.upper >= 0.875
