@@ -67,10 +67,10 @@ print(f"P-value: {pvalue}")
 
 The $p$-value and confidence interval answer different questions and should be reported together.
 
-The $p$-value from `bleu_bootstrap_test` asks whether the difference between the two models is real: a value below 0.05 provides evidence that the performance gap is unlikely to be explained by test set sampling variability alone. A value at or above 0.05 suggests the observed difference may be within the range of chance variation for a test set of this size.
+The $p$-value from `bleu_bootstrap_test` asks what the likelihood is that the difference is caused by random chance: a value below 0.05 provides evidence that the performance gap is unlikely to be explained by test set sampling variability alone. A value at or above 0.05 suggests the observed difference may be within the range of chance variation for a test set of this size.
 
 The confidence interval from `bleu_ci` asks how large the BLEU score of a single model is, and how precisely the test set estimates it. A narrow CI indicates a stable, reliable estimate; a wide CI indicates that a different test set of the same size might yield a noticeably different score.
 
 A statistically significant result with overlapping CIs is entirely possible since the comparison test and the single-model CI are measuring different things.
-The $p$-value is the appropriate tool for deciding whether one model is better; the CI is the appropriate tool for reporting how good each model is in absolute terms.
+The bootstrapped $p$-value from the hypothesis test is the appropriate tool for deciding whether one model is likely better than another; the CI is the appropriate tool for reporting how good each model is in absolute terms.
 
