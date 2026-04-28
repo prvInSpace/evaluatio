@@ -2,6 +2,9 @@
 
 Welcome to the changelog of the library. The Captain's log if you will!
 
+## Release v0.4.0
+- Exposed the `error_rate_ci` function through the Python API
+
 ## Release v0.5.0 (`babel-fish`)
 
 This release is one of the most substantial yet.
