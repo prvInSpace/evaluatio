@@ -95,6 +95,9 @@ def paired_permutation_test(
 def bootstrap_confidence_interval(
     x: Iterable[float], iterations: int, alpha: float
 ) -> ConfidenceInterval: ...
+def error_rate_ci(
+    counts: Iterable[int], exposure: Iterable[int], iterations: int, alpha: float
+) -> ConfidenceInterval: ...
 
 # BLEU
 class BLEUSufficientStats:

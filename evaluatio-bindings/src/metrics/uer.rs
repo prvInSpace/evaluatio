@@ -88,3 +88,14 @@ pub fn universal_error_rate_ci_py(
 
     Ok(result)
 }
+
+#[pyfunction(name = "error_rate_ci")]
+pub fn error_rate_ci_py(
+    counts: Vec<usize>,
+    exposure: Vec<usize>,
+    iterations: usize,
+    alpha: f64,
+) -> PyResult<ConfidenceInterval> {
+    let result = uer::error_rate_ci(&counts, &exposure, iterations, alpha)?;
+    Ok(result)
+}
