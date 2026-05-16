@@ -54,7 +54,7 @@ df = pd.read_csv("inferences.csv")
 wer = word_error_rate(df["references"], df["predictions"])
 
 # Confidence interval
-ci = word_error_rate_ci(df["references"], df["predictions"], 5000, 0.95)
+ci = word_error_rate_ci(df["references"], df["predictions"], 5000, 0.05)
 
 # Model comparison
 wer_a = word_error_rate_per_pair(df["references"], df["model_a"])

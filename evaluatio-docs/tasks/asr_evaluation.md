@@ -43,7 +43,7 @@ df = pd.read_csv("inferences.csv")
 
 from evaluatio.metrics.wer import word_error_rate, word_error_rate_ci
 model_wer = word_error_rate(df["references"], df["predictions"])
-model_ci = word_error_rate_ci(df["references"], df["predictions"], 5000, 0.95)
+model_ci = word_error_rate_ci(df["references"], df["predictions"], 5000, 0.05)
 
 print(f"Model WER: {model_wer}")
 print(f"Model CI:  {model_ci.mean:.3f} ± {model_ci.upper-model_ci.mean:.3f}")
@@ -80,8 +80,8 @@ from evaluatio.inference.hypothesis import paired_bootstrap_test
 
 model_1_wer_per_test = word_error_rate_per_pair(df["references"], df["model_1"])
 model_2_wer_per_test = word_error_rate_per_pair(df["references"], df["model_2"])
-model_1_ci = word_error_rate_ci(df["references"], df["model_1"], 5000, 0.95)
-model_2_ci = word_error_rate_ci(df["references"], df["model_2"], 5000, 0.95)
+model_1_ci = word_error_rate_ci(df["references"], df["model_1"], 5000, 0.05)
+model_2_ci = word_error_rate_ci(df["references"], df["model_2"], 5000, 0.05)
 
 pvalue = paired_bootstrap_test(
     x1=model_1_wer_per_test,
