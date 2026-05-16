@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
-#[cfg_attr(feature = "python", pyo3::pyclass)]
+#[cfg_attr(feature = "python", pyo3::pyclass(get_all))]
 pub struct Alignment {
     pub index: usize,
     pub start: usize,
     pub end: usize,
 }
 
-pub fn optimial_aligment<T: PartialEq>(hyp: &[T], ref_: &[T]) -> Vec<Alignment> {
+pub fn optimial_aligment<T: PartialEq>(ref_: &[T], hyp: &[T]) -> Vec<Alignment> {
     let hyp_len = hyp.len() + 1;
     let ref_len = ref_.len() + 1;
 
