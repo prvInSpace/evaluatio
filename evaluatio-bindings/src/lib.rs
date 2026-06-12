@@ -1,4 +1,5 @@
 use pyo3::prelude::*;
+mod alignment;
 mod base;
 mod inference;
 use inference::*;
@@ -39,7 +40,7 @@ fn _bindings(m: &Bound<'_, PyModule>) -> PyResult<()> {
 
     // Optimal alignment
     m.add_function(wrap_pyfunction!(alignment::optimial_alignment_py, m)?)?;
-    m.add_class::<evaluatio_core::metrics::alignment::Alignment>()?;
+    m.add_class::<evaluatio_core::alignment::Alignment>()?;
 
     // Paired inference tests
     m.add_function(wrap_pyfunction!(hypothesis::paired_bootstrap_test_py, m)?)?;

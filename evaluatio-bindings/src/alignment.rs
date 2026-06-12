@@ -1,4 +1,4 @@
-use evaluatio_core::metrics::alignment;
+use evaluatio_core::alignment;
 use pyo3::{pyfunction, Bound, PyAny, PyResult};
 
 use crate::base::{convert_to_edit_distance_vec, EditDistanceItem};
