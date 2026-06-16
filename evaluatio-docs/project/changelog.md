@@ -2,7 +2,11 @@
 
 Welcome to the changelog of the library. The Captain's log if you will!
 
-## Release v0.4.0
+## Release v0.5.2
+- Exposed the `optimal_alignment` function through the Python API and fixed attribute errors.
+- Minor documentation fixes
+
+## Release v0.5.1
 - Exposed the `error_rate_ci` function through the Python API
 
 ## Release v0.5.0 (`babel-fish`)
