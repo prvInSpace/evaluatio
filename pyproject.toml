@@ -1,6 +1,6 @@
 [project]
 name = "evaluatio"
-version = "0.5.1"
+version = "0.5.2"
 description = "High-performance NLP evaluation and significance testing library"
 license = "MIT"
 readme = "README.md"
