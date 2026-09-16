@@ -6,7 +6,7 @@ While edit distance is most commonly applied to characters or words in NLP, the 
 
 The normalised variant, universal error rate (UER), divides the edit distance by the length of the reference sequence:
 
-$$UER(H, R) = \frac{\text{edit_distance}(H, R)}{|R|}$$
+$$UER(H, R) = \frac{\text{edit\_distance}(H, R)}{|R|}$$
 
 [WER](wer) and [CER](cer) are both special cases of UER, differing only in how sequences are tokenised before the metric is computed.
 
