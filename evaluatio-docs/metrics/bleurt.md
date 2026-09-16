@@ -1,6 +1,6 @@
 # BLEURT
 
-BLEURT (Bilingual Evaluation Understudy with Representations from Transformers) is a learned evaluation metric for natural language generation tasks, most commonly machine translation. Unlike surface-form metrics such as [ChrF](/metrics/chrf) or [BLEU](/metrics/bleu), BLEURT is based on a fine-tuned BERT model and produces scores that correlate more strongly with human judgements of translation quality.
+BLEURT (Bilingual Evaluation Understudy with Representations from Transformers) is a learned evaluation metric for natural language generation tasks, most commonly machine translation. Unlike surface-form metrics such as [ChrF](chrf) or [BLEU](bleu), BLEURT is based on a fine-tuned BERT model and produces scores that correlate more strongly with human judgements of translation quality.
 
 BLEURT produces a scalar score per sentence pair. The corpus-level score is the mean of sentence-level scores, which makes it straightforward to use with Evaluatio's generic inference functions without any dedicated wrapper.
 
@@ -83,13 +83,13 @@ Both tests operate at the sentence level, preserving the paired dependency struc
 
 ### Why the generic functions are appropriate here
 
-Unlike [WER](/metrics/wer), [ChrF](/metrics/chrf), or [BLEU](/metrics/bleu) where the corpus-level score is a ratio or aggregated count that cannot be recovered from the mean of sentence-level scores, BLEURT's corpus-level score is definitionally the mean of sentence-level scores. Bootstrapping over the mean is therefore exact rather than an approximation, and no metric-specific wrapper is needed.
+Unlike [WER](wer), [ChrF](chrf), or [BLEU](bleu) where the corpus-level score is a ratio or aggregated count that cannot be recovered from the mean of sentence-level scores, BLEURT's corpus-level score is definitionally the mean of sentence-level scores. Bootstrapping over the mean is therefore exact rather than an approximation, and no metric-specific wrapper is needed.
 
 ### Multiple testing
 
 When performing subgroup analyses (e.g. by domain, language pair, or document type), multiple statistical tests are often conducted simultaneously. Without correction, the probability of false positives increases.
 
-See the page about [multiple testing](/inference/multiple_testing) for more info.
+See the page about [multiple testing](../inference/multiple_testing) for more info.
 
 ### Reporting recommendations
 

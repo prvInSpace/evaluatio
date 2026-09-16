@@ -1,5 +1,5 @@
 # ChrF (Character F-Score)
-API reference for the `chrf` module. For metric and evaluation documentation, see: [ChrF](/metrics/chrf)
+API reference for the `chrf` module. For metric and evaluation documentation, see: [ChrF](../../metrics/chrf)
 
 ::: evaluatio.metrics.chrf
     options:

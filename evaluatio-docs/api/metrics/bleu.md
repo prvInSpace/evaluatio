@@ -1,5 +1,5 @@
 # BLEU
-API reference for the `bleu` module. For metric and evaluation documentation, see: [BLEU](/metrics/bleu)
+API reference for the `bleu` module. For metric and evaluation documentation, see: [BLEU](../../metrics/bleu)
 
 ::: evaluatio.metrics.bleu
     options:

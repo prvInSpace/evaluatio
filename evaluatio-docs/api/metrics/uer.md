@@ -1,5 +1,5 @@
 # UER (Universal Error Rate)
-API reference for the `uer` module. For metric and evaluation documentation, see: [UER](/metrics/uer)
+API reference for the `uer` module. For metric and evaluation documentation, see: [UER](../../metrics/uer)
 
 ::: evaluatio.metrics.uer
     options:

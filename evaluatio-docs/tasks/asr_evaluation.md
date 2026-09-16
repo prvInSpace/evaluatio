@@ -8,14 +8,14 @@ There are a handful of metrics to be aware of:
 
 | Metrics | Details |
 | --- | --- |
-[WER](metrics/wer) | Word error rate (WER) is the most commonly used metric in ASR. It quantifies the number of word level errors normalised by the number of words in the reference string. Errors are defined as the number of substitutions, insertions, and deletions required to change the hypothesis to the reference.
-[CER](metrics/cer) | Character error rate (CER) is the same as WER but on a character level. Commonly used in ASR literature and especially useful for logographic languages.
+[WER](../metrics/wer) | Word error rate (WER) is the most commonly used metric in ASR. It quantifies the number of word level errors normalised by the number of words in the reference string. Errors are defined as the number of substitutions, insertions, and deletions required to change the hypothesis to the reference.
+[CER](../metrics/cer) | Character error rate (CER) is the same as WER but on a character level. Commonly used in ASR literature and especially useful for logographic languages.
 
-Since [WER](metrics/wer) is the most commonly used metric in ASR, this guide will use that as an example.
+Since [WER](../metrics/wer) is the most commonly used metric in ASR, this guide will use that as an example.
 
 ## Corpus-level vs utterance level evaluation
 
-Certain metrics (e.g. [WER](metrics/wer) and [CER](docs/metrics/cer)) calculate the summary corpus level statistic differently than a simple mean of the utterance level results. Corpus level statistics are the standard reported metrics. It is important to note that a mean of utterance-level metrics **does not always equal** the corpus-level statistic (e.g. see [WER](docs/metrics/wer)).
+Certain metrics (e.g. [WER](../metrics/wer) and [CER](../metrics/cer)) calculate the summary corpus level statistic differently than a simple mean of the utterance level results. Corpus level statistics are the standard reported metrics. It is important to note that a mean of utterance-level metrics **does not always equal** the corpus-level statistic (e.g. see [WER](../metrics/wer)).
 
 Confidence intervals are typically computed using bootstrap resampling over utterances, where each resample recomputes the corpus-level WER.
 
@@ -25,12 +25,12 @@ Utterance-level statistics are also used in some circumstances. For example when
 
 When evaluating ASR models, it is important that we normalise both reference and prediction strings in a way that makes them comparable. `hello`, `hello.`, and `Hello` are all different and as such would often be flagged as mistakes by our system. In general, there are a handful of decisions that you should make before evaluating the models:
 
-- **Do we care about punctuation?** If not, then remove them from *both* the reference and the prediction strings. If we do care about punctuation, then we likely don't want to treat them as part of the word in front. This can be resolved by adding a space between punctuation marks and words or tokenizing the strings manually. If strings are tokenized manually, you should use [UER](/metrics/uer) instead of [WER](/metrics/wer).
+- **Do we care about punctuation?** If not, then remove them from *both* the reference and the prediction strings. If we do care about punctuation, then we likely don't want to treat them as part of the word in front. This can be resolved by adding a space between punctuation marks and words or tokenizing the strings manually. If strings are tokenized manually, you should use [UER](../metrics/uer) instead of [WER](../metrics/wer).
 - **Do we care about case?** If not, then normalise the case for both references and hypotheses.
 - **Do we care about tags?** Sometimes references contains tags to indicate certain special sounds such as laughter. If the system is trained to handle these then it might be reasonable to leave them in. Otherwise, you should remove them from the references.
 - **How are words defined?** WER commonly tokenize strings based on whitespace. This might not be optimal for all languages. Handling contractions, hyphenated words, or language-specific segmentation directly affect WER and must be consistent across systems. 
 
-In certain circumstances, it might be desirable to evaluate things like punctuation, capitalisation, etc. individually. There are various ways of doing this, but [PIER](/metrics/pier) can be used for this purpose.
+In certain circumstances, it might be desirable to evaluate things like punctuation, capitalisation, etc. individually. There are various ways of doing this, but [PIER](../metrics/pier) can be used for this purpose.
 
 
 ## Single model evaluation
@@ -65,9 +65,9 @@ Models should _always_ be tested on the same utterances. This ensures that the c
 
 ### Choosing an appropriate statistical test
 Most metrics used for ASR have distributional properties that make various statistical inference tests unreliable for ASR purposes.
-Metrics such as [WER](/metrics/wer) have their own section about this on their page, so please refer to the page for the metric that you are using.
-In general, tests such as $t$-tests, Wilcoxon signed-rank test, etc. are not reliable for edit distance based metrics such as [WER](/metrics/wer) and [CER](/metrics/cer).
-This is because edit-distance metrics like [WER](/metrics/wer) are non-linear, bounded, and highly non-normal, violating assumptions of these tests.
+Metrics such as [WER](../metrics/wer) have their own section about this on their page, so please refer to the page for the metric that you are using.
+In general, tests such as $t$-tests, Wilcoxon signed-rank test, etc. are not reliable for edit distance based metrics such as [WER](../metrics/wer) and [CER](../metrics/cer).
+This is because edit-distance metrics like [WER](../metrics/wer) are non-linear, bounded, and highly non-normal, violating assumptions of these tests.
 Paired bootstrap test has been shown to be generally reliable and should be used over most other alternatives.
 
 ### Example code
@@ -99,11 +99,11 @@ print(f"P-value: {pvalue}")
 ```
 
 ## Multiple testing
-See separate page on [multiple testing](/inference/multiple_testing) for more details.
+See separate page on [multiple testing](../inference/multiple_testing) for more details.
 
 When running multiple comparisons, be that testing multiple models (3 models or more), comparing multiple dialects, etc., you should always correct for multiple testing. This is because when you are testing multiple hypotheses, the familywise error rate (FWER) becomes higher than the alpha leading to unreliable results. E.g. if you are testing 6 different dialects, the FWER is actually $1−(1−0.05)^6=34\%$ rather than the desired alpha of 5%.
 
-For most ASR applications, [Holm-Bonferroni](/inference/multiple-testing#holm-bonferroni-correction) is preferred over regular [Bonferroni correction](/inference/multiple-testing#bonferroni-correction).
+For most ASR applications, [Holm-Bonferroni](../inference/multiple-testing#holm-bonferroni-correction) is preferred over regular [Bonferroni correction](../inference/multiple-testing#bonferroni-correction).
 
 ### Example code
 The following code example compares 3 models. That means that we have 3 combinations of models (`AB`, `AC`, and `BC`) that we need to test. Without correction this would lead to a $1−(1−0.05)^3=14\%$ false positive rate (Type I error) instead of the desired 5%. Holm-Bonferroni handles this for us.

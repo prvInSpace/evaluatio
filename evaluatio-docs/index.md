@@ -13,19 +13,19 @@ The documentation aims to be a reference for evaluation methodology as much as f
 See the get started guide here: [Getting Started](getting_started)
 
 ## Evaluation guides
-- [ASR evaluation guide](/tasks/asr_evaluation)
+- [ASR evaluation guide](tasks/asr_evaluation)
 
 ## Metrics
-- [BLEU](/metrics/bleu)
-- [CER](/metrics/cer)
-- [UER](/metrics/uer)
-- [WER](/metrics/wer)
+- [BLEU](metrics/bleu)
+- [CER](metrics/cer)
+- [UER](metrics/uer)
+- [WER](metrics/wer)
 
 ## Statistical inference
-- [Multiple testing](/inference/multiple_testing)
+- [Multiple testing](inference/multiple_testing)
 
 ## Project and library design
-For the philosophy of the project, please see the [project and design philosophy document](/project/design_philosophy)
+For the philosophy of the project, please see the [project and design philosophy document](project/design_philosophy)
 
 ## Contribution Guide
-We follow the principle that there is always space for more people in the community and that everyone has something to contribute, so if you want to contribute, please feel free to get in touch and read our [contribution guide](/project/contributing) :)
+We follow the principle that there is always space for more people in the community and that everyone has something to contribute, so if you want to contribute, please feel free to get in touch and read our [contribution guide](project/contributing) :)

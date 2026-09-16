@@ -31,14 +31,14 @@ more generally.
 > -- <cite>Patrick Rothfuss, The Wise Man's Fear</cite>
 
 ### Changelog
-- Added a bootstrap test for [BLEU](/metrics/bleu) and [ChrF](/metrics/chrf).
-- Added a confidence interval function for [BLEU](/metrics/bleu) and [ChrF](/metrics/chrf).
+- Added a bootstrap test for [BLEU](../metrics/bleu) and [ChrF](../metrics/chrf).
+- Added a confidence interval function for [BLEU](../metrics/bleu) and [ChrF](../metrics/chrf).
 - Added a general purpose permutation test.
 - Paired bootstrap test was moved to `evaluatio.inference.hypothesis`.
 - Significant improvements to `evaluatio-docs` including:
     - More extensive task guides.
     - Automatically generated API pages.
-    - Pages for metrics not implemented by the library like [BLEURT](/metrics/bleurt).
+    - Pages for metrics not implemented by the library like [BLEURT](../metrics/bleurt).
 - Added bootstrap_confidence_interval.
 - All Python modules now have extensive Numpy style docstrings.
 

@@ -15,7 +15,7 @@ Installing Evaluatio is quite straight forward:
     poetry add evaluatio
     ```
 
-If you want to use the translation metrics ([BLEU](/metrics/bleu), [ChrF](/metrics/chrf), etc.) you need to install [`sacrebleu`](https://pypi.org/project/sacrebleu/) as an optional dependency. This can be done by using the following commands:
+If you want to use the translation metrics ([BLEU](metrics/bleu), [ChrF](metrics/chrf), etc.) you need to install [`sacrebleu`](https://pypi.org/project/sacrebleu/) as an optional dependency. This can be done by using the following commands:
 === "pip"
     ```bash
     pip install evaluatio[translation]
@@ -34,7 +34,7 @@ If you want to use the translation metrics ([BLEU](/metrics/bleu), [ChrF](/metri
 The usage of the library depends quite heavily on what tasks you are doing and what systems you are evaluating.
 The best place to start is therefore the tasks guides:
 
-- [ASR Evaluation](/tasks/asr_evaluation)
+- [ASR Evaluation](tasks/asr_evaluation)
 
 
 ### Calculating WER with confidence interval

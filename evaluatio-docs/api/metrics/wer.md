@@ -1,5 +1,5 @@
 # WER (Word Error Rate)
-API reference for the `wer` module. For metric and evaluation documentation, see: [WER](/metrics/wer)
+API reference for the `wer` module. For metric and evaluation documentation, see: [WER](../../metrics/wer)
 
 ::: evaluatio.metrics.wer
     options:

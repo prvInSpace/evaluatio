@@ -1,22 +1,22 @@
 # Character F-Score (ChrF)
 
-ChrF is an $n$-gram based evaluation metric for machine translation that operates at the character level rather than the word level. It is defined as the F-score of character $n$-gram precision and recall between a hypothesis and one or more references. The use of character $n$-grams makes ChrF more robust to morphological variation than word-level metrics such as [BLEU](/metrics/bleu), and generally correlates better with human judgements, particularly for morphologically rich languages.
+ChrF is an $n$-gram based evaluation metric for machine translation that operates at the character level rather than the word level. It is defined as the F-score of character $n$-gram precision and recall between a hypothesis and one or more references. The use of character $n$-grams makes ChrF more robust to morphological variation than word-level metrics such as [BLEU](bleu), and generally correlates better with human judgements, particularly for morphologically rich languages.
 
 The standard variant used in practice is ChrF++ (`word_order=2`), which augments character $n$-grams with word unigrams and bigrams. Unless otherwise stated, references to ChrF on this page apply to both variants.
 
 ## Corpus-level ChrF
 
-Like [WER](/metrics/wer), corpus-level ChrF is not the simple average of sentence-level scores. It is computed from aggregated character $n$-gram counts across the entire evaluation set: precision and recall are computed over the totals, and the F-score is derived from those aggregates. This means the corpus-level score cannot be recovered by averaging sentence-level ChrF scores.
+Like [WER](wer), corpus-level ChrF is not the simple average of sentence-level scores. It is computed from aggregated character $n$-gram counts across the entire evaluation set: precision and recall are computed over the totals, and the F-score is derived from those aggregates. This means the corpus-level score cannot be recovered by averaging sentence-level ChrF scores.
 
 This has an important consequence for uncertainty estimation: confidence intervals must be estimated by resampling over sentences and recomputing the corpus-level score from scratch each time, not by resampling the distribution of sentence-level scores. See Confidence interval below.
 
 ## Evaluatio implementation
 
-[API reference](/api/metrics/chrf)
+[API reference](../api/metrics/chrf)
 
 Evaluatio does not implement ChrF natively, but instead relies on [`sacrebleu`](https://github.com/mjpost/sacrebleu) [@post2018sacrebleu]. Evaluatio complements `sacrebleu` by providing statistical comparison tools, which are not included in `sacrebleu` itself.
 
-In contrast to [BLEU](/metrics/bleu) and [WER](/metrics/wer), there are no metric-specific functions for ChrF in Evaluatio. Instead, two thin wrappers are provided in `evaluatio.metrics.chrf` that bridge `sacrebleu`'s scoring with Evaluatio's inference functions:
+In contrast to [BLEU](bleu) and [WER](wer), there are no metric-specific functions for ChrF in Evaluatio. Instead, two thin wrappers are provided in `evaluatio.metrics.chrf` that bridge `sacrebleu`'s scoring with Evaluatio's inference functions:
 
 - Use `chrf_ci` when you want a bootstrap confidence interval on the corpus-level ChrF score.
 - Use `chrf_permutation_test` when comparing two models with a paired permutation test.
@@ -36,7 +36,7 @@ sentence_scores = [
 
 ## Comparing ChrF scores of different models
 
-Compared to [BLEU](/metrics/bleu), ChrF is fairly well-behaved at the sentence level. Sentence-level scores are bounded between 0 and 100, are not as heavily zero-inflated as sentence BLEU, and pairwise differences tend to have a more symmetric distribution. This means that a paired permutation test or paired bootstrap test over sentence-level scores works well in practice.
+Compared to [BLEU](bleu), ChrF is fairly well-behaved at the sentence level. Sentence-level scores are bounded between 0 and 100, are not as heavily zero-inflated as sentence BLEU, and pairwise differences tend to have a more symmetric distribution. This means that a paired permutation test or paired bootstrap test over sentence-level scores works well in practice.
 
 ### Why conventional tests might not work
 
@@ -107,7 +107,7 @@ Note that this tests for a difference in mean sentence-level ChrF, which is a su
 
 When performing subgroup analyses (e.g. by language pair, domain, or document type), multiple statistical tests are often conducted simultaneously. Without correction, the probability of false positives increases.
 
-See the page about [multiple testing](/inference/multiple_testing) for more info.
+See the page about [multiple testing](../inference/multiple_testing) for more info.
 
 ### Reporting recommendations
 

@@ -37,7 +37,7 @@ Holm-Bonferroni is implemented in Evaluatio as the function [`holm_correction`][
 
 ## Example code
 
-The following code example compares 3 ASR models using [WER](/metrics/wer). That means that we have 3 combinations of models (`AB`, `AC`, and `BC`) that we need to test. Without correction this would lead to a $1−(1−0.05)^3=14\%$ false positive rate (Type I error) instead of the desired 5%. Holm-Bonferroni handles this for us.
+The following code example compares 3 ASR models using [WER](../metrics/wer). That means that we have 3 combinations of models (`AB`, `AC`, and `BC`) that we need to test. Without correction this would lead to a $1−(1−0.05)^3=14\%$ false positive rate (Type I error) instead of the desired 5%. Holm-Bonferroni handles this for us.
 
 ```python
 import pandas as pd

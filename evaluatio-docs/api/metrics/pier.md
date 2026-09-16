@@ -1,5 +1,5 @@
 # PIER (Point-of-Interest Error Rate)
-API reference for the `pier` module. For metric and evaluation documentation, see: [PIER](/metrics/pier)
+API reference for the `pier` module. For metric and evaluation documentation, see: [PIER](../../metrics/pier)
 
 ::: evaluatio.metrics.pier
     options:

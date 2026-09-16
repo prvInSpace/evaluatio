@@ -8,7 +8,7 @@ BLEU is a metric commonly used in machine translation ([Papineni, 2002](#papinen
 - BLEU is not well-defined on a sentence level.
 
 ## Evaluatio implementation
-[API reference](/api/metrics/bleu)
+[API reference](../api/metrics/bleu)
 
 Evaluatio does not implement BLEU natively, but instead relies on [`sacrebleu`](https://github.com/mjpost/sacrebleu) ([Post, 2018](#post2018sacrebleu)). This is to preserve reproducibility and tokenisation standardisation.
 Evaluatio complements `sacrebleu` by providing statistical comparison tools, which are not included in `sacrebleu` itself.

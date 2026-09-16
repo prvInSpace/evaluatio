@@ -1,5 +1,5 @@
 # CER (Character Error Rate)
-API reference for the `cer` module. For metric and evaluation documentation, see: [CER](/metrics/cer)
+API reference for the `cer` module. For metric and evaluation documentation, see: [CER](../../metrics/cer)
 
 ::: evaluatio.metrics.cer
     options:

@@ -8,11 +8,11 @@ The normalised variant, universal error rate (UER), divides the edit distance by
 
 $$UER(H, R) = \frac{\text{edit_distance}(H, R)}{|R|}$$
 
-[WER](/metrics/wer) and [CER](/metrics/cer) are both special cases of UER, differing only in how sequences are tokenised before the metric is computed.
+[WER](wer) and [CER](cer) are both special cases of UER, differing only in how sequences are tokenised before the metric is computed.
 
 ## When to use UED/UER directly
 
-In most cases you should use [WER](/metrics/wer) or [CER](/metrics/cer) directly. Use `universal_edit_distance_per_pair` or `universal_error_rate` when:
+In most cases you should use [WER](wer) or [CER](cer) directly. Use `universal_edit_distance_per_pair` or `universal_error_rate` when:
 
 - You want to use a **custom tokenisation** scheme (e.g. language-specific segmentation, handling of contractions or hyphenated words)
 - You are working with **non-string data** where elements support `__eq__`
@@ -28,7 +28,7 @@ How to choose which function to use:
 
 ## Evaluatio implementation
 
-[API reference](/api/metrics/uer)
+[API reference](../api/metrics/uer)
 
 The Rust implementation uses a generic function bounded by `PartialEq`, making it truly type-agnostic at the core level. The PyO3 bindings expose this to Python by implementing `PartialEq` for `PyAny` using the following dispatch:
 
@@ -39,4 +39,4 @@ The second case carries a small performance overhead due to the Python call, but
 
 ## Corpus-level UER
 
-As with [WER](/metrics/wer) and [CER](/metrics/cer), corpus-level UER is computed as total edit distance divided by total reference length — not as a mean of utterance-level scores. The same distinction between micro and macro averaging applies here. See [WER](/metrics/wer) for a full discussion.
+As with [WER](wer) and [CER](cer), corpus-level UER is computed as total edit distance divided by total reference length — not as a mean of utterance-level scores. The same distinction between micro and macro averaging applies here. See [WER](wer) for a full discussion.
