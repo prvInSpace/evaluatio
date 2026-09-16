@@ -9,7 +9,7 @@ to a format compatible with the underlying native bindings.
 
 Notes
 -----
-- If a reference string is empty, the corresponding CER is defined as ``inf``.
+- If a reference string is empty, the corresponding CER is defined as `inf`.
 - These functions are thin wrappers around optimized native implementations.
 """
 
@@ -31,7 +31,7 @@ def character_error_rate_per_pair(
         Iterable of reference strings.
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -50,7 +50,7 @@ def character_error_rate_per_pair(
     Notes
     -----
     - If a reference string is empty or contains no characters, the resulting
-      CER is ``inf``.
+      CER is `inf`.
     """
     return _bindings.character_error_rate_per_pair(references, hypotheses)
 
@@ -67,7 +67,7 @@ def character_edit_distance_per_pair(
         Iterable of reference strings.
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -87,7 +87,7 @@ def character_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -
         Iterable of reference strings.
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -96,8 +96,8 @@ def character_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -
 
     Notes
     -----
-    - Equivalent to common CER implementations (e.g., ``jiwer``-based metrics).
-    - If all reference strings are empty, the resulting CER is ``inf``.
+    - Equivalent to common CER implementations (e.g., `jiwer`-based metrics).
+    - If all reference strings are empty, the resulting CER is `inf`.
     """
     return _bindings.character_error_rate(references, hypotheses)
 
@@ -114,7 +114,7 @@ def character_error_rate_ci(
         Iterable of reference strings.
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
-        ``references``.
+        `references`.
     iterations : int
         Number of bootstrap iterations.
     alpha : float
@@ -127,9 +127,9 @@ def character_error_rate_ci(
 
     Notes
     -----
-    - The bootstrapped metric corresponds to ``character_error_rate``.
+    - The bootstrapped metric corresponds to `character_error_rate`.
     - If any reference string is empty or contains no characters, the resulting
-      CER can be ``inf``.
+      CER can be `inf`.
     """
     return _convert_confidence_interval(
         _bindings.character_error_rate_ci(references, hypotheses, iterations, alpha)

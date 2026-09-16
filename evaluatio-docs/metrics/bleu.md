@@ -1,6 +1,6 @@
 # Bilingual Evaluation Understudy (BLEU)
 
-BLEU is a metric commonly used in machine translation [@papineni2002bleu].
+BLEU is a metric commonly used in machine translation ([Papineni, 2002](#papineni2002bleu)).
 
 ## Limitations of BLEU
 - BLEU is insensitive to meaning and semantic adequacy.
@@ -10,10 +10,11 @@ BLEU is a metric commonly used in machine translation [@papineni2002bleu].
 ## Evaluatio implementation
 [API reference](/api/metrics/bleu)
 
-Evaluatio does not implement BLEU natively, but instead relies on [`sacrebleu`](https://github.com/mjpost/sacrebleu) [@post2018sacrebleu]. This is to preserve reproducibility and tokenisation standardisation.
+Evaluatio does not implement BLEU natively, but instead relies on [`sacrebleu`](https://github.com/mjpost/sacrebleu) ([Post, 2018](#post2018sacrebleu)). This is to preserve reproducibility and tokenisation standardisation.
 Evaluatio complements `sacrebleu` by providing statistical comparison tools, which are not included in `sacrebleu` itself.
 
 The two functions that are available are:
+
 - `bleu_bootstrap_test` which is used to compare two models.
 - `bleu_ci` which is used to calculate a confidence interval for a single model.
 
@@ -24,7 +25,7 @@ Sentence-level BLEU scores are highly variable and often zero, making them unsui
 
 As a result, tests such as paired permutation or paired bootstrap over sentence-level scores are unreliable for BLEU.
 
-@koehn2004statistical introduced a method of comparing BLEU scores of two models using bootstrapping.
+[Koehn (2004)](#koehn2004statistical) introduced a method of comparing BLEU scores of two models using bootstrapping.
 The method repeatedly samples sentences with replacement to form new pseudo-corpora.
 For each resampled pseudo-corpus, corpus-level BLEU is computed for both models.
 
@@ -74,3 +75,10 @@ The confidence interval from `bleu_ci` asks how large the BLEU score of a single
 A statistically significant result with overlapping CIs is entirely possible since the comparison test and the single-model CI are measuring different things.
 The bootstrapped $p$-value from the hypothesis test is the appropriate tool for deciding whether one model is likely better than another; the CI is the appropriate tool for reporting how good each model is in absolute terms.
 
+## References
+- Koehn, P. (2004). Statistical Significance Tests for Machine Translation Evaluation. In D. Lin & D. Wu (Eds.), Proceedings of the 2004 Conference on Empirical Methods in Natural Language Processing (pp. 388–395). Association for Computational Linguistics. https://aclanthology.org/W04-3250/
+  {#koehn2004statistical}
+- Papineni, K., Roukos, S., Ward, T., & Zhu, W.-J. (2002). Bleu: a Method for Automatic Evaluation of Machine Translation. In P. Isabelle, E. Charniak, & D. Lin (Eds.), Proceedings of the 40th Annual Meeting of the Association for Computational Linguistics (pp. 311–318). Association for Computational Linguistics. 10.3115/1073083.1073135
+  {#papineni2002bleu}
+- Post, M. (2018). A Call for Clarity in Reporting BLEU Scores. In O. Bojar, R. Chatterjee, C. Federmann, M. Fishel, Y. Graham, B. Haddow, M. Huck, A. J. Yepes, P. Koehn, C. Monz, M. Negri, A. Névéol, M. Neves, M. Post, L. Specia, M. Turchi, & K. Verspoor (Eds.), Proceedings of the Third Conference on Machine Translation: Research Papers (pp. 186–191). Association for Computational Linguistics. 10.18653/v1/W18-6319
+  {#post2018sacrebleu}

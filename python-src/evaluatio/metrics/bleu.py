@@ -1,7 +1,7 @@
 """
 BLEU metrics
 
-Evaluatio does not implement BLEU natively, but instead relies on `sacrebleu`<sup>3</sup>.
+Evaluatio does not implement BLEU natively, but instead relies on `sacrebleu`[^1].
 Evaluation complements `sacrebleu` by providing statistical comparison tools,
 which are not included in `sacrebleu` itself. This module contains those
 functions.
@@ -19,6 +19,9 @@ in Rust for efficiency.
 
 The confidence interval function works the same way as the paired bootstrap
 and the required statistics are precomputed using `sacrebleu`.
+
+[^1]: Post, M. (2018). A call for clarity in reporting BLEU scores.
+  *Proceedings of the Third Conference on Machine Translation*, 186-191.
 
 Notes
 -----
@@ -38,12 +41,12 @@ per-sentence scores.
 
 References
 ----------
-.. [1] Papineni, K., et al. (2002). BLEU: a method for automatic evaluation of
-        machine translation. ACL.
-.. [2] Koehn, P. (2004). Statistical significance tests for machine
-       translation evaluation. *Proceedings of EMNLP 2004*, 388-395.
-.. [3] Post, M. (2018). A call for clarity in reporting BLEU scores.
-       *Proceedings of the Third Conference on Machine Translation*, 186-191.
+- Papineni, K., et al. (2002). BLEU: a method for automatic evaluation of
+  machine translation. ACL.
+- Koehn, P. (2004). Statistical significance tests for machine
+  translation evaluation. *Proceedings of EMNLP 2004*, 388-395.
+- Post, M. (2018). A call for clarity in reporting BLEU scores.
+  *Proceedings of the Third Conference on Machine Translation*, 186-191.
 """
 
 from typing import Iterable, Sequence
@@ -99,7 +102,7 @@ def bleu_bootstrap_test(
     corpus-level BLEU is recomputed for both systems from the accumulated
     sufficient statistics. The p-value is the proportion of iterations in
     which the worse system appears to outperform the better, using the
-    ``(count + 1) / (iterations + 1)`` correction.
+    `(count + 1) / (iterations + 1)` correction.
 
     Parameters
     ----------
@@ -110,42 +113,42 @@ def bleu_bootstrap_test(
         processing.
     hyp1 : iterable of str
         Hypothesis strings for the first system, one per sentence. Must be
-        the same length as ``references``.
+        the same length as `references`.
     hyp2 : iterable of str
         Hypothesis strings for the second system, one per sentence. Must be
-        the same length as ``references``.
+        the same length as `references`.
     iterations : int
         Number of bootstrap resamples. Values of 5000 to 10000 give stable
         p-value estimates for most purposes.
     effective_order : bool, optional
-        If ``True`` (default), scales the n-gram order to the maximum order
+        If `True` (default), scales the n-gram order to the maximum order
         for which counts are non-zero. Recommended for sentence-level
         sufficient statistic computation to avoid zero precision on short
-        segments. Set to ``False`` to match standard corpus-level BLEU
+        segments. Set to `False` to match standard corpus-level BLEU
         behaviour exactly.
 
     Returns
     -------
     float
-        Two-sided p-value in the range ``(0, 1]``. A value below 0.05
+        Two-sided p-value in the range `(0, 1]`. A value below 0.05
         indicates that the observed BLEU difference is unlikely under the
         null hypothesis that the two systems are equivalent.
 
     Raises
     ------
     ValueError
-        If ``references``, ``hyp1``, and ``hyp2`` are not all the same
+        If `references`, `hyp1`, and `hyp2` are not all the same
         length, or if any is empty.
 
     Notes
     -----
-    The minimum possible p-value is ``1 / (iterations + 1)``. With
-    ``iterations=9999`` this is 0.0001.
+    The minimum possible p-value is `1 / (iterations + 1)`. With
+    `iterations=9999` this is 0.0001.
 
     Tokenisation uses sacrebleu's 13a tokeniser by default, consistent with
     WMT evaluation practice. BLEU scores computed internally are directly
     comparable to sacrebleu corpus-level scores produced with the same
-    tokeniser and ``effective_order`` setting.
+    tokeniser and `effective_order` setting.
 
     Examples
     --------
@@ -203,18 +206,18 @@ def bleu_ci(
         be an iterable of reference strings (to support multiple references per
         hypothesis).
     hypotheses : Iterable[str]
-        Model predictions (hypotheses). Must be aligned with ``references`` such
+        Model predictions (hypotheses). Must be aligned with `references` such
         that each hypothesis corresponds to the same-indexed reference set.
     iterations : int
         Number of bootstrap resampling iterations. Larger values yield more stable
         estimates but increase computation time.
     alpha : float
-        Significance level for the confidence interval. For example, ``alpha=0.05``
+        Significance level for the confidence interval. For example, `alpha=0.05``
         corresponds to a 95% confidence interval.
     effective_order : bool, optional
         Whether to enable effective n-gram order when computing BLEU. This is
-        passed directly to ``sacrebleu.BLEU`` and is recommended for shorter
-        sequences. Default is ``True``.
+        passed directly to `sacrebleu.BLEU` and is recommended for shorter
+        sequences. Default is `True`.
 
     Returns
     -------

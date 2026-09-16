@@ -7,8 +7,12 @@ wheels/
 target/
 *.egg-info
 *.so
+/.python-version
 
 # Virtual environments
 .venv
 .vscode
 .coverage
+
+# Website stuff
+/site/

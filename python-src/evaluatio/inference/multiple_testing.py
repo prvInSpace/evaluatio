@@ -19,7 +19,7 @@ class MultipleTestingResult:
     adjusted_pvalues : ndarray of float
         Corrected p-values in the same order as the input p-values.
     method : str
-        Name of the correction method applied, e.g. ``'holm'``.
+        Name of the correction method applied, e.g. `'holm'`.
     alpha : float
         The familywise error rate used.
     """
@@ -47,9 +47,9 @@ def holm_correction(
     Returns
     -------
     MultipleTestingResult
-        Results dataclass. Fields: ``rejected`` (ndarray of bool, same
-        order as input), ``adjusted_pvalues`` (ndarray of float),
-        ``method`` (str, in this case always "holm"), ``alpha`` (float). See MultipleTestingResult
+        Results dataclass. Fields: `rejected` (ndarray of bool, same
+        order as input), `adjusted_pvalues` (ndarray of float),
+        `method` (str, in this case always "holm"), `alpha` (float). See MultipleTestingResult
         for full documentation.
 
     Raises
@@ -59,18 +59,22 @@ def holm_correction(
 
     See Also
     --------
-    bonferroni_correction : More conservative alternative.
+    [bonferroni_correction][bonferroni_correction] : More conservative alternative.
 
     Notes
     -----
-    Holm correction[1]_ controls the familywise error rate (FWER)
+    Holm correction[^1] controls the familywise error rate (FWER)
     under any dependence structure between tests. It is uniformly more
     powerful than Bonferroni correction and should be preferred in
     almost all cases.
 
+    [^1]: Holm, S. (1979). A simple sequentially rejective multiple
+        test procedure. Scandinavian Journal of Statistics, 6(2), 65-70.
+
+
     References
     ----------
-    .. [1] Holm, S. (1979). A simple sequentially rejective multiple
+    - Holm, S. (1979). A simple sequentially rejective multiple
         test procedure. Scandinavian Journal of Statistics, 6(2), 65-70.
 
     Examples
@@ -141,9 +145,9 @@ def bonferroni_correction(
     Returns
     -------
     MultipleTestingResult
-        Results dataclass. Fields: ``rejected`` (ndarray of bool, same
-        order as input), ``adjusted_pvalues`` (ndarray of float),
-        ``method`` (str, in this case always "bonferroni"), ``alpha`` (float). See MultipleTestingResult
+        Results dataclass. Fields: `rejected` (ndarray of bool, same
+        order as input), `adjusted_pvalues` (ndarray of float),
+        `method` (str, in this case always "bonferroni"), `alpha` (float). See MultipleTestingResult
         for full documentation.
 
     Raises
@@ -153,11 +157,11 @@ def bonferroni_correction(
 
     See Also
     --------
-    holm_correction : Less conservative alternative.
+    [holm_correction][holm_correction] : Less conservative alternative.
 
     References
     ----------
-    .. [1] Bonferroni, C. (1936). Teoria statistica delle classi e calcolo delle probabilita.
+    - Bonferroni, C. (1936). Teoria statistica delle classi e calcolo delle probabilita.
         Pubblicazioni del R. Istituto superiore di scienze economiche e commericiali di Firenze, 8, 3-62.
 
     Examples

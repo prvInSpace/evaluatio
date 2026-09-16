@@ -20,7 +20,7 @@ For example, if we are testing $m = 5$ hypotheses with a desired $\alpha =0.05$,
 
 Bonferroni correction is named after the Italian mathematician Carlo Emilio Bonferroni due to the methods use of the Bonferroni inequalities [@bonferroni1936teoria].
 
-Bonferroni is implemented in Evaluatio as the function `bonferroni_correction` in the package `evaluation.inference.multiple_testing`. It takes a list of $p$-values and returns an object containing the results of the correction and whether the null-hypothesis is rejected or not.
+Bonferroni is implemented in Evaluatio as the function [`bonferroni_correction`][evaluatio.inference.multiple_testing.bonferroni_correction] in the package [`evaluatio.inference.multiple_testing`][evaluatio.inference.multiple_testing]. It takes a list of $p$-values and returns an object containing the results of the correction and whether the null-hypothesis is rejected or not.
 
 ### Holm-Bonferroni correction
 
@@ -33,11 +33,11 @@ $$
 As soon as a hypothesis fails to be rejected, stop. All remaining hypotheses are retained. This sequential structure is what makes Holm-Bonferroni less conservative than Bonferroni correction, which applies the same threshold $\alpha/m$ to every hypothesis regardless of rank.
 Bonferroni's conservatism leads to an increased Type II error rate (false negatives), meaning that you may fail to detect read differences. Holm-Bonferroni is therefore often preferred over it.
 
-Holm-Bonferroni is implemented in Evaluatio as the function `holm_correction` in the package `evaluation.inference.multiple_testing`. It takes a list of $p$-values and returns an object containing the results of the correction and whether the null-hypothesis is rejected or not.
+Holm-Bonferroni is implemented in Evaluatio as the function [`holm_correction`][evaluatio.inference.multiple_testing.holm_correction] in the package [`evaluatio.inference.multiple_testing`][evaluatio.inference.multiple_testing]. It takes a list of $p$-values and returns an object containing the results of the correction and whether the null-hypothesis is rejected or not.
 
 ## Example code
 
-The following code example compares 3 ASR models using [WER](/metrics/wer.md). That means that we have 3 combinations of models (`AB`, `AC`, and `BC`) that we need to test. Without correction this would lead to a $1−(1−0.05)^3=14\%$ false positive rate (Type I error) instead of the desired 5%. Holm-Bonferroni handles this for us.
+The following code example compares 3 ASR models using [WER](/metrics/wer). That means that we have 3 combinations of models (`AB`, `AC`, and `BC`) that we need to test. Without correction this would lead to a $1−(1−0.05)^3=14\%$ false positive rate (Type I error) instead of the desired 5%. Holm-Bonferroni handles this for us.
 
 ```python
 import pandas as pd

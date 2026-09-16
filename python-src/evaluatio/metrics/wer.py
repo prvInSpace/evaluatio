@@ -4,7 +4,7 @@ Word-level error metrics
 This module provides utilities to compute word error rate (WER) and
 word-level edit distance between reference and hypothesis text sequences.
 All computations operate on whitespace-tokenized words. If you need more
-complex tokenizing, please see ``metrics.uer``.
+complex tokenizing, please see `metrics.uer`.
 
 The functions accept any iterable of strings and internally convert them
 to a format compatible with the underlying native bindings.
@@ -12,7 +12,7 @@ to a format compatible with the underlying native bindings.
 Notes
 -----
 - If a reference string is empty or contains no tokens, the corresponding
-  WER is defined as ``inf``.
+  WER is defined as `inf`.
 - These functions are thin wrappers around optimized native implementations.
 """
 
@@ -34,7 +34,7 @@ def word_error_rate_per_pair(
         Iterable of reference strings.
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -54,7 +54,7 @@ def word_error_rate_per_pair(
     -----
     - Tokenization is performed by splitting on whitespace.
     - If a reference string is empty or contains no tokens, the resulting
-      WER is ``inf``.
+      WER is `inf`.
     """
     return _bindings.word_error_rate_per_pair(references, hypotheses)
 
@@ -71,7 +71,7 @@ def word_edit_distance_per_pair(
         Iterable of reference strings.
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -99,7 +99,7 @@ def word_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -> flo
         Iterable of reference strings.
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -109,9 +109,9 @@ def word_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -> flo
     Notes
     -----
     - Tokenization is performed by splitting on whitespace.
-    - Equivalent to common WER implementations (e.g., ``jiwer``-based metrics).
+    - Equivalent to common WER implementations (e.g., `jiwer`-based metrics).
     - If all reference strings are empty or contains no tokens, the resulting
-      WER is ``inf``.
+      WER is `inf`.
     """
     return _bindings.word_error_rate(references, hypotheses)
 
@@ -128,7 +128,7 @@ def word_error_rate_ci(
         Iterable of reference strings.
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
-        ``references``.
+        `references`.
     iterations : int
         Number of bootstrap iterations.
     alpha : float
@@ -141,10 +141,10 @@ def word_error_rate_ci(
 
     Notes
     -----
-    - The bootstrapped metric corresponds to ``word_error_rate``.
+    - The bootstrapped metric corresponds to `word_error_rate`.
     - Tokenization is performed by splitting on whitespace.
     - If any reference string is empty or contains no tokens, the resulting
-      WER can be ``inf``.
+      WER can be `inf`.
     """
     return _convert_confidence_interval(
         _bindings.word_error_rate_ci(references, hypotheses, iterations, alpha)

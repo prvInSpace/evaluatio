@@ -1,9 +1,9 @@
 """ChrF metric wrappers providing bootstrap confidence intervals and permutation tests.
 
-This module provides thin wrappers around :class:`sacrebleu.CHRF` that add
+This module provides thin wrappers around `sacrebleu.CHRF` that add
 statistical inference capabilities: bootstrap confidence intervals
-(:func:`chrf_ci`) and paired permutation significance tests
-(:func:`chrf_permutation_test`).
+([`chrf_ci`][chrf_ci]) and paired permutation significance tests
+([`chrf_permutation_test`][chrf_permutation_test]).
 
 Both functions operate at the corpus level but delegate the underlying ChrF
 arithmetic entirely to sacrebleu, ensuring scoring is identical to the
@@ -11,10 +11,10 @@ reference implementation.
 
 Notes
 -----
-Sentence-level scores used in :func:`chrf_permutation_test` are obtained via
-``sacrebleu.CHRF.sentence_score``; corpus-level scores and statistics used in
-:func:`chrf_ci` are obtained via the internal ``_extract_corpus_statistics``
-and ``_compute_score_from_stats`` helpers, which may change across sacrebleu
+Sentence-level scores used in [`chrf_permutation_test`][chrf_permutation_test] are obtained via
+`sacrebleu.CHRF.sentence_score`; corpus-level scores and statistics used in
+[`chrf_ci`][chrf_ci] are obtained via the internal `_extract_corpus_statistics`
+and `_compute_score_from_stats` helpers, which may change across `sacrebleu`
 versions.
 """
 
@@ -37,7 +37,7 @@ def chrf_ci(
 ) -> ConfidenceInterval:
     """Compute a bootstrap confidence interval for corpus ChrF score.
 
-    Draws ``iterations`` bootstrap resamples (with replacement) from the
+    Draws `iterations` bootstrap resamples (with replacement) from the
     per-sentence sufficient statistics, recomputes the corpus ChrF score for
     each resample, and returns the percentile-based confidence interval.
 
@@ -50,18 +50,18 @@ def chrf_ci(
     hypotheses : Sequence[str]
         Model hypotheses, one string per sentence.
     iterations : int, optional
-        Number of bootstrap resamples. Default is ``1000``. For
-        publication-quality intervals, ``10_000`` or more is recommended.
+        Number of bootstrap resamples. Default is `1000`. For
+        publication-quality intervals, `10_000` or more is recommended.
     alpha : float, optional
         Significance level.  The returned interval covers
-        ``1 - alpha`` of the bootstrap distribution. E.g. `0.05`` is 95 % CI.
+        `1 - alpha` of the bootstrap distribution. E.g. `0.05` is 95 % CI.
     chrf : sacrebleu.CHRF or None, optional
         A pre-configured :class:`sacrebleu.CHRF` instance.  If *None*
         (default), a default instance is created with sacrebleu's standard
-        parameters (``char_order=6``, ``word_order=0``, ``beta=2``).
+        parameters (`char_order=6`, `word_order=0`, `beta=2`).
     seed : int, optional
         Seed for the NumPy random number generator used during resampling,
-        ensuring reproducibility.  Default is ``0``.
+        ensuring reproducibility.  Default is `0`.
 
     Returns
     -------
@@ -133,9 +133,9 @@ def chrf_permutation_test(
 
     For each sentence the ChrF score is computed independently for each
     hypothesis set.  The resulting paired score vectors are passed to
-    :func:`~evaluatio.inference.hypothesis.paired_permutation_test`, which
+    [inference.hypothesis.paired_permutation_test](evaluatio.inference.hypothesis.paired_permutation_test), which
     estimates the probability that the observed difference in means (or its
-    absolute value, when ``two_tailed=True``) could arise by chance under the
+    absolute value, when `two_tailed=True`) could arise by chance under the
     null hypothesis that the two systems are equivalent.
 
     Parameters
@@ -152,10 +152,10 @@ def chrf_permutation_test(
     iterations : int
         Number of permutation iterations.
     two_tailed : bool, optional
-        If ``True`` (default), conduct a two-tailed test (H₁: systems differ).
-        If ``False``, conduct a one-tailed test (H₁: system 1 is better).
+        If `True` (default), conduct a two-tailed test (H₁: systems differ).
+        If `False`, conduct a one-tailed test (H₁: system 1 is better).
     chrf : sacrebleu.CHRF or None, optional
-        A pre-configured :class:`sacrebleu.CHRF` instance.  If *None*
+        A pre-configured `sacrebleu.CHRF` instance.  If *None*
         (default), a default instance is created.
 
     Returns

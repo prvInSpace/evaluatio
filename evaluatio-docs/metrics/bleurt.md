@@ -1,6 +1,6 @@
 # BLEURT
 
-BLEURT (Bilingual Evaluation Understudy with Representations from Transformers) is a learned evaluation metric for natural language generation tasks, most commonly machine translation. Unlike surface-form metrics such as [ChrF](/metrics/chrf.md) or [BLEU](/metrics/bleu.md), BLEURT is based on a fine-tuned BERT model and produces scores that correlate more strongly with human judgements of translation quality.
+BLEURT (Bilingual Evaluation Understudy with Representations from Transformers) is a learned evaluation metric for natural language generation tasks, most commonly machine translation. Unlike surface-form metrics such as [ChrF](/metrics/chrf) or [BLEU](/metrics/bleu), BLEURT is based on a fine-tuned BERT model and produces scores that correlate more strongly with human judgements of translation quality.
 
 BLEURT produces a scalar score per sentence pair. The corpus-level score is the mean of sentence-level scores, which makes it straightforward to use with Evaluatio's generic inference functions without any dedicated wrapper.
 

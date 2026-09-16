@@ -1,21 +1,21 @@
 # Word Error Rate (WER)
 
-Word error rate is the most widely used metric for evaluating automatic speech recognition tasks. WER can best be explained as a length-normalised edit distance. The edit distance is defined as the number of substitutions, insertions, and removals of words (or tokens) required to turn the hypothesis into the reference. The result is normalised by the number of words in the reference. For a more comprehensive discussion about edit distance / error rate metrics, please see [Edit Distance](/metrics/uer.md).
+Word error rate is the most widely used metric for evaluating automatic speech recognition tasks. WER can best be explained as a length-normalised edit distance. The edit distance is defined as the number of substitutions, insertions, and removals of words (or tokens) required to turn the hypothesis into the reference. The result is normalised by the number of words in the reference. For a more comprehensive discussion about edit distance / error rate metrics, please see [Edit Distance](metrics/uer).
 
-It is strongly related to other error rate based metrics such as [Character Error Rate (CER)](/metrics/cer.md).
+It is strongly related to other error rate based metrics such as [Character Error Rate (CER)](metrics/cer).
 
 ## Corpus level WER
 In practice, the mean WER of a model is not computed as the simple average of utterance-level WERs. Instead, it is typically calculated as the total edit distance over the evaluation set divided by the total number of reference words. Formally, let $H = (H_1, \dots,H_n)$ be the hypotheses and $R=(R_1,\dots,R_n)$ the corresponding references. The corpus-level mean WER is defined as:
 
-:::{math}
+$$
 WER(H, R) = \frac{\sum_{i=1}^n \text{edit\_distance}(H_i, R_i)}{\sum_{i=1}^n|R_i|}.
-:::
+$$
 
 This differs from more conventional definition of mean, which for utterance-level WERs would be defined as:
 
-:::{math}
+$$
 WER_{\text{macro}}(H, R) = \frac{1}{n} \sum_{i=1}^n WER(H_i, R_i)
-:::
+$$
 
 The standard definition of WER used in ASR is the micro-average (corpus-level WER).
 The macro-average (mean of utterance-level WERs) is a different quantity and is generally not reported, but is useful for statistical analysis.
@@ -27,12 +27,12 @@ WER has many limitations that has been highlighted by various authors over the y
 - WER can exceed 100%
 
 Evaluatio resolves alignment deterministically, guaranteeing a unique and reproducible result. While multiple optimal alignments may exist, the total edit distance is invariant across them, hence the WER will always be correct.
-This matters primarily for downstream analysis with [PIER](/metrics/pier.md), which is discussed on that page.
+This matters primarily for downstream analysis with [PIER](/metrics/pier), which is discussed on that page.
 
 ## Evaluatio implementation
 [API reference](/api/metrics/wer)
 
-The main Evaluatio implementation of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/uer.md), but preprocesses the string beforehand by splitting them on whitespace. While this is common for WER implementations, this assumes that whitespace tokenisation is appropriate for the language and task. Please ensure that it is appropriate for the language and task you are using it for.
+The main Evaluatio implementation of WER is the `word_error_rate` function in `evaluatio.metrics.wer`. It is a wrapper around the type-agnostic error rate function [universal-error-rate](/metrics/uer), but preprocesses the string beforehand by splitting them on whitespace. While this is common for WER implementations, this assumes that whitespace tokenisation is appropriate for the language and task. Please ensure that it is appropriate for the language and task you are using it for.
 
 A per-utterance variant is also provided: `word_error_rate_per_pair`.
 
@@ -42,7 +42,7 @@ How to choose which function to use:
 - Use `word_error_rate_ci` when you want uncertainty quantification on the corpus-level score directly.
 - Use `word_edit_distance_per_pair` when need to use the edit distances directly (e.g. for Poisson regression on error counts).
 
-If you wish to tokenize the strings using more complex tokenization methods, please pre-tokenize the strings and use the [`universal_error_rate`](/metrics/uer.md) function instead.
+If you wish to tokenize the strings using more complex tokenization methods, please pre-tokenize the strings and use the [`universal_error_rate`](/metrics/uer) function instead.
 
 ## Comparing WERs of different models
 
@@ -61,7 +61,7 @@ The CI returned by `word_error_rate_ci` is a bootstrap confidence interval on th
 ### Multiple testing
 When performing subgroup analyses (e.g., by gender, accent, age group), multiple statistical tests are often conducted simultaneously. Without correction, the probability of false positives increases.
 
-See the page about [multiple testing](/inference/multiple_testing.md) for more info.
+See the page about [multiple testing](/inference/multiple_testing) for more info.
 
 ### Example evaluation code
 ```python

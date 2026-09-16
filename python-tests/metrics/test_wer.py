@@ -77,6 +77,7 @@ def test_word_edit_distance_different_lengths():
     with pytest.raises(ValueError):
         _ = wer.word_edit_distance_per_pair(["hello world"], [])
 
+
 def test_word_error_rate_ci():
     ref = ["a", "a a", "a"]
     hyp = ["a", "a b", "b"]

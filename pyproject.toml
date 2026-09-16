@@ -67,5 +67,9 @@ files = ["python-src"]
 strict = true
 
 [dependency-groups]
+documentation = [
+    "mkdocstrings[python]>=0.26.1",
+    "zensical>=0.0.2",
+]
 testing = ["coverage>=7.6.1", "pytest>=8.3.5"]
 translation = ["sacrebleu>=2.5.1"]

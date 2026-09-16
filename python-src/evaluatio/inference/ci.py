@@ -48,18 +48,18 @@ def bootstrap_confidence_interval(
         Number of bootstrap resampling iterations.
     alpha : float
         Significance level for the confidence interval. For example,
-        ``alpha=0.05`` corresponds to a 95% confidence interval.
+        `alpha=0.05` corresponds to a 95% confidence interval.
 
     Returns
     -------
     ConfidenceInterval
-        Results dataclass. Fields: ``mean`` (float with the mean of ``x``), ``lower`` (float, lower CI bound),
-        ``upper`` (float, upper CI bound). See ConfidenceInterval for full documentation.
+        Results dataclass. Fields: `mean` (float with the mean of `x`), `lower` (float, lower CI bound),
+        `upper` (float, upper CI bound). See ConfidenceInterval for full documentation.
 
     Raises
     ------
     ValueError
-        If ``iterations < 1``, if ``x`` is empty, or if ``alpha`` is not in (0, 1).
+        If `iterations < 1`, if `x` is empty, or if `alpha` is not in (0, 1).
 
     Notes
     -----
@@ -95,18 +95,18 @@ def error_rate_ci(
         Number of bootstrap resampling iterations.
     alpha : float
         Significance level for the confidence interval. For example,
-        ``alpha=0.05`` corresponds to a 95% confidence interval.
+        `alpha=0.05` corresponds to a 95% confidence interval.
 
     Returns
     -------
     ConfidenceInterval
-        Results dataclass. Fields: ``mean`` (float with the mean of ``x``), ``lower`` (float, lower CI bound),
-        ``upper`` (float, upper CI bound). See ConfidenceInterval for full documentation.
+        Results dataclass. Fields: `mean` (float with the mean of `x`), `lower` (float, lower CI bound),
+        `upper` (float, upper CI bound). See ConfidenceInterval for full documentation.
 
     Raises
     ------
     ValueError
-        If ``iterations < 1``, if ``x`` is empty, or if ``alpha`` is not in (0, 1).
+        If `iterations < 1`, if `x` is empty, or if `alpha` is not in (0, 1).
 
     Notes
     -----

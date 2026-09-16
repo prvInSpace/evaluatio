@@ -3,7 +3,8 @@ Universal error metrics
 
 This module provides utilities to compute universal error rate (UER) and
 universal edit distance between reference and hypothesis sequences.
-Unlike ``metrics.wer`` and ``metrics.cer``, all computations operate on arbitrary iterables of
+Unlike [`metrics.wer`][evaluatio.metrics.wer] and [`metrics.cer`][evaluatio.metrics.cer],
+all computations operate on arbitrary iterables of
 tokens rather than whitespace-tokenized strings, making this module suitable
 for subword-level or any other custom tokenization scheme.
 
@@ -13,7 +14,7 @@ to a format compatible with the underlying native bindings.
 Notes
 -----
 - If a reference sequence is empty or contains no tokens, the corresponding
-  UER is defined as ``inf``.
+  UER is defined as `inf`.
 - These functions are thin wrappers around optimized native implementations.
 """
 
@@ -35,7 +36,7 @@ def universal_error_rate_per_pair(
         Iterable of reference token sequences.
     hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -49,14 +50,14 @@ def universal_error_rate_per_pair(
 
     See Also
     --------
-    metrics.cer.word_error_rate_per_pair : Character-tokenized string version.
-    metrics.wer.word_error_rate_per_pair : Whitespace-tokenized string version.
+    - [character_error_rate_per_pair][evaluatio.metrics.cer.character_error_rate_per_pair]: Character-tokenized string version.
+    - [word_error_rate_per_pair][evaluatio.metrics.wer.word_error_rate_per_pair]: Whitespace-tokenized string version.
 
     Notes
     -----
-    - Tokens are compared using ``__eq__`` if types differ.
+    - Tokens are compared using `__eq__` if types differ.
     - If a reference sequence is empty or contains no tokens, the resulting
-      UER is ``inf``.
+      UER is `inf`.
     """
     return _bindings.universal_error_rate_per_pair(references, hypotheses)
 
@@ -73,7 +74,7 @@ def universal_edit_distance_per_pair(
         Iterable of reference token sequences.
     hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -87,7 +88,7 @@ def universal_edit_distance_per_pair(
 
     Notes
     -----
-    - Tokens are compared using ``__eq__`` if types differ.
+    - Tokens are compared using `__eq__` if types differ.
     """
     return _bindings.universal_edit_distance_per_pair(references, hypotheses)
 
@@ -104,7 +105,7 @@ def universal_error_rate(
         Iterable of reference token sequences.
     hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
-        ``references``.
+        `references`.
 
     Returns
     -------
@@ -118,9 +119,9 @@ def universal_error_rate(
 
     Notes
     -----
-    - Tokens are compared using ``__eq__`` if types differ.
+    - Tokens are compared using `__eq__` if types differ.
     - If all reference sequences are empty or contain no tokens, the resulting
-      UER is ``inf``.
+      UER is `inf`.
     """
     return _bindings.universal_error_rate(references, hypotheses)
 
@@ -140,7 +141,7 @@ def universal_error_rate_ci(
         Iterable of reference token sequences.
     hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
-        ``references``.
+        `references`.
     iterations : int
         Number of bootstrap iterations.
     alpha : float
@@ -158,10 +159,10 @@ def universal_error_rate_ci(
 
     Notes
     -----
-    - The bootstrapped metric corresponds to ``universal_error_rate``.
-    - Tokens are compared using ``__eq__`` if types differ.
+    - The bootstrapped metric corresponds to `universal_error_rate`.
+    - Tokens are compared using `__eq__` if types differ.
     - If any reference sequence is empty or contains no tokens, the resulting
-      UER can be ``inf``.
+      UER can be `inf`.
     """
     return _convert_confidence_interval(
         _bindings.universal_error_rate_ci(references, hypotheses, iterations, alpha)

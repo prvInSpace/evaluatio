@@ -6,13 +6,13 @@ While edit distance is most commonly applied to characters or words in NLP, the 
 
 The normalised variant, universal error rate (UER), divides the edit distance by the length of the reference sequence:
 
-$$UER(H, R) = \frac{\text{edit\_distance}(H, R)}{|R|}$$
+$$UER(H, R) = \frac{\text{edit_distance}(H, R)}{|R|}$$
 
-[WER](/metrics/wer.md) and [CER](/metrics/cer.md) are both special cases of UER, differing only in how sequences are tokenised before the metric is computed.
+[WER](/metrics/wer) and [CER](/metrics/cer) are both special cases of UER, differing only in how sequences are tokenised before the metric is computed.
 
 ## When to use UED/UER directly
 
-In most cases you should use [WER](/metrics/wer.md) or [CER](/metrics/cer.md) directly. Use `universal_edit_distance_per_pair` or `universal_error_rate` when:
+In most cases you should use [WER](/metrics/wer) or [CER](/metrics/cer) directly. Use `universal_edit_distance_per_pair` or `universal_error_rate` when:
 
 - You want to use a **custom tokenisation** scheme (e.g. language-specific segmentation, handling of contractions or hyphenated words)
 - You are working with **non-string data** where elements support `__eq__`
@@ -39,4 +39,4 @@ The second case carries a small performance overhead due to the Python call, but
 
 ## Corpus-level UER
 
-As with [WER](/metrics/wer.md) and [CER](/metrics/cer.md), corpus-level UER is computed as total edit distance divided by total reference length — not as a mean of utterance-level scores. The same distinction between micro and macro averaging applies here. See [WER](/metrics/wer.md) for a full discussion.
+As with [WER](/metrics/wer) and [CER](/metrics/cer), corpus-level UER is computed as total edit distance divided by total reference length — not as a mean of utterance-level scores. The same distinction between micro and macro averaging applies here. See [WER](/metrics/wer) for a full discussion.

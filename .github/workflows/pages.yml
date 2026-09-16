@@ -1,6 +1,6 @@
 # This file was created automatically with `myst init --gh-pages` 🪄 💚
 
-name: MyST GitHub Pages Deploy
+name: Zensical GitHub Pages Deploy
 on:
   push:
     # Runs on pushes targeting the default branch
@@ -33,25 +33,16 @@ jobs:
         uses: actions/configure-pages@v3
       - name: "Set up Python"
         uses: actions/setup-python@v6
-        with:
-          python-version-file: "evaluatio-docs/pyproject.toml"
       - name: Install uv
         uses: astral-sh/setup-uv@v7
+      - name: Install packages
+        run: uv sync --all-groups
       - name: Build API pages
-        working-directory: ./evaluatio-docs
-        run: uv run generate_api_docs.py
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18.x
-      - name: Install MyST Markdown
-        run: npm install -g mystmd
-      - name: Build HTML Assets
-        working-directory: ./evaluatio-docs
-        run: myst build --html
+        run: uv run zensical build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './evaluatio-docs/_build/html'
+          path: 'site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

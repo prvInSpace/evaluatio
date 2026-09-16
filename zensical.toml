@@ -1,0 +1,169 @@
+[project]
+site_url = "https://prvinspace.github.io/evaluatio/"
+site_name = "Evaluatio Documentation"
+site_description = "Evaluation library containing commonly used metrics, statistical tests, etc. Written in both Rust and Python."
+site_author = "Preben Vangberg"
+
+# copyright = "Copyright &copy; 2026 Your name"
+
+repo_url = "https://codeberg.org/prvinspace/evaluatio"
+repo_name = "prvinspace/evaluatio"
+
+docs_dir = "evaluatio-docs"
+
+nav = [
+  { "Startpage" = "index.md" },
+  { "Project" = [
+    "project/changelog.md",
+    "project/contributing.md",
+    "project/design_philosophy.md",
+  ] },
+  { "Tasks" = [
+    "tasks/asr_evaluation.md",
+  ] },
+  { "Inference" = [
+    "inference/multiple_testing.md",
+  ] },
+  { "Metrics" = [
+    { "BLEU" = "metrics/bleu.md" },
+    { "BLEURT" = "metrics/bleurt.md" },
+    { "CER" = "metrics/cer.md" },
+    { "ChrF" = "metrics/chrf.md" },
+    { "UER" = "metrics/uer.md" },
+    { "WER" = "metrics/wer.md" },
+  ] },
+  { "API" = [
+    { "inference" = [
+      { "ci" = "api/inference/ci.md" },
+      { "hypothesis" = "api/inference/hypothesis.md" },
+      { "multiple_testing" = "api/inference/multiple_testing.md" },
+    ] },
+    { "metrics" = [
+      { "bleu" = "api/metrics/bleu.md" },
+      { "cer" = "api/metrics/cer.md" },
+      { "chrf" = "api/metrics/chrf.md" },
+      { "pier" = "api/metrics/pier.md" },
+      { "uer" = "api/metrics/uer.md" },
+      { "wer" = "api/metrics/wer.md" },
+    ] },
+  ] },
+]
+
+extra_javascript = [
+  "javascripts/mathjax.js",
+  "https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js",
+]
+
+
+[project.theme]
+# variant = "classic"
+# custom_dir = "overrides"
+# favicon = "images/favicon.png"
+language = "en"
+features = [
+  "announce.dismiss",
+  # "content.action.edit",
+  # "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  # "header.autohide",
+  "navigation.expand",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  # "navigation.instant.progress",
+  "navigation.path",
+  # "navigation.prune",
+  #"navigation.sections",
+  # "navigation.tabs",
+  # "navigation.tabs.sticky",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  # "toc.follow",
+  # "toc.integrate",
+]
+
+# logo = "assets/logo.png"
+
+# [project.theme.icon]
+# logo = "lucide/smile"
+
+# [project.theme.font]
+# text = "Inter"
+# code = "Jetbrains Mono"
+
+# [project.theme]
+# features = ["content.code.copy"]
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["python-src"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+show_source = false
+docstring_style = "numpy"
+scoped_crossrefs = true
+relative_crossrefs = true
+show_root_heading = true
+show_root_full_path = false
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+# [[project.extra.social]]
+# icon = "fontawesome/brands/github"
+# link = "https://github.com/user/repo"
+
+# [[project.extra.social]]
+# icon = "fontawesome/brands/mastodon"
+# link = "https://fosstodon.org/@user"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+toc.permalink = true
+pymdownx.arithmatex.generic = true
+pymdownx.betterem = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.magiclink = {}
+pymdownx.mark = {}
+pymdownx.smartsymbols = {}
+# pymdownx.snippets.base_path = "includes"
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}

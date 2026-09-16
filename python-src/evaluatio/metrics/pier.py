@@ -39,17 +39,17 @@ def poi_edit_distance(
         Hypothesis sequence.
     points_of_interest : Iterable[bool]
         Boolean mask indicating which indices should be included in the
-        computation. Must be the same length as ``references``.
+        computation. Must be the same length as `references`.
 
     Returns
     -------
     List[int]
         Edit distance computed over positions where
-        ``points_of_interest`` is ``True``.
+        `points_of_interest` is `True`.
 
     Notes
     -----
-    - Only positions marked as ``True`` in ``points_of_interest`` are
+    - Only positions marked as `True` in `points_of_interest` are
       considered when computing the edit distance.
     - The behavior for mismatched lengths follows the underlying
       implementation in the native bindings.
@@ -79,7 +79,7 @@ def poi_error_rate(
     references : Iterable of Iterable[object]
         Collection of reference sequences.
     hypotheses : Iterable of Iterable[object]
-        Collection of hypothesis sequences. Must align with ``references``.
+        Collection of hypothesis sequences. Must align with `references`.
     points_of_interest : Iterable of Iterable[bool]
         Collection of boolean masks indicating points of interest for each
         sequence. Each mask must match the length of its corresponding
@@ -93,13 +93,18 @@ def poi_error_rate(
 
     Notes
     -----
-    - Only positions marked as ``True`` contribute to the error rate.
+    - Only positions marked as `True` contribute to the error rate.
     - This function is a generalised version of the algorithm described by
-      Ugan et al.[1]_
+      Ugan et al.[^1]
+
+    [^1]: Ugan, E. Y., Pham, N. Q., Bärmann, L., & Waibel, A. (2025, April).
+            Pier: A novel metric for evaluating what matters in code-switching.
+            In ICASSP 2025-2025 IEEE International Conference on Acoustics, Speech
+            and Signal Processing (ICASSP) (pp. 1-5). IEEE.
 
     References
     ----------
-    .. [1] Ugan, E. Y., Pham, N. Q., Bärmann, L., & Waibel, A. (2025, April).
+    - Ugan, E. Y., Pham, N. Q., Bärmann, L., & Waibel, A. (2025, April).
         Pier: A novel metric for evaluating what matters in code-switching.
         In ICASSP 2025-2025 IEEE International Conference on Acoustics, Speech
         and Signal Processing (ICASSP) (pp. 1-5). IEEE.

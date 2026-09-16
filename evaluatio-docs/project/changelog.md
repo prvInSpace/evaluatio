@@ -1,6 +1,16 @@
 # Evaluatio Changelog
 
-Welcome to the changelog of the library. The Captain's log if you will!
+Welcome to the changelog of the library. The Captain's log if you will! 🧑‍✈️
+
+## Upcoming release
+- Changed all documentation over from MyST to Zensical
+    - API reference pages should now be better, and internal links to the API should work.
+    - Docstrings had to be changed to accommodate the change
+    - References now has to be added manually rather than using Bibtex.
+
+> "Evaluation is creation: hear it, you creators! Evaluating is itself the most valuable treasure of all that we value. It is only through evaluation that value exists: and without evaluation the nut of existence would be hollow. Hear it, you creators!"
+>
+> -- <cite>Friedrich Nietzsche, Thus Spoke Zarathustra (1883)</cite>
 
 ## Release v0.5.2
 - Exposed the `optimal_alignment` function through the Python API and fixed attribute errors.
