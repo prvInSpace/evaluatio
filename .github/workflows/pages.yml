@@ -3,7 +3,7 @@ on:
   push:
     # Runs on pushes targeting the default branch
     branches: [main]
-    paths: ['evaluatio-docs/**']
+    paths: ['evaluatio-docs/**', ".github/workflows/pages.yml"]
 permissions:
   contents: read
   pages: write
