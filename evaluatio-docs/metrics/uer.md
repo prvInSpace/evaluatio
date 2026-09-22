@@ -1,6 +1,6 @@
 # Edit Distance and Error Rate (UED/UER)
 
-Edit distance measures the minimum number of substitutions, insertions, and deletions required to transform one sequence into another. It is also known as Levenshtein distance, after Vladimir Levenshtein who described the algorithm in 1966 [@levenshteinBinaryCodesCapable1966] in the context of correcting binary codes.
+Edit distance measures the minimum number of substitutions, insertions, and deletions required to transform one sequence into another. It is also known as Levenshtein distance, after Vladimir Levenshtein who described the algorithm in 1966 ([Levenshtein, 1966](#levenshteinBinaryCodesCapable1966)) in the context of correcting binary codes.
 
 While edit distance is most commonly applied to characters or words in NLP, the algorithm itself only requires elements to be comparable, it makes no assumptions about what those elements are. In Python terms, any object implementing `__eq__` is sufficient. This makes it applicable to any tokenisation scheme, including custom or language-specific ones.
 
@@ -40,3 +40,8 @@ The second case carries a small performance overhead due to the Python call, but
 ## Corpus-level UER
 
 As with [WER](wer) and [CER](cer), corpus-level UER is computed as total edit distance divided by total reference length — not as a mean of utterance-level scores. The same distinction between micro and macro averaging applies here. See [WER](wer) for a full discussion.
+
+## References
+- Levenshtein, V. I. (1966). Binary codes capable of correcting deletions,
+insertions, and reversals. *Soviet Physics Doklady*, *10*, 707--710.
+  {#levenshteinBinaryCodesCapable1966}

@@ -69,6 +69,8 @@ strict = true
 [dependency-groups]
 documentation = [
     "mkdocstrings[python]>=0.26.1",
+    "pybtex>=0.26.1",
+    "pybtex-apa-style>=1.3",
     "zensical>=0.0.2",
 ]
 testing = ["coverage>=7.6.1", "pytest>=8.3.5"]

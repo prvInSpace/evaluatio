@@ -76,9 +76,22 @@ A statistically significant result with overlapping CIs is entirely possible sin
 The bootstrapped $p$-value from the hypothesis test is the appropriate tool for deciding whether one model is likely better than another; the CI is the appropriate tool for reporting how good each model is in absolute terms.
 
 ## References
-- Koehn, P. (2004). Statistical Significance Tests for Machine Translation Evaluation. In D. Lin & D. Wu (Eds.), Proceedings of the 2004 Conference on Empirical Methods in Natural Language Processing (pp. 388–395). Association for Computational Linguistics. https://aclanthology.org/W04-3250/
+- Koehn, P. (2004). Statistical Significance Tests for Machine Translation
+Evaluation. In D. Lin & D. Wu (Eds.), *Proceedings of the 2004
+Conference on Empirical Methods in Natural Language Processing* (pp.
+388--395). Association for Computational Linguistics.
+<https://aclanthology.org/W04-3250/>
   {#koehn2004statistical}
-- Papineni, K., Roukos, S., Ward, T., & Zhu, W.-J. (2002). Bleu: a Method for Automatic Evaluation of Machine Translation. In P. Isabelle, E. Charniak, & D. Lin (Eds.), Proceedings of the 40th Annual Meeting of the Association for Computational Linguistics (pp. 311–318). Association for Computational Linguistics. 10.3115/1073083.1073135
+- Papineni, K., Roukos, S., Ward, T., & Zhu, W.-J. (2002). Bleu: A method
+for automatic evaluation of machine translation. *Proceedings of the
+40th Annual Meeting of the Association for Computational Linguistics*,
+311--318.
   {#papineni2002bleu}
-- Post, M. (2018). A Call for Clarity in Reporting BLEU Scores. In O. Bojar, R. Chatterjee, C. Federmann, M. Fishel, Y. Graham, B. Haddow, M. Huck, A. J. Yepes, P. Koehn, C. Monz, M. Negri, A. Névéol, M. Neves, M. Post, L. Specia, M. Turchi, & K. Verspoor (Eds.), Proceedings of the Third Conference on Machine Translation: Research Papers (pp. 186–191). Association for Computational Linguistics. 10.18653/v1/W18-6319
+- Post, M. (2018). A Call for Clarity in Reporting BLEU Scores. In O.
+Bojar, R. Chatterjee, C. Federmann, M. Fishel, Y. Graham, B. Haddow, M.
+Huck, A. J. Yepes, P. Koehn, C. Monz, M. Negri, A. Névéol, M. Neves, M.
+Post, L. Specia, M. Turchi, & K. Verspoor (Eds.), *Proceedings of the
+Third Conference on Machine Translation: Research Papers* (pp.
+186--191). Association for Computational Linguistics.
+<https://doi.org/10.18653/v1/W18-6319>
   {#post2018sacrebleu}

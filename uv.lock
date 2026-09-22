@@ -164,6 +164,8 @@ documentation = [
     { name = "mkdocstrings", version = "0.26.1", source = { registry = "https://pypi.org/simple" }, extra = ["python"], marker = "python_full_version < '3.9'" },
     { name = "mkdocstrings", version = "0.30.1", source = { registry = "https://pypi.org/simple" }, extra = ["python"], marker = "python_full_version == '3.9.*'" },
     { name = "mkdocstrings", version = "1.0.6", source = { registry = "https://pypi.org/simple" }, extra = ["python"], marker = "python_full_version >= '3.10'" },
+    { name = "pybtex" },
+    { name = "pybtex-apa-style" },
     { name = "zensical", version = "0.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "zensical", version = "0.0.59", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
@@ -186,6 +188,8 @@ requires-dist = [
 [package.metadata.requires-dev]
 documentation = [
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.26.1" },
+    { name = "pybtex", specifier = ">=0.26.1" },
+    { name = "pybtex-apa-style", specifier = ">=1.3" },
     { name = "zensical", specifier = ">=0.0.2" },
 ]
 testing = [
@@ -309,6 +313,33 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/df/bf/f7da0350254c0ed7c72f3e33cef02e048281fec7ecec5f032d4aac52226b/jinja2-3.1.6.tar.gz", hash = "sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d", size = 245115, upload-time = "2025-03-05T20:05:02.478Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl", hash = "sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67", size = 134899, upload-time = "2025-03-05T20:05:00.369Z" },
+]
+
+[[package]]
+name = "latexcodec"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version < '3.9'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/98/e7/ed339caf3662976949e4fdbfdf4a6db818b8d2aa1cf2b5f73af89e936bba/latexcodec-3.0.0.tar.gz", hash = "sha256:917dc5fe242762cc19d963e6548b42d63a118028cdd3361d62397e3b638b6bc5", size = 31023, upload-time = "2024-03-06T14:51:39.283Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b0/bf/ea8887e9f31a8f93ca306699d11909c6140151393a4216f0d9f85a004077/latexcodec-3.0.0-py3-none-any.whl", hash = "sha256:6f3477ad5e61a0a99bd31a6a370c34e88733a6bad9c921a3ffcfacada12f41a7", size = 18150, upload-time = "2024-03-06T14:51:37.872Z" },
+]
+
+[[package]]
+name = "latexcodec"
+version = "3.0.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.13'",
+    "python_full_version == '3.12.*'",
+    "python_full_version >= '3.10' and python_full_version < '3.12'",
+    "python_full_version == '3.9.*'",
+]
+sdist = { url = "https://files.pythonhosted.org/packages/27/dd/4270b2c5e2ee49316c3859e62293bd2ea8e382339d63ab7bbe9f39c0ec3b/latexcodec-3.0.1.tar.gz", hash = "sha256:e78a6911cd72f9dec35031c6ec23584de6842bfbc4610a9678868d14cdfb0357", size = 31222, upload-time = "2025-06-17T18:47:34.051Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b5/40/23569737873cc9637fd488606347e9dd92b9fa37ba4fcda1f98ee5219a97/latexcodec-3.0.1-py3-none-any.whl", hash = "sha256:a9eb8200bff693f0437a69581f7579eb6bca25c4193515c09900ce76451e452e", size = 18532, upload-time = "2025-06-17T18:47:30.726Z" },
 ]
 
 [[package]]
@@ -1193,6 +1224,31 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/7e/57/b969aed128768558255822e75b402a19530bd63321f637d42f4724abc1ed/portalocker-3.0.0.tar.gz", hash = "sha256:21f535de2e7a82c94c130c054adb5c7421d480d5619d61073996e2f89bcb879b", size = 41961, upload-time = "2024-11-18T12:12:33.873Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3d/4c/4cb6bb4061910ac74c444be76e7d17dba97d9057030cca2f96947c3f7a0f/portalocker-3.0.0-py3-none-any.whl", hash = "sha256:211916b539a0dc3c128a3d9e86893ecfefec5379c4ff684e798f0a00f99db406", size = 19575, upload-time = "2024-11-18T12:12:31.906Z" },
+]
+
+[[package]]
+name = "pybtex"
+version = "0.26.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "importlib-metadata", version = "8.5.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "importlib-metadata", version = "8.7.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "latexcodec", version = "3.0.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "latexcodec", version = "3.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
+    { name = "pyyaml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4d/f5/f30da9c93f0fa6d619332b2f69597219b625f35780473a05164a9981fd9a/pybtex-0.26.1.tar.gz", hash = "sha256:2e5543bea424e60e9e42eef70bff597be48649d8f68ba061a7a092b2477d5464", size = 692991, upload-time = "2026-04-03T13:05:39.014Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/f6/775eb92e865b28cdb4ad1f2bed7a5446197516f76b58a950faa3be3fd08d/pybtex-0.26.1-py3-none-any.whl", hash = "sha256:e26c0412cc54f5f21b2a6d9d175762a2d2af9ccf3a8f651cdb89ec035db77aa1", size = 126134, upload-time = "2026-04-03T13:05:40.623Z" },
+]
+
+[[package]]
+name = "pybtex-apa-style"
+version = "1.3"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/96/91/31931fecd163722bdabe3adba7c43aad7adffc8eaeb9b004997a978980bd/pybtex-apa-style-1.3.tar.gz", hash = "sha256:38a6d11e8f40f259b1d0a6974b6dbae93edbe009c247d83de14c26bdd965afb2", size = 4897, upload-time = "2018-09-16T16:57:50.991Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6c/4d/96c0fea23c2f7fcef2f3a68a4da0464a6f1b86c1f8c900065fb9a448a142/pybtex_apa_style-1.3-py3-none-any.whl", hash = "sha256:d4433acd5a6ddf37489f0f8e0e4e1e8f71df4f3acd98628ea61994e89df96caf", size = 6421, upload-time = "2018-09-16T16:57:49.605Z" },
 ]
 
 [[package]]

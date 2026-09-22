@@ -1,6 +1,6 @@
 # Character F-Score (ChrF)
 
-ChrF is an $n$-gram based evaluation metric for machine translation that operates at the character level rather than the word level. It is defined as the F-score of character $n$-gram precision and recall between a hypothesis and one or more references. The use of character $n$-grams makes ChrF more robust to morphological variation than word-level metrics such as [BLEU](bleu), and generally correlates better with human judgements, particularly for morphologically rich languages.
+ChrF is an $n$-gram based evaluation metric for machine translation that operates at the character level rather than the word level ([Popović, 2015](#popovic2015chrf)). It is defined as the F-score of character $n$-gram precision and recall between a hypothesis and one or more references. The use of character $n$-grams makes ChrF more robust to morphological variation than word-level metrics such as [BLEU](bleu), and generally correlates better with human judgements, particularly for morphologically rich languages.
 
 The standard variant used in practice is ChrF++ (`word_order=2`), which augments character $n$-grams with word unigrams and bigrams. Unless otherwise stated, references to ChrF on this page apply to both variants.
 
@@ -14,7 +14,7 @@ This has an important consequence for uncertainty estimation: confidence interva
 
 [API reference](../api/metrics/chrf)
 
-Evaluatio does not implement ChrF natively, but instead relies on [`sacrebleu`](https://github.com/mjpost/sacrebleu) [@post2018sacrebleu]. Evaluatio complements `sacrebleu` by providing statistical comparison tools, which are not included in `sacrebleu` itself.
+Evaluatio does not implement ChrF natively, but instead relies on [`sacrebleu`](https://github.com/mjpost/sacrebleu) ([Post, 2018](#post2018sacrebleu)). Evaluatio complements `sacrebleu` by providing statistical comparison tools, which are not included in `sacrebleu` itself.
 
 In contrast to [BLEU](bleu) and [WER](wer), there are no metric-specific functions for ChrF in Evaluatio. Instead, two thin wrappers are provided in `evaluatio.metrics.chrf` that bridge `sacrebleu`'s scoring with Evaluatio's inference functions:
 
@@ -127,3 +127,15 @@ An example could look like:
 - Because ChrF operates at the character level, it is less interpretable than word-level metrics: a given change in ChrF score does not have an obvious linguistic meaning.
 - ChrF does not account for word order beyond what is captured incidentally by character $n$-grams (unless ChrF++ with `word_order > 0` is used).
 - Like all reference-based metrics, ChrF penalises valid paraphrases that diverge from the reference at the character level.
+
+## References
+- Popović, M. (2015). chrF: Character n-gram F-score for automatic MT evaluation. Proceedings of the Tenth Workshop on Statistical Machine Translation, 392--395.
+  {#popovic2015chrf}
+- Post, M. (2018). A Call for Clarity in Reporting BLEU Scores. In O.
+Bojar, R. Chatterjee, C. Federmann, M. Fishel, Y. Graham, B. Haddow, M.
+Huck, A. J. Yepes, P. Koehn, C. Monz, M. Negri, A. Névéol, M. Neves, M.
+Post, L. Specia, M. Turchi, & K. Verspoor (Eds.), *Proceedings of the
+Third Conference on Machine Translation: Research Papers* (pp.
+186--191). Association for Computational Linguistics.
+<https://doi.org/10.18653/v1/W18-6319>
+  {#post2018sacrebleu}

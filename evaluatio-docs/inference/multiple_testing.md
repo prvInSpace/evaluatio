@@ -18,13 +18,13 @@ Bonferroni correction is an incredibly straightforward and easy way to correct f
 
 For example, if we are testing $m = 5$ hypotheses with a desired $\alpha =0.05$, we would test each hypothesis at $\alpha=0.05/m = 0.01$.
 
-Bonferroni correction is named after the Italian mathematician Carlo Emilio Bonferroni due to the methods use of the Bonferroni inequalities [@bonferroni1936teoria].
+Bonferroni correction is named after the Italian mathematician Carlo Emilio Bonferroni due to the methods use of the Bonferroni inequalities ([Bonferroni, 1936](#bonferroni1936teoria)).
 
 Bonferroni is implemented in Evaluatio as the function [`bonferroni_correction`][evaluatio.inference.multiple_testing.bonferroni_correction] in the package [`evaluatio.inference.multiple_testing`][evaluatio.inference.multiple_testing]. It takes a list of $p$-values and returns an object containing the results of the correction and whether the null-hypothesis is rejected or not.
 
 ### Holm-Bonferroni correction
 
-Holm-Bonferroni correction was introduced by Sturle Holm in 1979 [@holm1979correction]. It uses an iterative approach to ensure that FWER is at most $\alpha$. Given $m$ hypotheses, sort the corresponding $p$-values in ascending order $P_1 \le P_2 \le \dots \le P_m$​. For each $k = 1, 2, \dots, m$ in order, reject $H_k$ if:
+Holm-Bonferroni correction was introduced by [Sturle Holm in 1979](#holm1979correction). It uses an iterative approach to ensure that FWER is at most $\alpha$. Given $m$ hypotheses, sort the corresponding $p$-values in ascending order $P_1 \le P_2 \le \dots \le P_m$​. For each $k = 1, 2, \dots, m$ in order, reject $H_k$ if:
 
 $$
 P_k \le \frac{\alpha}{m + 1 - k}
@@ -85,3 +85,9 @@ for (a, b), pval, adj_pval, rejected in zip(
 ):
     print(f"{a} vs {b}: p={pval:.4f}, p_adj={adj_pval:.4f}, significant={rejected}")
 ```
+
+## References
+- Bonferroni, C. (1936). Teoria statistica delle classi e calcolo delle probabilita. Pubblicazioni Del R Istituto Superiore Di Scienze Economiche e Commericiali Di Firenze, 8, 3--62.
+  {#bonferroni1936teoria}
+- Holm, S. (1979). A Simple Sequentially Rejective Multiple Test Procedure. Scandinavian Journal of Statistics, 6(2), 65--70. https://www.jstor.org/stable/4615733
+  {#holm1979correction}

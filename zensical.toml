@@ -17,6 +17,7 @@ nav = [
     "project/changelog.md",
     "project/contributing.md",
     "project/design_philosophy.md",
+    "bibliography.md",
   ] },
   { "Tasks" = [
     "tasks/asr_evaluation.md",
