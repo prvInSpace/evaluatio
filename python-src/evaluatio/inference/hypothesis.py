@@ -37,7 +37,7 @@ import evaluatio._bindings as _bindings
 def paired_bootstrap_test(
     x1: Iterable[float],
     x2: Iterable[float],
-    iterations: int,
+    iterations: int = 4999,
 ) -> float:
     """
     Perform a paired bootstrap significance test on the mean difference.
@@ -58,10 +58,11 @@ def paired_bootstrap_test(
     x2 : iterable of float
         Per-observation scores for the second system. Must be the same length
         as `x1`.
-    iterations : int
+    iterations : int, optional
         Number of bootstrap resamples. Values of 5000 to 10000 give stable
         p-value estimates for most purposes. Larger values reduce Monte Carlo
         variance in the p-value but increase runtime linearly.
+        Default is `4999` (see notes).
 
     Returns
     -------
@@ -100,7 +101,7 @@ def paired_bootstrap_test(
 def paired_permutation_test(
     x1: Iterable[float],
     x2: Iterable[float],
-    iterations: int,
+    iterations: int = 4999,
     two_tailed: bool = True,
 ) -> float:
     """
@@ -127,6 +128,7 @@ def paired_permutation_test(
         stable p-value estimates for most purposes. The total number of
         distinct permutations for `n` pairs is `2^n`, so exhaustive
         enumeration is only feasible for very small `n`.
+        Default is `4999` (see notes).
     two_tailed : bool, optional
         If `True` (default), the test is two-sided: both directions of
         difference contribute to the p-value. If `False`, the test is

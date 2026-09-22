@@ -129,8 +129,8 @@ def universal_error_rate(
 def universal_error_rate_ci(
     references: Iterable[Iterable[object]],
     hypotheses: Iterable[Iterable[object]],
-    iterations: int,
-    alpha: float,
+    iterations: int = 5000,
+    alpha: float = 0.05,
 ) -> ConfidenceInterval:
     """
     Estimate a confidence interval for the universal error rate via bootstrapping.
@@ -142,10 +142,11 @@ def universal_error_rate_ci(
     hypotheses : Iterable[Iterable[object]]
         Iterable of hypothesis token sequences. Must be the same length as
         `references`.
-    iterations : int
-        Number of bootstrap iterations.
-    alpha : float
-        Significance level for the confidence interval.
+    iterations : int, optional
+        Number of bootstrap iterations. Default is `5000`. More iterations
+        are desirable for publication-quality intervals.
+    alpha : float, optional
+        Significance level for the confidence interval. Default is `0.05`.
 
     Returns
     -------

@@ -30,8 +30,8 @@ from evaluatio.inference.hypothesis import paired_permutation_test
 def chrf_ci(
     references: Iterable[Iterable[str]],
     hypotheses: Sequence[str],
-    iterations: int,
-    alpha: float,
+    iterations: int = 5000,
+    alpha: float = 0.05,
     chrf: sacrebleu.CHRF | None = None,
     seed: int = 0,
 ) -> ConfidenceInterval:
@@ -50,11 +50,12 @@ def chrf_ci(
     hypotheses : Sequence[str]
         Model hypotheses, one string per sentence.
     iterations : int, optional
-        Number of bootstrap resamples. Default is `1000`. For
+        Number of bootstrap resamples. Default is `5000`. For
         publication-quality intervals, `10_000` or more is recommended.
     alpha : float, optional
         Significance level.  The returned interval covers
         `1 - alpha` of the bootstrap distribution. E.g. `0.05` is 95 % CI.
+        Default is `0.05`
     chrf : sacrebleu.CHRF or None, optional
         A pre-configured :class:`sacrebleu.CHRF` instance.  If *None*
         (default), a default instance is created with sacrebleu's standard
@@ -149,8 +150,9 @@ def chrf_permutation_test(
         Hypothesis strings for system 1, one per sentence.
     hypotheses2 : Sequence[str]
         Hypothesis strings for system 2, one per sentence.
-    iterations : int
-        Number of permutation iterations.
+    iterations : int, optional
+        Number of permutation iterations. Default is `5000`. More iterations
+        are desirable for publication-quality intervals.
     two_tailed : bool, optional
         If `True` (default), conduct a two-tailed test (H₁: systems differ).
         If `False`, conduct a one-tailed test (H₁: system 1 is better).

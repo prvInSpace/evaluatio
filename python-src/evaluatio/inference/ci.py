@@ -35,7 +35,7 @@ class ConfidenceInterval:
 
 
 def bootstrap_confidence_interval(
-    x: Iterable[float], iterations: int, alpha: float
+    x: Iterable[float], iterations: int = 5000, alpha: float = 0.05
 ) -> ConfidenceInterval:
     """
     Estimate a confidence interval using bootstrap resampling
@@ -45,10 +45,12 @@ def bootstrap_confidence_interval(
     x : Iterable[float]
         Input sample values.
     iterations : int
-        Number of bootstrap resampling iterations.
+        Number of bootstrap resampling iterations. Default is `5000`.
+        More iterations are desirable for publication-quality intervals.
     alpha : float
         Significance level for the confidence interval. For example,
         `alpha=0.05` corresponds to a 95% confidence interval.
+        Default is `0.05`
 
     Returns
     -------
@@ -80,7 +82,10 @@ def bootstrap_confidence_interval(
 
 
 def error_rate_ci(
-    counts: Iterable[int], exposure: Iterable[int], iterations: int, alpha: float
+    counts: Iterable[int],
+    exposure: Iterable[int],
+    iterations: int = 5000,
+    alpha: float = 0.05,
 ) -> ConfidenceInterval:
     """
     Estimate a confidence interval using bootstrap directly on error counts
@@ -92,10 +97,12 @@ def error_rate_ci(
     exposure : Iterable[int]
         A list of lengths to normalise by
     iterations : int
-        Number of bootstrap resampling iterations.
-    alpha : float
+        Number of bootstrap resampling iterations. Default is `5000`.
+        More iterations are desirable for publication-quality intervals.
+    alpha : float, optional
         Significance level for the confidence interval. For example,
         `alpha=0.05` corresponds to a 95% confidence interval.
+        Default is `0.05`.
 
     Returns
     -------

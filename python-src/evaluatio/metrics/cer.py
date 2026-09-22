@@ -103,7 +103,10 @@ def character_error_rate(references: Iterable[str], hypotheses: Iterable[str]) -
 
 
 def character_error_rate_ci(
-    references: Iterable[str], hypotheses: Iterable[str], iterations: int, alpha: float
+    references: Iterable[str],
+    hypotheses: Iterable[str],
+    iterations: int = 5000,
+    alpha: float = 0.05,
 ) -> ConfidenceInterval:
     """
     Estimate a confidence interval for the character error rate via bootstrapping.
@@ -115,10 +118,11 @@ def character_error_rate_ci(
     hypotheses : Iterable[str]
         Iterable of hypothesis strings. Must be the same length as
         `references`.
-    iterations : int
-        Number of bootstrap iterations.
-    alpha : float
-        Significance level for the confidence interval.
+    iterations : int, optional
+        Number of bootstrap iterations. Default is `5000`. More iterations are desirable
+        for publication-quality intervals.
+    alpha : float, optional
+        Significance level for the confidence interval. Default is `0.05`
 
     Returns
     -------

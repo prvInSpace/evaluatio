@@ -89,7 +89,7 @@ def bleu_bootstrap_test(
     references: Iterable[Iterable[str]],
     hyp1: Iterable[str],
     hyp2: Iterable[str],
-    iterations: int,
+    iterations: int = 5000,
     effective_order: bool = True,
 ) -> float:
     """
@@ -117,9 +117,9 @@ def bleu_bootstrap_test(
     hyp2 : iterable of str
         Hypothesis strings for the second system, one per sentence. Must be
         the same length as `references`.
-    iterations : int
+    iterations : int, optional
         Number of bootstrap resamples. Values of 5000 to 10000 give stable
-        p-value estimates for most purposes.
+        p-value estimates for most purposes. Default is `5000`
     effective_order : bool, optional
         If `True` (default), scales the n-gram order to the maximum order
         for which counts are non-zero. Recommended for sentence-level
@@ -185,8 +185,8 @@ def bleu_bootstrap_test(
 def bleu_ci(
     references: Iterable[Iterable[str]],
     hypotheses: Iterable[str],
-    iterations: int,
-    alpha: float,
+    iterations: int = 5000,
+    alpha: float = 0.05,
     effective_order: bool = True,
 ) -> ConfidenceInterval:
     """
@@ -208,12 +208,13 @@ def bleu_ci(
     hypotheses : Iterable[str]
         Model predictions (hypotheses). Must be aligned with `references` such
         that each hypothesis corresponds to the same-indexed reference set.
-    iterations : int
+    iterations : int, optional
         Number of bootstrap resampling iterations. Larger values yield more stable
-        estimates but increase computation time.
-    alpha : float
+        estimates but increase computation time. Default `5000`. Larger values are
+        recommended for publications.
+    alpha : float, optional
         Significance level for the confidence interval. For example, `alpha=0.05``
-        corresponds to a 95% confidence interval.
+        corresponds to a 95% confidence interval. Default is `0.05`.
     effective_order : bool, optional
         Whether to enable effective n-gram order when computing BLEU. This is
         passed directly to `sacrebleu.BLEU` and is recommended for shorter
