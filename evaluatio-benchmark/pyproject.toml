@@ -1,0 +1,20 @@
+[project]
+name = "evaluatio-benchmark"
+version = "0.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "evaluatio",
+    "jiwer",
+    "evaluate",
+    "datasets>=4.6.1",
+]
+
+[project.scripts]
+evaluatio-benchmark = "evaluatio_benchmark:main"
+
+[tool.uv.sources]
+evaluatio = { path = "../" }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
